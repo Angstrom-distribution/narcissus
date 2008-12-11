@@ -4,10 +4,10 @@
  *
  * basic operation:
  * 1) select machine and assemble arch.conf
- * 2) select package set
- * 3) prime rootfs with opkg-collateral and angstrom-feed-configs
- * 4) install package set
- * 5) tar it up
+ * 2) select package set and print to file
+ * 3) have daemon prime rootfs with opkg-collateral and angstrom-feed-configs
+ * 4) have daemon install package set
+ * 5) have daemon tar it up
  */
 
 
