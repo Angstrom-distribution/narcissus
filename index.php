@@ -18,17 +18,15 @@ function pkg_selection() {
 }
 
 function assemble_image($pkgs) {
-	print "<pre>";
-	print "<b>bin/opkg-cl -o foo -f foo/etc/opkg.conf update</b><p>";
-	system("bin/opkg-cl -o foo -f foo/etc/opkg.conf update");
-	print "\n<b>bin/opkg-cl -o foo -f foo/etc/opkg.conf install $pkgs</b><p>";
-	system("bin/opkg-cl -o foo -f foo/etc/opkg.conf install $pkgs");
-	print "\n<b>tar cjf ../deploy/foo.tar.bz2</b><p>";
-	system ("cd foo ;tar cjf ../deploy/foo.tar.bz2 .; cd ..");
-	print "</pre>";
-	print "<a href='deploy/foo.tar.bz2'>your image</b>";
+	system ("scripts/assemble-image.sh beagleboard test-image");
 }
 
+
+print "Online image builder for angstrom\n<br> configured for beagleboard and test-image\n<br>";
+print "<pre>";
 assemble_image($base_pkg_set);
+print "<pre>";
+
+print "<p><a href='deploy/beagleboard/beagleboard-test-image.tar.bz2'>your image!</a>";
 
 ?>
