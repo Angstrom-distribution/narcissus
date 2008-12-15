@@ -18,7 +18,7 @@ var http = createRequestObject();
 
 /* Function called to get the product categories list */
 function assembleImage(){
-	document.getElementById('image_progress').innerHTML = "";
+	document.getElementById('image_progress').innerHTML = " ";
 	/* Create the request. The first argument to the open function is the method (POST/GET),
 		and the second argument is the url... 
 		document contains references to all items on the page

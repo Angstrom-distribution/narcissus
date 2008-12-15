@@ -36,8 +36,8 @@ print "<pre>";
 assemble_image($machine, $name, $base_pkg_set);
 print "<pre>";
 
-if (file_exists("deploy/$machine/$machine-$name-image.tar.bz2")) {
-	print "<p><a href='deploy/$machine/$machine-$name-image.tar.bz2'>your image!</a>";
+if (file_exists("deploy/$machine/$name-image-$machine.tar.bz2")) {
+	print "<p><a href='deploy/$machine/$name-image-$machine.tar.bz2'>your image!</a>";
 } else {
 	print "Image not found, something went wrong :/";
 }
