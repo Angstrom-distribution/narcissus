@@ -13,32 +13,38 @@
 
 $base_pkg_set = " task-base angstrom-version ";
 
-if (isset($_GET["action"]) && $_GET["action"] != "") {
-	$action = $_GET["action"];
+if (isset($_POST["action"]) && $_POST["action"] != "") {
+	$action = $_POST["action"];
 } else {
 	print "Invalid action: $action";
 	exit;
 }
 
-if (isset($_GET["machine"])) {
-	$machine = $_GET["machine"];
+if (isset($_POST["machine"])) {
+	$machine = $_POST["machine"];
 } else {
 	print "Invalid machine";
 	exit;
 }
 
-if (isset($_GET["name"]) && $_GET["name"] != "") {
-	$name = $_GET["name"];
+if (isset($_POST["name"]) && $_POST["name"] != "") {
+	$name = $_POST["name"];
 } else {
 	$name = "unnamed";
 }
 
+if (isset($_POST["pkgs"]) && $_POST["pkgs"] != "") {
+		$pkg = $_POST["pkgs"];
+} else {
+    $pkg = "task-boot";
+}
+
 switch($action) {
 case "assemble_image":
-			assemble_image($machine, $name, $base_pkg_set);
+			assemble_image($machine, $name);
 			break;
 case "configure_image":
-			configure_image($machine, $name, $base_pkg_set);
+			configure_image($machine, $name, $pkg);
 			break;
 case "show_image_link":
 			show_image_link($machine, $name);
@@ -54,13 +60,21 @@ function show_image_link($machine, $name) {
 	}
 }
 
-function configure_image($machine, $name) {
+function configure_image($machine, $name, $pkgs) {
 	print "<pre>";
 	system ("scripts/configure-image.sh $machine $name-image");
+	$handle = fopen("deploy/$machine/$name-image-packages.txt", "w");
+	if ($handle) {
+		fwrite($handle, $pkgs);
+		fclose($handle);
+	} else {
+		print "handle failed!";
+	}
+	
 	print "</pre>";
 }
 
-function assemble_image($machine, $name, $pkgs) {
+function assemble_image($machine, $name) {
 	print "<pre>";
 	system ("scripts/assemble-image.sh $machine $name-image");
 	print "</pre>";

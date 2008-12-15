@@ -29,12 +29,26 @@ function configureImage(){
 	document.getElementById('configure_progress').innerHTML = "";
 	document.getElementById('image_progress').innerHTML = "";
 	document.getElementById('status').innerHTML = "Busy configuring image, please wait...";
-	http.open('get', 'backend.php?action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value);
+
+	var packagelist = "task-boot ";	
+	for(var i=0; i < document.entry_form.pkg.length; i++){
+		if(document.entry_form.pkg[i].checked) {
+			packagelist += document.entry_form.pkg[i].value + " ";
+		}
+	}
+	
+	var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + packagelist;
+	http.open('post', 'backend.php');
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	http.setRequestHeader("Content-length", params.length);
+	http.setRequestHeader("Connection", "close");
 	
 	/* Define a function to call once a response has been received. This will be our handleProductCategories function that we define below. */
 	http.onreadystatechange = configureProgress; 
-	/* Send the data. We use something other than null when we are sending using the POST method. */
-	http.send(null);
+	/* Send the data. We use something other than params when we are sending using the POST method. */
+	http.send(params);
 }
 
 function assembleImage(){
@@ -46,12 +60,18 @@ function assembleImage(){
 		index of the selected item. 
 	*/
 	document.getElementById('status').innerHTML = "Busy assembling image, please wait...";
-	http.open('get', 'backend.php?action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value);
+    var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
+	http.open('post', 'backend.php');
+
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	http.setRequestHeader("Content-length", params.length);
+	http.setRequestHeader("Connection", "close");
 	
 	/* Define a function to call once a response has been received. This will be our handleProductCategories function that we define below. */
 	http.onreadystatechange = assembleProgress; 
-	/* Send the data. We use something other than null when we are sending using the POST method. */
-	http.send(null);
+	/* Send the data. We use something other than params when we are sending using the POST method. */
+	http.send(params);
 }
 
 function showImagelink(){
@@ -62,12 +82,18 @@ function showImagelink(){
 		be referencing the dropdown list. The selectedIndex property will give us the 
 		index of the selected item. 
 	*/
-	http.open('get', 'backend.php?action=show_image_link&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value);
+    var params = 'action=show_image_link&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
+	http.open('post', 'backend.php');
 	
+	//Send the proper header information along with the request
+	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	http.setRequestHeader("Content-length", params.length);
+	http.setRequestHeader("Connection", "close");
+
 	/* Define a function to call once a response has been received. This will be our handleProductCategories function that we define below. */
 	http.onreadystatechange = imageDisplay; 
-	/* Send the data. We use something other than null when we are sending using the POST method. */
-	http.send(null);
+	/* Send the data. We use something other than params when we are sending using the POST method. */
+	http.send(params);
 }
 
 function configureProgress(){

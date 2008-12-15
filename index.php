@@ -35,6 +35,15 @@ if ($handle = opendir ('./conf/'))
 
   Image name:
   <input type="text" name="name" id="name" />
+<hr width="80%"/>
+Package selections:<br/><br/>
+<?
+$package_array = array("task-base" => "task-base", "X11" => "angstrom-x11-base-depends", "Enlightenment" => "e-wm e-wm-config-standard e-wm-config-default" );
+
+foreach ($package_array as $pkg => $pkgdepends) {
+	print("<input type=\"checkbox\" name=\"pkg\" value=\"$pkgdepends\">$pkg<br/>\n");
+}
+?>
 </form></div>
 
 <br clear='all'/>
