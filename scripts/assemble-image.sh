@@ -8,16 +8,26 @@ IMAGENAME=$2
 
 TARGET_DIR="${PWD}/deploy/${MACHINE}/${IMAGENAME}"
 OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
-
+PACKAGELISTFILE="${PWD}/deploy/${MACHINE}/${IMAGENAME}-packages.txt"
 
 if ![ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
 	print "Initial filesystem not found, something went wrong in the configure step!"
 	exit 0
 fi
 
-yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install task-boot
+if [ -e ${PACKAGELISTFILE} ] ; then
+	packagelist="$(cat ${PACKAGELISTFILE})"
+else
+	packagelist="task-boot"
+fi
+
+yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist
 
 ( cd  ${TARGET_DIR} ; tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
+
+if [ -e ${PACKAGELISTFILE} ] ; then
+	rm ${PACKAGELISTFILE}
+fi
 
 rm -rf ${TARGET_DIR}
 
