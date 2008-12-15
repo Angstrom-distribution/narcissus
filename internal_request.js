@@ -87,6 +87,7 @@ function configureProgress(){
 		/* And now we want to change the image_progress <div> content.
 			we do this using an ability to get/change the content of a page element 
 			that we can find: innerHTML. */
+		showHideElement('configure_progress',0);
 		document.getElementById('configure_progress').innerHTML = response;
 		assembleImage();
 	}
@@ -109,6 +110,7 @@ function assembleProgress(){
 		/* And now we want to change the image_progress <div> content.
 			we do this using an ability to get/change the content of a page element 
 			that we can find: innerHTML. */
+		showHideElement('image_progress',0);
 		document.getElementById('image_progress').innerHTML = response;
 		showImagelink();
 	}
@@ -136,5 +138,22 @@ function imageDisplay(){
 	}
 }
 
+function showHideElement(elementId, showHideFlag) {
+	var elementObj = document.getElementById(elementId);
+	if(showHideFlag == 1) {
+		elementObj.style.display = '';
+	} 
+	else if(showHideFlag == 0) {
+		elementObj.style.display = 'none';
+	}
+}
 
-
+function toggleVisibility(elementId) {
+	var elementObj = document.getElementById(elementId);
+	if (elementObj.style.display == '') {
+		elementObj.style.display = 'none';
+	}
+	else {
+		elementObj.style.display = '';
+	}
+}
