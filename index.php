@@ -34,9 +34,7 @@ if ($handle = opendir ('./conf/'))
 </select >
 
   Image name:
-
   <input type="text" name="name" id="name" />
-
 </form></div>
 
 <br clear='all'/>

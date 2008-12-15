@@ -25,6 +25,9 @@ function configureImage(){
 		be referencing the dropdown list. The selectedIndex property will give us the 
 		index of the selected item. 
 	*/
+	document.getElementById('image_link').innerHTML = "";
+	document.getElementById('configure_progress').innerHTML = "";
+	document.getElementById('image_progress').innerHTML = "";
 	document.getElementById('status').innerHTML = "Busy configuring image, please wait...";
 	http.open('get', 'backend.php?action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value);
 	
