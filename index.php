@@ -2,6 +2,7 @@
 <head>
 <title>Narcissus - Online image builder for the angstrom distribution</title>
 <script language="javascript" type="text/javascript" src="./internal_request.js"></script>
+<link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
 <body>
 <?
@@ -25,7 +26,7 @@ if ($handle = opendir ('./conf/'))
 }
 
 ?>
-<form name="entry_form" onsubmit="javascript:assembleImage();return false">
+<div id="form" class="kader"><form name="entry_form" onsubmit="javascript:configureImage();return false">
   Machine:
 
 <select name="machine">
@@ -36,8 +37,11 @@ if ($handle = opendir ('./conf/'))
 
   <input type="text" name="name" id="name" />
 
-</form>
+</form></div>
 
+<br clear='all'/>
+<div id="configure_progress"></div>
+<div id="image_link"></div>
 <div id="image_progress"></div>
 
 </body>

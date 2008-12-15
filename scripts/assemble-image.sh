@@ -10,22 +10,11 @@ TARGET_DIR="${PWD}/deploy/${MACHINE}/${IMAGENAME}"
 OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
 
 
-if [ -e conf/${MACHINE}/arch.conf ] ; then
-	mkdir -p ${OPKG_CONFDIR_TARGET}
-	mkdir -p ${TARGET_DIR}/usr/lib/opkg
-	cp conf/${MACHINE}/arch.conf ${OPKG_CONFDIR_TARGET}
-else
-	echo "Machine config not found for machine ${MACHINE}:"
-	ls conf/${MACHINE}/
+if ![ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
+	print "Initial filesystem not found, something went wrong in the configure step!"
 	exit 0
-fi
+fi§
 
-echo "dest root /" > ${TARGET_DIR}/etc/opkg.conf 
-echo "lists_dir ext /var/lib/opkg" >> ${TARGET_DIR}/etc/opkg.conf 
-
-
-bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/angstrom-feed-config* 
-bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
 yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install task-boot
 
 ( cd  ${TARGET_DIR} ; tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
