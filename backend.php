@@ -54,7 +54,8 @@ case "show_image_link":
 
 function show_image_link($machine, $name) {
 	if (file_exists("deploy/$machine/$name-image-$machine.tar.bz2")) {
-		print "<br>Click to download <a href='deploy/$machine/$name-image-$machine.tar.bz2'>your image</a>";
+		$imgsize = round(filesize("deploy/$machine/$name-image-$machine.tar.bz2") / (1024 * 1024),2);
+		print "<br>Click to download <a href='deploy/$machine/$name-image-$machine.tar.bz2'>your image</a> [$imgsize MiB]";
 	} else {
 		print "Image not found, something went wrong :/";
 	}
