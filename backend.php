@@ -21,14 +21,14 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
 }
 
 if (isset($_POST["machine"])) {
-	$machine = $_POST["machine"];
+	$machine = basename($_POST["machine"]);
 } else {
 	print "Invalid machine";
 	exit;
 }
 
 if (isset($_POST["name"]) && $_POST["name"] != "") {
-	$name = $_POST["name"];
+	$name = basename($_POST["name"]);
 } else {
 	$name = "unnamed";
 }
@@ -63,6 +63,7 @@ function show_image_link($machine, $name) {
 
 function configure_image($machine, $name, $pkgs) {
 	print "<pre>";
+	print "Machine: $machine, name: $name, pkgs: $pkgs";
 	system ("scripts/configure-image.sh $machine $name-image");
 	$handle = fopen("deploy/$machine/$name-image-packages.txt", "w");
 	if ($handle) {
@@ -77,6 +78,7 @@ function configure_image($machine, $name, $pkgs) {
 
 function assemble_image($machine, $name) {
 	print "<pre>";
+	print "Machine: $machine, name: $name";
 	system ("scripts/assemble-image.sh $machine $name-image");
 	print "</pre>";
 }
