@@ -15,7 +15,8 @@ if [ -e conf/${MACHINE}/arch.conf ] ; then
 	mkdir -p ${TARGET_DIR}/usr/lib/opkg
 	cp conf/${MACHINE}/arch.conf ${OPKG_CONFDIR_TARGET}
 else
-	echo "Machine config not found"
+	echo "Machine config not found for machine ${MACHINE}:"
+	ls conf/${MACHINE}/
 	exit 0
 fi
 

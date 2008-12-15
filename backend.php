@@ -13,20 +13,33 @@
 
 $base_pkg_set = " task-base angstrom-version ";
 
-function pkg_selection() {
-	print "foo!";
+if (isset($_GET["machine"])) {
+	$machine = $_GET["machine"];
+} else {
+	print "Invalid machine";
+	exit;
 }
 
-function assemble_image($pkgs) {
-	system ("scripts/assemble-image.sh beagleboard test-image");
+if (isset($_GET["name"]) && $_GET["name"] != "") {
+	$name = $_GET["name"];
+} else {
+	$name = "unnamed";
+}
+
+function assemble_image($machine, $name, $pkgs) {
+	system ("scripts/assemble-image.sh $machine $name-image");
 }
 
 
-print "Online image builder for angstrom\n<br> configured for beagleboard and test-image\n<br>";
+print "Online image builder for angstrom\n<br> configured for $machine and $name-image\n<br>";
 print "<pre>";
-assemble_image($base_pkg_set);
+assemble_image($machine, $name, $base_pkg_set);
 print "<pre>";
 
-print "<p><a href='deploy/beagleboard/beagleboard-test-image.tar.bz2'>your image!</a>";
+if (file_exists("deploy/$machine/$machine-$name-image.tar.bz2")) {
+	print "<p><a href='deploy/$machine/$machine-$name-image.tar.bz2'>your image!</a>";
+} else {
+	print "Image not found, something went wrong :/";
+}
 
 ?>
