@@ -25,6 +25,7 @@ function configureImage(){
 		be referencing the dropdown list. The selectedIndex property will give us the 
 		index of the selected item. 
 	*/
+	document.getElementById('status').innerHTML = "Busy configuring image, please wait...";
 	http.open('get', 'backend.php?action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value);
 	
 	/* Define a function to call once a response has been received. This will be our handleProductCategories function that we define below. */
@@ -41,6 +42,7 @@ function assembleImage(){
 		be referencing the dropdown list. The selectedIndex property will give us the 
 		index of the selected item. 
 	*/
+	document.getElementById('status').innerHTML = "Busy assembling image, please wait...";
 	http.open('get', 'backend.php?action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value);
 	
 	/* Define a function to call once a response has been received. This will be our handleProductCategories function that we define below. */
@@ -50,7 +52,6 @@ function assembleImage(){
 }
 
 function showImagelink(){
-	document.getElementById('image_progress').innerHTML = " ";
 	/* Create the request. The first argument to the open function is the method (POST/GET),
 		and the second argument is the url... 
 		document contains references to all items on the page
@@ -66,7 +67,6 @@ function showImagelink(){
 	http.send(null);
 }
 
-
 function configureProgress(){
 	/* Make sure that the transaction has finished. The XMLHttpRequest object 
 		has a property called readyState with several states:
@@ -75,9 +75,7 @@ function configureProgress(){
 		2: Loaded
 		3: Interactive
 		4: Finished */
-	if(http.readyState == 1){
-		document.getElementById('configure_progress').innerHTML = "Busy configuring image, please wait...";
-	}
+
 	if(http.readyState == 4){ //Finished loading the response
 		/* We have got the response from the server-side script,
 			let's see just what it was. using the responseText property of 
@@ -86,7 +84,7 @@ function configureProgress(){
 		/* And now we want to change the image_progress <div> content.
 			we do this using an ability to get/change the content of a page element 
 			that we can find: innerHTML. */
-		document.getElementById('image_progress').innerHTML = response;
+		document.getElementById('configure_progress').innerHTML = response;
 		assembleImage();
 	}
 }
@@ -99,9 +97,7 @@ function assembleProgress(){
 		2: Loaded
 		3: Interactive
 		4: Finished */
-	if(http.readyState == 1){
-		document.getElementById('configure_progress').innerHTML = "Busy assembling image, please wait...";
-	}
+
 	if(http.readyState == 4){ //Finished loading the response
 		/* We have got the response from the server-side script,
 			let's see just what it was. using the responseText property of 
@@ -132,7 +128,7 @@ function imageDisplay(){
 		/* And now we want to change the image_progress <div> content.
 			we do this using an ability to get/change the content of a page element 
 			that we can find: innerHTML. */
-		document.getElementById('configure_progress').innerHTML = "Image assembly complete";
+		document.getElementById('status').innerHTML = "Image assembly complete";
 		document.getElementById('image_link').innerHTML = response;
 	}
 }

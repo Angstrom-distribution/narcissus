@@ -40,9 +40,11 @@ if ($handle = opendir ('./conf/'))
 </form></div>
 
 <br clear='all'/>
-<div id="configure_progress"></div>
+<div id="status"></div>
 <div id="image_link"></div>
+<div id="configure_progress"></div>
 <div id="image_progress"></div>
+
 
 </body>
 </html>
