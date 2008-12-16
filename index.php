@@ -11,18 +11,25 @@
  */
 
 function machine_dropdown() {
+$machine = array();
+
 if ($handle = opendir ('./conf/'))
   {
     /* This is the correct way to loop over the directory. */
     while (false !== ($file = readdir ($handle)))
       {
-    if ($file != "." && $file != "..")
-      {
-        print ("\t<option value='$file'>$file</option>\n");
-      }
+    	if ($file != "." && $file != "..")
+      	{
+         $machine[] = $file;
+      	}
       }
     closedir ($handle);
   }
+
+sort($machine);
+foreach($machine as $value) {
+	print ("\t<option value='value'>$value</option>\n");
+}
 }
 
 ?>
