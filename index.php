@@ -48,7 +48,9 @@ $base_array = array("task-boot" => "task-boot",
                     "task-base" => "task-base",
                     "task-base-extended" => "task-base-extended");
 
-$wm_array = array("Enlightenment" => "e-wm e-wm-config-standard e-wm-config-default angstrom-x11-base-depends angstrom-gpe-task-base",
+$wm_array = array("Matchbox" => "angstrom-x11-base-depends angstrom-gpe-task-base",
+                  "Illume" => "e-wm e-wm-config-illume angstrom-x11-base-depends angstrom-gpe-task-base",
+                  "Enlightenment" => "e-wm e-wm-config-standard e-wm-config-default angstrom-x11-base-depends angstrom-gpe-task-base",
                   "Metacity" => "metacity angstrom-x11-base-depends angstrom-gpe-task-base");
 
 $devel_array = array("Python" => "python-core python-modules",
