@@ -16,7 +16,7 @@ if ![ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
 fi
 
 if [ -e ${PACKAGELISTFILE} ] ; then
-	packagelist="$(cat ${PACKAGELISTFILE})"
+	packagelist="$(cat ${PACKAGELISTFILE} | tr -d '[~;:]')"
 else
 	packagelist="task-boot"
 fi
