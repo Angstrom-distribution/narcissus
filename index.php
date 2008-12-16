@@ -28,7 +28,7 @@ if ($handle = opendir ('./conf/'))
 
 sort($machine);
 foreach($machine as $value) {
-	print ("\t<option value="\$value\">$value</option>\n");
+	print ("\t<option value=\"$value\">$value</option>\n");
 }
 }
 
