@@ -30,12 +30,10 @@ function configureImage(){
 	document.getElementById('image_progress').innerHTML = "";
 	document.getElementById('status').innerHTML = "Busy configuring image, please wait...";
 
-	var packagelist = "task-boot ";	
-	for(var i=0; i < document.entry_form.pkg.length; i++){
-		if(document.entry_form.pkg[i].checked) {
-			packagelist += document.entry_form.pkg[i].value + " ";
-		}
-	}
+	var packagelist = "task-boot ";
+    packagelist += concatArray(document.entry_form.pkg);
+    packagelist += concatArray(document.entry_form.wm);
+    packagelist += concatArray(document.entry_form.devel);
 	
 	var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + packagelist;
 	http.open('post', 'backend.php');
@@ -182,4 +180,14 @@ function toggleVisibility(elementId) {
 	else {
 		elementObj.style.display = '';
 	}
+}
+
+function concatArray(varArray) {
+    var packagelist = " ";
+    for(var i=0; i < varArray.length; i++){
+		if(varArray[i].checked) {
+			packagelist += varArray[i].value + " ";
+		}
+    }    
+    return packagelist   
 }
