@@ -1,6 +1,12 @@
 Narcissus - Online image builder for the angstrom distribution
 Koen Kooi (c) 2008 - all rights reserved 
 
+To install this:
+
+* put on webserver
+* put opkg-cl in bin/
+* mkdir deploy/
+
 To add a new machine:
 
 * mkdir conf/<machine>
