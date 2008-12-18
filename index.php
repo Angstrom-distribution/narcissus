@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>Narcissus - Online image builder for the angstrom distribution</title>
-<script language="javascript" type="text/javascript" src="./internal_request.js"></script>
+<script language="javascript" type="text/javascript" src="scripts/js/internal_request.js"></script>
 <link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
 <body>
