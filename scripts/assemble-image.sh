@@ -28,6 +28,9 @@ bin/makedevs -r ${TARGET_DIR} -D conf/devtable.txt
 echo "installing $packagelist"
 yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist
 
+echo "removing opkg index files"
+rm ${TARGET_DIR}/var/lib/opkg/* || true
+
 ( cd  ${TARGET_DIR} ; tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
 
 if [ -e ${PACKAGELISTFILE} ] ; then
