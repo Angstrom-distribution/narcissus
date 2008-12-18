@@ -18,7 +18,7 @@ if ($handle = opendir ('./conf/'))
     /* This is the correct way to loop over the directory. */
     while (false !== ($file = readdir ($handle)))
       {
-    	if ($file != "." && $file != "..")
+    	if ($file != "." && $file != ".." && file_exists("./conf/$file/arch.conf"))
       	{
          $machine[] = $file;
       	}
