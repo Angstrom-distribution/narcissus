@@ -30,12 +30,18 @@ function configureImage(){
 	document.getElementById('image_progress').innerHTML = "";
 	document.getElementById('status').innerHTML = "Busy configuring image, please wait...";
 
-	var packagelist = "task-boot ";
+	var packagelist = " ";
     packagelist += concatArray(document.entry_form.pkg);
-    packagelist += concatArray(document.entry_form.wm);
+	
+	if (packagelist == " ") {
+ 		document.getElementById('status').innerHTML = "You have to select at least one task, try 'task-boot' to get a minimal set.";
+   		return; 
+	}
+
+	packagelist += concatArray(document.entry_form.wm);
     packagelist += concatArray(document.entry_form.devel);
 	packagelist += concatArray(document.entry_form.packages);
-	
+
 	var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + packagelist;
 	http.open('post', 'backend.php');
 
@@ -184,7 +190,7 @@ function toggleVisibility(elementId) {
 }
 
 function concatArray(varArray) {
-    var packagelist = " ";
+    var packagelist = "";
     for(var i=0; i < varArray.length; i++){
 		if(varArray[i].checked) {
 			packagelist += varArray[i].value + " ";
