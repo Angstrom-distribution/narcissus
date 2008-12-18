@@ -23,7 +23,7 @@ fi
 
 yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist
 
-( cd  ${TARGET_DIR} ; tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
+( cd  ${TARGET_DIR} ; fakeroot tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
 
 if [ -e ${PACKAGELISTFILE} ] ; then
 	rm ${PACKAGELISTFILE}

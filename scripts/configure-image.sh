@@ -27,6 +27,9 @@ fi
 echo "dest root /" > ${TARGET_DIR}/etc/opkg.conf 
 echo "lists_dir ext /var/lib/opkg" >> ${TARGET_DIR}/etc/opkg.conf 
 
+echo "installing initial /dev directory"
+mkdir -p ${TARGET_DIR}/dev
+fakeroot bin/makedevs -r ${TARGET_DIR} -D conf/devtable.txt
 
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/angstrom-feed-config* 
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
