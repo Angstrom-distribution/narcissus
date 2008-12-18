@@ -5,6 +5,7 @@ To install this:
 
 * put on webserver
 * put opkg-cl in bin/
+* put makedevs in bin/
 * mkdir deploy/
 
 To add a new machine:
