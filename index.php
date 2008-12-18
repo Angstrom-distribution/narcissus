@@ -39,7 +39,7 @@ This is a proof of concept online image builder for the Angstrom distribution. T
 <li>select machine from dropdown list</li>
 <li>check packages you want to have included</li>
 <li>Change the random name for the image into the name you want it to be called</li>
-<li>press enter</li>
+<li>Click the "build me!" button</li>
 </ol>
 
 <div id="form" class="kader"><form name="entry_form" onsubmit="javascript:configureImage();return false">
