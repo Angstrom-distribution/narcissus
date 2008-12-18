@@ -65,6 +65,38 @@ $devel_array = array("Python" => "python-core python-modules",
                      "Toolchain" => "task-native-sdk",
                      "Busybox replacements" => "task-proper-tools");
 
+$packages_array = array("Abiword" => "abiword",
+                        "Aircrack-ng" => "aircrack-ng",
+                        "Apache" => "apache2",
+                        "Bluez" => "bluez-utils",
+                        "Boa" => "boa",
+                        "Cherokee" => "cherokee",
+                        "Duke Nukem 3D" => "duke3d",
+                        "E-uae" => "e-uae",
+                        "Evince" => "evince",
+                        "Fennec" => "fennec",
+                        "Firefox" => "firefox",
+                        "Gdbserver" => "gdbserver",
+                        "Gimp" => "gimp",
+                        "Gnome Games" => "gnome-games",
+                        "Gnumeric" => "gnumeric",
+                        "Gnuradio" => "gnuradio",
+                        "Git" => "git",
+                        "GSM0710muxd" => "gsm0710muxd",
+                        "I2C-tools" => "i2c-tools",
+                        "JamVM" => "jamvm",
+                        "Kismet" => "kismet",
+                        "Mediatomb" => "mediatomb",
+                        "MythTV" => "mythtv mythtv-theme-blue mythtv-theme-default",
+                        "Nmap" => "nmap",
+                        "Numptyphysics" => "numptyphysics",
+                        "Octave" => "octave",
+                        "OpenCV" => "opencv-samples",
+                        "Pidgin IM" => "pidgin",
+                        "Samba" => "samba",
+                        "Screen" => "screen",
+                        "ScummVM" => "scummvm");
+
 foreach ($base_array as $pkg => $pkgdepends) {
 	print("<input type=\"checkbox\" name=\"pkg\" value=\"$pkgdepends\">$pkg<br/>\n");
 }
@@ -77,6 +109,11 @@ print "<hr width='80%'/>\n\n";
 
 foreach ($devel_array as $pkg => $pkgdepends) {
 	print("<input type=\"checkbox\" name=\"devel\" value=\"$pkgdepends\">$pkg<br/>\n");
+}
+print "<hr width='80%'/>\n\n";
+
+foreach ($packages_array as $pkg => $pkgdepends) {
+	print("<input type=\"checkbox\" name=\"packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 }
 print "<hr width='80%'/>\n\n";
 

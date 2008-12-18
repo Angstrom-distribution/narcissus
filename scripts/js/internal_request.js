@@ -34,6 +34,7 @@ function configureImage(){
     packagelist += concatArray(document.entry_form.pkg);
     packagelist += concatArray(document.entry_form.wm);
     packagelist += concatArray(document.entry_form.devel);
+	packagelist += concatArray(document.entry_form.packages);
 	
 	var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + packagelist;
 	http.open('post', 'backend.php');
