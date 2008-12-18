@@ -123,7 +123,7 @@ print "<hr width='80%'/>\n\n";
 Image name:
   <input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
 <hr width="80%"/>
-<center><input type="submit" value="Build me!"/></submit></form></div>
+<center><input type="submit" value="Build me!"/></center></form></div>
 
 <br clear='all'/>
 <div id="status"></div>
