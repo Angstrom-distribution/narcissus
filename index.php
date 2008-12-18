@@ -38,7 +38,7 @@ This is a proof of concept online image builder for the Angstrom distribution. T
 <ol>
 <li>select machine from dropdown list</li>
 <li>check packages you want to have included</li>
-<li>enter the preferred name for the image that will be built</li>
+<li>Change the random name for the image into the name you want it to be called</li>
 <li>press enter</li>
 </ol>
 
@@ -81,10 +81,10 @@ foreach ($devel_array as $pkg => $pkgdepends) {
 print "<hr width='80%'/>\n\n";
 
 ?>
-
- Image name:
-  <input type="text" name="name" id="name" />
-</form></div>
+Image name:
+  <input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
+<hr width="80%"/>
+<center><input type="submit" value="Build me!"/></submit></form></div>
 
 <br clear='all'/>
 <div id="status"></div>
