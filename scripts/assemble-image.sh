@@ -21,9 +21,14 @@ else
 	packagelist="task-boot"
 fi
 
+echo "installing initial /dev directory"
+mkdir -p ${TARGET_DIR}/dev
+bin/makedevs -r ${TARGET_DIR} -D conf/devtable.txt
+
+echo "installing $packagelist"
 yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist
 
-( cd  ${TARGET_DIR} ; fakeroot tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
+( cd  ${TARGET_DIR} ; tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
 
 if [ -e ${PACKAGELISTFILE} ] ; then
 	rm ${PACKAGELISTFILE}

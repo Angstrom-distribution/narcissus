@@ -79,7 +79,7 @@ function configure_image($machine, $name, $pkgs) {
 function assemble_image($machine, $name) {
 	print "<pre>";
 	print "Machine: $machine, name: $name";
-	system ("scripts/assemble-image.sh $machine $name-image");
+	system ("fakeroot scripts/assemble-image.sh $machine $name-image");
 	print "</pre>";
 }
 
