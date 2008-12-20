@@ -18,9 +18,9 @@ if [ -e conf/${MACHINE}/arch.conf ] ; then
 	mkdir -p ${OPKG_CONFDIR_TARGET}
 	mkdir -p ${TARGET_DIR}/usr/lib/opkg
 	cp conf/${MACHINE}/arch.conf ${OPKG_CONFDIR_TARGET}
+	echo "Configuring for ${MACHINE}"
 else
-	echo "Machine config not found for machine ${MACHINE}:"
-	ls conf/${MACHINE}/
+	echo "Machine config not found for machine ${MACHINE}"
 	exit 0
 fi
 
@@ -29,3 +29,5 @@ echo "lists_dir ext /var/lib/opkg" >> ${TARGET_DIR}/etc/opkg.conf
 
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/angstrom-feed-config* 
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
+
+echo "Configure done"

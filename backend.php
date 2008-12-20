@@ -41,13 +41,19 @@ if (isset($_POST["pkgs"]) && $_POST["pkgs"] != "") {
 
 switch($action) {
 case "assemble_image":
+			print "assembling\n";
 			assemble_image($machine, $name);
 			break;
 case "configure_image":
-			configure_image($machine, $name, $pkg);
+			print "configuring\n";
+			configure_image($machine, $name);
 			break;
 case "show_image_link":
 			show_image_link($machine, $name);
+			break;
+case "install_package":
+			print "installing $pkg\n";
+			install_package($machine, $name, $pkg);
 			break;
 }
 
@@ -58,30 +64,29 @@ function show_image_link($machine, $name) {
 		mkdir("deploy/$machine/$randomname");
 		rename("deploy/$machine/$name-image-$machine.tar.bz2", "deploy/$machine/$randomname/$name-image-$machine.tar.bz2");	
 		$imgsize = round(filesize("deploy/$machine/$randomname/$name-image-$machine.tar.bz2") / (1024 * 1024),2);
-		print "<br>Click to download <a href='deploy/$machine/$randomname/$name-image-$machine.tar.bz2'>your image</a> [$imgsize MiB]\n<br/><br/>This will get automatically deleted after 7 days.";
+		print "<br>Click to download <a href='deploy/$machine/$randomname/$name-image-$machine.tar.bz2'>your $name image for $machine</a> [$imgsize MiB]\n<br/><br/>This will get automatically deleted after 7 days.";
 	} else {
 		print "Image not found, something went wrong :/";
 	}
 }
 
-function configure_image($machine, $name, $pkgs) {
+function configure_image($machine, $name) {
 	print "<pre>";
-	print "Machine: $machine, name: $name, pkgs: $pkgs";
+	print "Machine: $machine, name: $name\n";
 	system ("scripts/configure-image.sh $machine $name-image");
-	$handle = fopen("deploy/$machine/$name-image-packages.txt", "w");
-	if ($handle) {
-		fwrite($handle, $pkgs);
-		fclose($handle);
-	} else {
-		print "handle failed!";
-	}
-	
+	print "</pre>";
+}
+
+function install_package($machine, $name, $pkg) {
+	print "<pre>";
+	print "Machine: $machine, name: $name, pkg: $pkg\n";
+	system ("scripts/install-package.sh $machine $name-image $pkg");
 	print "</pre>";
 }
 
 function assemble_image($machine, $name) {
 	print "<pre>";
-	print "Machine: $machine, name: $name";
+	print "Machine: $machine, name: $name\n";
 	system ("fakeroot scripts/assemble-image.sh $machine $name-image");
 	print "</pre>";
 }

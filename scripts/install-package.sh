@@ -5,24 +5,19 @@
 
 MACHINE=$1
 IMAGENAME=$2
+PACKAGE=$3
 
 TARGET_DIR="${PWD}/deploy/${MACHINE}/${IMAGENAME}"
 OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
+PACKAGELISTFILE="${PWD}/deploy/${MACHINE}/${IMAGENAME}-packages.txt"
 
 if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
 	print "Initial filesystem not found, something went wrong in the configure step!"
 	exit 0
 fi
 
-echo "installing initial /dev directory"
-mkdir -p ${TARGET_DIR}/dev
-bin/makedevs -r ${TARGET_DIR} -D conf/devtable.txt
+packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sort | uniq)"
 
-echo "removing opkg index files"
-rm ${TARGET_DIR}/var/lib/opkg/* || true
-
-( cd  ${TARGET_DIR} ; tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
-
-rm -rf ${TARGET_DIR}
-
+echo "installing $packagelist"
+yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist
 
