@@ -23,30 +23,30 @@ var package = "";
 function configureImage(){
     showHideElement('form',0);
     showHideElement('intro',0);
-
-
+	
+	
 	document.getElementById('image_link').innerHTML = "";
 	document.getElementById('configure_progress').innerHTML = "";
 	document.getElementById('image_progress').innerHTML = "";
-
+	
     packagestring = concatArray(document.entry_form.pkg);
-
+	
 	if (packagestring == "" || packagestring == " ") {
  		document.getElementById('status').innerHTML = "You have to select at least one task, try 'task-boot' to get a minimal set.";
    		return; 
 	}
-
+	
     packagestring += concatArray(document.entry_form.wm); 
     packagestring += concatArray(document.entry_form.devel);
     packagestring += concatArray(document.entry_form.packages);
-
+	
 	packagelist = packagestring.split(" ");
-
+	
 	document.getElementById('status').innerHTML = "<br/>\n<br/>\nConfiguring image";
     
     var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
 	http.open('post', 'backend.php');
-
+	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.onreadystatechange = configureProgress; 
 	http.send(params);
@@ -61,13 +61,13 @@ function assembleImage(){
 }
 
 function installPackage(){
-            if (package != "" && package != " ") {
-                var params = 'action=install_package&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + package;
-                http.open('post', 'backend.php');
-                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                http.onreadystatechange = installProgress; 
-                http.send(params);
-            }
+	if (package != "" && package != " ") {
+		var params = 'action=install_package&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + package;
+		http.open('post', 'backend.php');
+		http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		http.onreadystatechange = installProgress; 
+		http.send(params);
+	}
 }
 
 function showImagelink(){
@@ -119,7 +119,7 @@ function assembleProgress(){
 }
 
 function imageDisplay(){
-		if(http.readyState == 4){
+	if(http.readyState == 4){
         var response = http.responseText;
 		document.getElementById('image_link').innerHTML = response;
 	}
@@ -148,9 +148,9 @@ function toggleVisibility(elementId) {
 function concatArray(varArray) {
     var packageslist = "";
     for(var i=0; i < varArray.length; i++){
-                   if(varArray[i].checked) {
-                       packageslist += varArray[i].value + " ";
-               }
+		if(varArray[i].checked) {
+			packageslist += varArray[i].value + " ";
+		}
     }    
     return packageslist   
 }
