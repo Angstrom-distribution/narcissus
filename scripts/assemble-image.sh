@@ -26,6 +26,8 @@ echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
 
 ( cd  ${TARGET_DIR} ; tar cjvf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
+du ${TARGET_DIR} -hs
+du ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.tar.bz2 -hs
 
 rm -rf ${TARGET_DIR}
 
