@@ -73,21 +73,21 @@ function show_image_link($machine, $name) {
 function configure_image($machine, $name) {
 	print "<pre>";
 	print "Machine: $machine, name: $name\n";
-	system ("scripts/configure-image.sh $machine $name-image && exit");
+	passthru ("scripts/configure-image.sh $machine $name-image && exit");
 	print "</pre>";
 }
 
 function install_package($machine, $name, $pkg) {
 	print "<pre>";
 	print "Machine: $machine, name: $name, pkg: $pkg\n";
-	system ("scripts/install-package.sh $machine $name-image $pkg && exit");
+	passthru ("scripts/install-package.sh $machine $name-image $pkg && exit");
 	print "</pre>";
 }
 
 function assemble_image($machine, $name) {
 	print "<pre>";
 	print "Machine: $machine, name: $name\n";
-	system ("fakeroot scripts/assemble-image.sh $machine $name-image && exit");
+	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image && exit");
 	print "</pre>";
 }
 
