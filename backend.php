@@ -88,8 +88,9 @@ function install_package($machine, $name, $pkg) {
 function assemble_image($machine, $name) {
 	print "<pre>";
 	print "Machine: $machine, name: $name\n";
-	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image && exit");
+	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image && exit", $installretval);
 	print "</pre>";
+	print "<div id=\"retval-image\">$installretval</div>";
 }
 
 
