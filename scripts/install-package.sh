@@ -21,9 +21,15 @@ if [ -e ${CACHEDIR} ] ; then
 	CACHE="--cache ${CACHEDIR}"
 fi
 
+if [ -e ${TARGET_DIR}/log.txt ] ; then
+	rm ${TARGET_DIR}/log.txt
+fi
+
 packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sort | uniq)"
 
 echo "installing $packagelist"
-yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist | grep "rror oc"
+yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist | tee ${TARGET_DIR}/log.txt
+
+grep "rror oc" ${TARGET_DIR}/log.txt
 exit $?
 

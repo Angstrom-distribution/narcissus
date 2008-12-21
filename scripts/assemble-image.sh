@@ -18,6 +18,10 @@ echo "installing initial /dev directory"
 mkdir -p ${TARGET_DIR}/dev
 bin/makedevs -r ${TARGET_DIR} -D conf/devtable.txt
 
+if [ -e ${TARGET_DIR}/log.txt ] ; then
+	rm ${TARGET_DIR}/log.txt
+fi
+
 echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
 
