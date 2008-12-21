@@ -23,7 +23,7 @@ var package = "";
 function configureImage(){
     showHideElement('intro',0);
     showHideElement('image_progress',0);
-
+	
 	
 	
 	document.getElementById('image_link').innerHTML = "";
@@ -41,16 +41,17 @@ function configureImage(){
     packagestring += concatArray(document.entry_form.devel);
     packagestring += concatArray(document.entry_form.packages);
 	
-	packagelist = packagestring.split(" ");
+	var packagelisttemp = packagestring.split(" ");
+	packagelist = unique(packagelisttemp);
 	
 	document.getElementById('pkg_progress').innerHTML = "<br/><br/><table>\n";
 	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Preconfiguring image</td><td></td><td id=\"td-configure\"></td></tr>\n";
 	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Installing packages:</td><td></td><td id=\"td-package\"></td></tr>\n";
-
+	
 	for (var i in packagelist) {
 		document.getElementById('pkg_progress').innerHTML += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td id=\"td-" +  packagelist[i] + "\">&nbsp;&nbsp;</td></tr>\n";
 	}
-
+	
 	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id=\"td-assemble\"></td></tr>\n";
 	document.getElementById('pkg_progress').innerHTML += "</table>\n";
 	
@@ -127,7 +128,7 @@ function installProgress(){
 }
 
 function assembleProgress(){
-      if(http.readyState == 4){ 
+	if(http.readyState == 4){ 
 		var response = http.responseText;
 		showHideElement('image_progress',0);
         document.getElementById('image_progress').innerHTML = response;
@@ -172,4 +173,17 @@ function concatArray(varArray) {
 		}
     }    
     return packageslist   
+}
+
+function unique(a)
+{
+	var r = new Array();
+	o:for(var i = 0, n = a.length; i < n; i++) {
+		for(var x = i + 1 ; x < n; x++)
+		{
+			if(a[x]==a[i]) continue o;
+		}
+		r[r.length] = a[i];
+	}
+	return r;
 }
