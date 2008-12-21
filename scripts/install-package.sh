@@ -28,6 +28,7 @@ fi
 packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sort | uniq)"
 
 echo "installing $packagelist"
+echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist"
 yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist | tee ${TARGET_DIR}/log.txt
 
 grep -e "rror oc" -e "ollected er" ${TARGET_DIR}/log.txt
