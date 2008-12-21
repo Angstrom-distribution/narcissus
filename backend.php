@@ -21,14 +21,14 @@ if (isset($_POST["action"]) && $_POST["action"] != "") {
 }
 
 if (isset($_POST["machine"])) {
-	$machine = basename($_POST["machine"]);
+	$machine = escapeshellcmd(basename($_POST["machine"]));
 } else {
 	print "Invalid machine";
 	exit;
 }
 
 if (isset($_POST["name"]) && $_POST["name"] != "") {
-	$name = basename($_POST["name"]);
+	$name = escapeshellcmd(basename($_POST["name"]));
 } else {
 	$name = "unnamed";
 }
@@ -73,21 +73,21 @@ function show_image_link($machine, $name) {
 function configure_image($machine, $name) {
 	print "<pre>";
 	print "Machine: $machine, name: $name\n";
-	system ("scripts/configure-image.sh $machine $name-image");
+	system ("scripts/configure-image.sh $machine $name-image && exit");
 	print "</pre>";
 }
 
 function install_package($machine, $name, $pkg) {
 	print "<pre>";
 	print "Machine: $machine, name: $name, pkg: $pkg\n";
-	system ("scripts/install-package.sh $machine $name-image $pkg");
+	system ("scripts/install-package.sh $machine $name-image $pkg && exit");
 	print "</pre>";
 }
 
 function assemble_image($machine, $name) {
 	print "<pre>";
 	print "Machine: $machine, name: $name\n";
-	system ("fakeroot scripts/assemble-image.sh $machine $name-image");
+	system ("fakeroot scripts/assemble-image.sh $machine $name-image && exit");
 	print "</pre>";
 }
 
