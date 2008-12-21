@@ -26,9 +26,10 @@ echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
 
 ( cd  ${TARGET_DIR} ; tar cjvf ../${IMAGENAME}-${MACHINE}.tar.bz2 . )
+RETVAL=$?
 du ${TARGET_DIR} -hs
-du ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.tar.bz2 -hs
+echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>"
 
 rm -rf ${TARGET_DIR}
-
+exit ${RETVAL}
 

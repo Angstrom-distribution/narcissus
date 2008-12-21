@@ -127,11 +127,11 @@ Image name:
 <center><input type="submit" value="Build me!"/></center></form></div>
 
 <br clear='all'/>
-<div id="status"></div>
 <div id="pkg_progress"></div>
 <div id="image_link"></div>
 <div id="configure_progress"></div>
 <div id="image_progress"></div>
+<div id="status"></div>
 
 
 </body>

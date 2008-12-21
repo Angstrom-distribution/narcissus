@@ -108,6 +108,10 @@ function installProgress(){
     if(http.readyState == 4){
 		var response = http.responseText;
 		document.getElementById('image_progress').innerHTML = response;
+		if(document.getElementById('imgsize')) {
+			document.getElementById('status').innerHTML = "<br/>\nCurrent uncompressed image size: " + document.getElementById('imgsize').innerHTML.split(" ")[1];
+		}	
+		
 		// We grep for an error code, so '0' is indeed an error
 		if(document.getElementById('retval').innerHTML == "0") {
 			document.getElementById('td-' + package).innerHTML = "<img src=\"img/X_mark.png\">";
@@ -132,14 +136,22 @@ function assembleProgress(){
 		var response = http.responseText;
 		showHideElement('image_progress',0);
         document.getElementById('image_progress').innerHTML = response;
-		document.getElementById('td-assemble').innerHTML = "<img src=\"img/Green_tick.png\">";
-		showImagelink();
+		if(document.getElementById('retval-image').innerHTML == "0") {
+			document.getElementById('td-assemble').innerHTML = "<img src=\"img/Green_tick.png\">";
+		}
+		else {
+			document.getElementById('td-assemble').innerHTML = "<img src=\"img/X_mark.png\">";
+		}		
+	showImagelink();
 	}
 }
 
 function imageDisplay(){
 	if(http.readyState == 4){
         var response = http.responseText;
+		if(document.getElementById('imgsize')) {
+			document.getElementById('status').innerHTML = "<br/>\nCurrent uncompressed image size: " + document.getElementById('imgsize').innerHTML.split(" ")[1];
+		}
 		document.getElementById('image_link').innerHTML = response;
 		pulsate(document.getElementById('image_link'));
 	}
