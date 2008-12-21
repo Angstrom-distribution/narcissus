@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>Narcissus - Online image builder for the angstrom distribution</title>
+<script language="javascript" type="text/javascript" src="scripts/js/MochiKit.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/internal_request.js"></script>
 <link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
@@ -127,6 +128,7 @@ Image name:
 
 <br clear='all'/>
 <div id="status"></div>
+<div id="pkg_progress"></div>
 <div id="image_link"></div>
 <div id="configure_progress"></div>
 <div id="image_progress"></div>

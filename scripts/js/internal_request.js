@@ -21,7 +21,6 @@ var package = "";
 
 
 function configureImage(){
-    showHideElement('form',0);
     showHideElement('intro',0);
 	
 	
@@ -42,7 +41,18 @@ function configureImage(){
 	
 	packagelist = packagestring.split(" ");
 	
-	document.getElementById('status').innerHTML = "<br/>\n<br/>\nConfiguring image";
+	document.getElementById('pkg_progress').innerHTML = "<br/><br/><table>\n";
+	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Preconfiguring image</td><td></td><td id=\"td-configure\"></td></tr>";
+	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Installing packages:</td><td></td><td id=\"td-package\"></td></tr>";
+
+	for (var i in packagelist) {
+		document.getElementById('pkg_progress').innerHTML += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td id=\"td-" +  packagelist[i] + "\">&nbsp;&nbsp;</td></tr>";
+	}
+
+	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id=\"td-assemble\"></td></tr>";
+	document.getElementById('pkg_progress').innerHTML += "</table>\n";
+	
+	
     
     var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
 	http.open('post', 'backend.php');
@@ -50,6 +60,7 @@ function configureImage(){
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.onreadystatechange = configureProgress; 
 	http.send(params);
+	blindUp('form');
 }
 
 function assembleImage(){
@@ -82,18 +93,17 @@ function showImagelink(){
 function configureProgress(){
     if(http.readyState == 4){
 		var response = http.responseText;
-		document.getElementById('status').innerHTML += ": complete<br/>\n<br/>\n";
         showHideElement('configure_progress',0);
         document.getElementById('configure_progress').innerHTML = response;
+		document.getElementById('td-configure').innerHTML = "<img src=\"img/Green_tick.png\">";
         package = packagelist.shift();
-        document.getElementById('status').innerHTML += "Installed packages: ";
 		installPackage("test");
 	}
 }
 
 function installProgress(){
     if(http.readyState == 4){
-        document.getElementById('status').innerHTML += " " + package ;
+		document.getElementById('td-' + package).innerHTML = "<img src=\"img/Green_tick.png\">";
         if (packagelist.length > 1) {
             package = packagelist.shift();
             if (package != "" && package != " ") {
@@ -107,13 +117,11 @@ function installProgress(){
 }
 
 function assembleProgress(){
-    if(http.readyState == 1){
-    	document.getElementById('status').innerHTML += "<br>\nAssembling image";
-    }	
-    if(http.readyState == 4){ 
+      if(http.readyState == 4){ 
 		var response = http.responseText;
 		showHideElement('image_progress',0);
         document.getElementById('image_progress').innerHTML = response;
+		document.getElementById('td-assemble').innerHTML = "<img src=\"img/Green_tick.png\">";
 		showImagelink();
 	}
 }
@@ -122,6 +130,7 @@ function imageDisplay(){
 	if(http.readyState == 4){
         var response = http.responseText;
 		document.getElementById('image_link').innerHTML = response;
+		pulsate(document.getElementById('image_link'));
 	}
 }
 
