@@ -80,8 +80,9 @@ function configure_image($machine, $name) {
 function install_package($machine, $name, $pkg) {
 	print "<pre>";
 	print "Machine: $machine, name: $name, pkg: $pkg\n";
-	passthru ("scripts/install-package.sh $machine $name-image $pkg && exit");
+	passthru ("scripts/install-package.sh $machine $name-image $pkg && exit", $installretval);
 	print "</pre>";
+    print "<div id=\"retval\">$installretval</div>";
 }
 
 function assemble_image($machine, $name) {

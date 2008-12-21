@@ -24,5 +24,6 @@ fi
 packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sort | uniq)"
 
 echo "installing $packagelist"
-yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist
+yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist | grep "rror oc"
+exit $?
 

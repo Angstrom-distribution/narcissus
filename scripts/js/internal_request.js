@@ -22,6 +22,8 @@ var package = "";
 
 function configureImage(){
     showHideElement('intro',0);
+    showHideElement('image_progress',0);
+
 	
 	
 	document.getElementById('image_link').innerHTML = "";
@@ -42,14 +44,14 @@ function configureImage(){
 	packagelist = packagestring.split(" ");
 	
 	document.getElementById('pkg_progress').innerHTML = "<br/><br/><table>\n";
-	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Preconfiguring image</td><td></td><td id=\"td-configure\"></td></tr>";
-	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Installing packages:</td><td></td><td id=\"td-package\"></td></tr>";
+	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Preconfiguring image</td><td></td><td id=\"td-configure\"></td></tr>\n";
+	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Installing packages:</td><td></td><td id=\"td-package\"></td></tr>\n";
 
 	for (var i in packagelist) {
-		document.getElementById('pkg_progress').innerHTML += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td id=\"td-" +  packagelist[i] + "\">&nbsp;&nbsp;</td></tr>";
+		document.getElementById('pkg_progress').innerHTML += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td id=\"td-" +  packagelist[i] + "\">&nbsp;&nbsp;</td></tr>\n";
 	}
 
-	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id=\"td-assemble\"></td></tr>";
+	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id=\"td-assemble\"></td></tr>\n";
 	document.getElementById('pkg_progress').innerHTML += "</table>\n";
 	
 	
@@ -103,7 +105,15 @@ function configureProgress(){
 
 function installProgress(){
     if(http.readyState == 4){
-		document.getElementById('td-' + package).innerHTML = "<img src=\"img/Green_tick.png\">";
+		var response = http.responseText;
+		document.getElementById('image_progress').innerHTML = response;
+		// We grep for an error code, so '0' is indeed an error
+		if(document.getElementById('retval').innerHTML == "0") {
+			document.getElementById('td-' + package).innerHTML = "<img src=\"img/X_mark.png\">";
+		}	
+		else {
+			document.getElementById('td-' + package).innerHTML = "<img src=\"img/Green_tick\">";
+		}	
         if (packagelist.length > 1) {
             package = packagelist.shift();
             if (package != "" && package != " ") {
