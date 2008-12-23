@@ -68,6 +68,11 @@ function show_image_link($machine, $name) {
 	} else {
 		print "Image not found, something went wrong :/";
 	}
+	if (file_exists("deploy/$machine/$name-image-$machine-sd.img.gz")) {
+		rename("deploy/$machine/$name-image-$machine-sd.img.gz", "deploy/$machine/$randomname/$name-image-$machine-sd.img.gz");
+		$imgsize = round(filesize("deploy/$machine/$randomname/$name-image-$machine-sd.img.gz") / (1024 * 1024),2);
+		print("<br/><br/>For your convinience you can also use this <a href='deploy/$machine/$randomname/$name-image-$machine-sd.img.gz'>dd-able SD card image</a> [$imgsize MiB]");
+	}
 }
 
 function configure_image($machine, $name) {
