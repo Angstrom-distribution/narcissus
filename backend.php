@@ -71,7 +71,7 @@ function show_image_link($machine, $name) {
 	if (file_exists("deploy/$machine/$name-image-$machine-sd.img.gz")) {
 		rename("deploy/$machine/$name-image-$machine-sd.img.gz", "deploy/$machine/$randomname/$name-image-$machine-sd.img.gz");
 		$imgsize = round(filesize("deploy/$machine/$randomname/$name-image-$machine-sd.img.gz") / (1024 * 1024),2);
-		print("<br/><br/>For your convinience you can also use this <a href='deploy/$machine/$randomname/$name-image-$machine-sd.img.gz'>dd-able SD card image</a> [$imgsize MiB]");
+		print("<br/><br/>This <a href='deploy/$machine/$randomname/$name-image-$machine-sd.img.gz'>raw SD card image</a> has its vfat partition populated with the bootloader and kernel, but has en <b>empty</b> ext3 partition. You can extract the tarball to that partition to make it ready to boot."); 
 	}
 }
 
