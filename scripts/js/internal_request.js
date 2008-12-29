@@ -52,7 +52,7 @@ function configureImage(){
 	
 	for (var i in packagelist) {
 		if (packagelist[i] != "" && packagelist[i] != " ") {
-			progress_text += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td id=\"td-" +  packagelist[i] + "\"></td></tr>\n";
+			progress_text += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td><div id=\"td-" +  packagelist[i] + "\"></div></td></tr>\n";
 		}	
 	}
 	
@@ -100,12 +100,12 @@ function showImagelink(){
 
 function configureProgress(){
     if(http.readyState == 4){
-		var response = http.responseText;
-        showHideElement('configure_progress',0);
+	var response = http.responseText;
+        showHideElement('configure_progress', 0);
         document.getElementById('configure_progress').innerHTML = response;
-		document.getElementById('td-configure').innerHTML = succes_image;
-		opackage = packagelist.shift();
-		installPackage("test");
+	document.getElementById('td-configure').innerHTML = succes_image;
+	opackage = packagelist.shift();
+	installPackage("test");
 	}
 }
 
@@ -116,13 +116,13 @@ function installProgress(){
 		if(document.getElementById('imgsize')) {
 			document.getElementById('status').innerHTML = "<br/>\nCurrent uncompressed image size: " + document.getElementById('imgsize').innerHTML.split(" ")[1];
 		}	
-		
+		var progress_id = 'td-' + opackage;	
 		// We grep for an error code, so '0' is indeed an error
 		if(document.getElementById('retval').innerHTML == "0") {
-			document.getElementById('td-' + opackage).innerHTML = FAIL_image;
+			document.getElementById(progress_id).innerHTML = FAIL_image;
 		}	
 		else {
-			document.getElementById('td-' + opackage).innerHTML = succes_image;
+			document.getElementById(progress_id).innerHTML = succes_image;
 		}	
         if (packagelist.length > 1) {
             opackage = packagelist.shift();
@@ -155,7 +155,8 @@ function imageDisplay(){
 	if(http.readyState == 4){
         var response = http.responseText;
 		if(document.getElementById('imgsize')) {
-			document.getElementById('status').innerHTML = "<br/>\nCurrent uncompressed image size: " + document.getElementById('imgsize').innerHTML.split(" ")[1];
+			var image_size = "<br/>\nCurrent uncompressed image size: " + document.getElementById('imgsize').innerHTML.split(" ")[1];
+			document.getElementById('status').innerHTML = image_size;
 		}
 		document.getElementById('image_link').innerHTML = response;
 		pulsate(document.getElementById('image_link'));

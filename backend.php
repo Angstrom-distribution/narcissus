@@ -76,25 +76,19 @@ function show_image_link($machine, $name) {
 }
 
 function configure_image($machine, $name) {
-	print "<pre>";
 	print "Machine: $machine, name: $name\n";
 	passthru ("scripts/configure-image.sh $machine $name-image && exit");
-	print "</pre>";
 }
 
 function install_package($machine, $name, $pkg) {
-	print "<pre>";
 	print "Machine: $machine, name: $name, pkg: $pkg\n";
 	passthru ("scripts/install-package.sh $machine $name-image $pkg && exit", $installretval);
-	print "</pre>";
-    print "<div id=\"retval\">$installretval</div>";
+	print "<div id=\"retval\">$installretval</div>";
 }
 
 function assemble_image($machine, $name) {
-	print "<pre>";
 	print "Machine: $machine, name: $name\n";
 	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image && exit", $installretval);
-	print "</pre>";
 	print "<div id=\"retval-image\">$installretval</div>";
 }
 
