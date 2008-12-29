@@ -47,14 +47,16 @@ function configureImage(){
 	packagelist = unique(packagelisttemp);
 
 	progress_text = "<br/><br/><table>\n";
-	progress_text += "<tr><td colspan=\"2\">Preconfiguring image</td><td></td><td id=\"td-configure\"></td></tr>\n";
-	progress_text += "<tr><td colspan=\"2\">Installing packages:</td><td></td><td id=\"td-package\"></td></tr>\n";
+	progress_text += "<tr><td colspan=\"2\">Preconfiguring image</td><td></td><td id='td-configure'></td></tr>\n";
+	progress_text += "<tr><td colspan=\"2\">Installing packages:</td><td></td><td id='td-package'></td></tr>\n";
 	
 	for (var i in packagelist) {
-		progress_text += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td id=\"td-" +  packagelist[i] + "\">&nbsp;&nbsp;</td></tr>\n";
+		if (packagelist[i] != "" && packagelist[i] != " ") {
+			progress_text += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td id=\"td-" +  packagelist[i] + "\"></td></tr>\n";
+		}	
 	}
 	
-	progress_text += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id=\"td-assemble\"></td></tr>\n";
+	progress_text += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id='td-assemble'></td></tr>\n";
 	progress_text += "</table>\n";
 
 	document.getElementById('pkg_progress').innerHTML = progress_text;
