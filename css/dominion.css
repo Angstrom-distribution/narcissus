@@ -114,7 +114,6 @@ div.kader a:hover {
 
 div.titel {
 	float: right;
-	dwidth: 95%;
   padding: 2px 5px;
   font-size: 20px;
   text-align: right;
@@ -129,7 +128,6 @@ div.titel2 {
 div.footer {
   	float: right;
 	padding: 2px 5px;
-	dwidth: 98%;	
   border-top: 1px dashed #585a5e;
   font-size: 10px;
   text-align: right;
@@ -138,7 +136,6 @@ div.footer {
 
 h3 {
   	font-size: 14px;
-	font-color: black;
   	padding: 0px 5px;
   	background-color: #7893a9;
 } 
