@@ -17,8 +17,10 @@ function createRequestObject(){
 var http = createRequestObject(); 
 var packagelist = new Array;
 var packagestring = "";
-var package = "";
-
+var opackage = "";
+var progress_text = ""
+var FAIL_image = "<img src=\"img/X_mark.png\">";
+var succes_image = "<img src=\"img/Green_tick\">";
 
 function configureImage(){
     showHideElement('intro',0);
@@ -43,18 +45,19 @@ function configureImage(){
 	
 	var packagelisttemp = packagestring.split(" ");
 	packagelist = unique(packagelisttemp);
-	
-	document.getElementById('pkg_progress').innerHTML = "<br/><br/><table>\n";
-	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Preconfiguring image</td><td></td><td id=\"td-configure\"></td></tr>\n";
-	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Installing packages:</td><td></td><td id=\"td-package\"></td></tr>\n";
+
+	progress_text = "<br/><br/><table>\n";
+	progress_text += "<tr><td colspan=\"2\">Preconfiguring image</td><td></td><td id=\"td-configure\"></td></tr>\n";
+	progress_text += "<tr><td colspan=\"2\">Installing packages:</td><td></td><td id=\"td-package\"></td></tr>\n";
 	
 	for (var i in packagelist) {
-		document.getElementById('pkg_progress').innerHTML += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td id=\"td-" +  packagelist[i] + "\">&nbsp;&nbsp;</td></tr>\n";
+		progress_text += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td id=\"td-" +  packagelist[i] + "\">&nbsp;&nbsp;</td></tr>\n";
 	}
 	
-	document.getElementById('pkg_progress').innerHTML += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id=\"td-assemble\"></td></tr>\n";
-	document.getElementById('pkg_progress').innerHTML += "</table>\n";
-	
+	progress_text += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id=\"td-assemble\"></td></tr>\n";
+	progress_text += "</table>\n";
+
+	document.getElementById('pkg_progress').innerHTML = progress_text;
 	
     
     var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
@@ -75,8 +78,8 @@ function assembleImage(){
 }
 
 function installPackage(){
-	if (package != "" && package != " ") {
-		var params = 'action=install_package&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + package;
+	if (opackage != "" && opackage != " ") {
+		var params = 'action=install_package&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + opackage;
 		http.open('post', 'backend.php');
 		http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		http.onreadystatechange = installProgress; 
@@ -98,8 +101,8 @@ function configureProgress(){
 		var response = http.responseText;
         showHideElement('configure_progress',0);
         document.getElementById('configure_progress').innerHTML = response;
-		document.getElementById('td-configure').innerHTML = "<img src=\"img/Green_tick.png\">";
-        package = packagelist.shift();
+		document.getElementById('td-configure').innerHTML = succes_image;
+		opackage = packagelist.shift();
 		installPackage("test");
 	}
 }
@@ -114,19 +117,19 @@ function installProgress(){
 		
 		// We grep for an error code, so '0' is indeed an error
 		if(document.getElementById('retval').innerHTML == "0") {
-			document.getElementById('td-' + package).innerHTML = "<img src=\"img/X_mark.png\">";
+			document.getElementById('td-' + opackage).innerHTML = FAIL_image;
 		}	
 		else {
-			document.getElementById('td-' + package).innerHTML = "<img src=\"img/Green_tick\">";
+			document.getElementById('td-' + opackage).innerHTML = succes_image;
 		}	
         if (packagelist.length > 1) {
-            package = packagelist.shift();
-            if (package != "" && package != " ") {
-                installPackage(package);
+            opackage = packagelist.shift();
+            if (opackage != "" && opackage != " ") {
+                installPackage(opackage);
             }
         }     
         else {
-            assembleImage(package);
+            assembleImage(opackage);
         }        
 	}
 }
@@ -137,10 +140,10 @@ function assembleProgress(){
 		showHideElement('image_progress',0);
         document.getElementById('image_progress').innerHTML = response;
 		if(document.getElementById('retval-image').innerHTML == "0") {
-			document.getElementById('td-assemble').innerHTML = "<img src=\"img/Green_tick.png\">";
+			document.getElementById('td-assemble').innerHTML = succes_image;
 		}
 		else {
-			document.getElementById('td-assemble').innerHTML = "<img src=\"img/X_mark.png\">";
+			document.getElementById('td-assemble').innerHTML = FAIL_image;
 		}		
 	showImagelink();
 	}
