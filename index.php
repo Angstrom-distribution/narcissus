@@ -131,7 +131,7 @@ Image name:
 <div id="image_link"></div>
 <div id="configure_progress"></div>
 <div id="image_progress"></div>
-<div id="status"></div>
+<div id="imgstatus"></div>
 
 
 </body>

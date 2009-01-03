@@ -25,12 +25,15 @@ if [ -e ${TARGET_DIR}/log.txt ] ; then
 	rm ${TARGET_DIR}/log.txt
 fi
 
-packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sort | uniq)"
+packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sed s:,:\ :g | sort | uniq)"
 
 echo "installing $packagelist"
-echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist"
-yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $packagelist | tee ${TARGET_DIR}/log.txt
+for pkg in $packagelist ; do
+	echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $pkg"
+	yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $pkg | tee ${TARGET_DIR}/log.txt
+	grep -e "rror oc" -e "ollected er" ${TARGET_DIR}/log.txt
+	echo "<div id=\"${pkg}-returncode\">$?</div><br/>"
+done
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>"
-grep -e "rror oc" -e "ollected er" ${TARGET_DIR}/log.txt
-exit $?
+
 
