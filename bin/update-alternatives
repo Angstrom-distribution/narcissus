@@ -19,7 +19,6 @@
 # GNU General Public License for more details.
 
 set -e
-echo "update-alternatives: $*"
 
 # admin dir
 ad="$OPKG_OFFLINE_ROOT/usr/lib/opkg/alternatives"

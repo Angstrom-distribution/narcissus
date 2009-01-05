@@ -35,7 +35,7 @@ for i in ${TARGET_DIR}/usr/lib/opkg/info/*.preinst; do
 	fi
 done 
 
-echo "Running postinstinsts"
+echo "Running postinsts"
 
 for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
 	if [ -f $i ] && ! sh $i configure; then
@@ -43,8 +43,6 @@ for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
 		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf flag unpacked `basename $i .postinst`
 	fi
 done 
-
-ls ${TARGET_DIR}/sbin -la
 
 echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
