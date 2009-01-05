@@ -8,6 +8,8 @@ IMAGENAME=$2
 
 TARGET_DIR="${PWD}/deploy/${MACHINE}/${IMAGENAME}"
 OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
+export D="${TARGET_DIR}"
+export OPKG_OFFLINE_ROOT="${TARGET_DIR}"
 
 if [ -e ${TARGET_DIR} ] ; then
 	echo "Stale directory found, removing  it"
