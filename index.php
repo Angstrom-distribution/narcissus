@@ -68,6 +68,7 @@ $devel_array = array("Python" => "python-core python-modules",
 
 $packages_array = array("Abiword" => "abiword",
                         "Aircrack-ng" => "aircrack-ng",
+                        "Alsa utils" => "alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl",
                         "Apache" => "apache2",
                         "Bluez" => "bluez-utils",
                         "Boa" => "boa",
