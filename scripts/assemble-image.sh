@@ -53,25 +53,33 @@ echo "tarring up filesystem"
 ( cd  ${TARGET_DIR} ; tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . ; RETVAL=$? 
 
 if [ "${MACHINE}" = "beagleboard" ] ; then
-	zcat ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz > sd.img
-	/sbin/fdisk -l -u sd.img
-
-	/sbin/losetup -v -o 32256 /dev/loop1 sd.img
-	
-	echo "mount /dev/loop1"
-	mount /dev/loop1
-	"echo copying files to vfat"
-	cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
-	cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
-	if [ -e ${TARGET_DIR}/boot/uImage ] ;then 
-		cp -v ${TARGET_DIR}/boot/uImage /mnt/narcissus/sd_image1/uImage.bin
+	MD5SUM_SD="$(md5sum ${TARGET_DIR}/boot/uImage | awk '{print $1}')"	
+	if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz ] ; then
+		echo "Cached SD image found, using that"	
+		cp ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
 	else
-		cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage.bin
-	fi
-	umount /dev/loop1
+		echo "No cached SD image found, generating new one"
+		zcat ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz > sd.img
+		/sbin/fdisk -l -u sd.img
+
+		/sbin/losetup -v -o 32256 /dev/loop1 sd.img
 	
-	/sbin/losetup -d /dev/loop1
-	gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
+		echo "mount /dev/loop1"
+		mount /dev/loop1
+		"echo copying files to vfat"
+		cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
+		cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
+		if [ -e ${TARGET_DIR}/boot/uImage ] ;then 
+			cp -v ${TARGET_DIR}/boot/uImage /mnt/narcissus/sd_image1/uImage.bin
+		else
+			cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage.bin
+		fi
+		umount /dev/loop1
+	
+		/sbin/losetup -d /dev/loop1
+		gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
+		cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz
+	fi
 fi
 )
 
