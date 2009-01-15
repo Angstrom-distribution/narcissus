@@ -7,6 +7,7 @@ To install this:
 * put opkg-cl in bin/
 * put makedevs in bin/
 * mkdir deploy/
+* Optional: allow 'www-data' user to write to conf/beagleboard/sd/ to cache sd images
 
 To add a new machine:
 
