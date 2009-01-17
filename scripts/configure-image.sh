@@ -33,5 +33,6 @@ echo "running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install c
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/angstrom-feed-config* 
 echo "running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update"
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
+bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install opkg
 
 echo "Configure done"
