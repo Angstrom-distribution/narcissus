@@ -66,7 +66,7 @@ function configureImage(){
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.onreadystatechange = configureProgress; 
 	http.send(params);
-	blindUp('form');
+	slideUp('form');
 }
 
 function assembleImage(){
