@@ -15,5 +15,11 @@ To add a new machine:
 * put the angstrom-feed-configs ipkg in conf/<machine>/
 * create conf/<machine>/arch.conf listing the architectures your machine supports
 
+If you have a feed with the machine config packages present:
+
+for i in $(find ~/website/feeds/2008/ipk/glibc  -name "angstrom-feed-configs_*ipk" | grep -v morgue) ; do cp $i . ; done
+for f in $(for i in angst*ipk ; do echo $i | awk -F_ '{print $3}' |sed s:\.ipk::g ; done) ; do dpkg-deb -X ang*${f}.ipk $f ; mv ang*${f}.ipk $f ; mv $f/etc/opkg/arch.conf $f ; rm -rf $f/etc; done
+
+
 That's it!
 
