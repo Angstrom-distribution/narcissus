@@ -12,6 +12,12 @@ TARGET_DIR="${PWD}/deploy/${MACHINE}/${IMAGENAME}"
 OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
 PACKAGELISTFILE="${PWD}/deploy/${MACHINE}/${IMAGENAME}-packages.txt"
 
+export D="${TARGET_DIR}"
+export OPKG_OFFLINE_ROOT="${TARGET_DIR}"
+export OFFLINE_ROOT="${TARGET_DIR}"
+export IPKG_OFFLINE_ROOT="${TARGET_DIR}"
+export PATH=${WORKDIR}/bin:${PATH}
+
 if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
 	print "Initial filesystem not found, something went wrong in the configure step!"
 	exit 0
