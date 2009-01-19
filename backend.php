@@ -78,6 +78,24 @@ function show_image_link($machine, $name) {
 function configure_image($machine, $name) {
 	print "Machine: $machine, name: $name\n";
 	passthru ("scripts/configure-image.sh $machine $name-image && exit");
+	$countfile = "conf/$machine/usage-count.txt";
+	$handle = fopen($countfile, "a+");
+		$contents = '';
+		while (!feof($handle)) {
+  			$contents .= fread($handle, 8192);
+		}
+		if ($contents != '') {
+			$new_contents = $contents + 1;
+		}
+		else {
+			$new_contents = 1;
+		}	
+	fclose($handle);
+
+	print ("Machine usage count: $new_contents");
+	$handle = fopen($countfile, "w+");
+		fwrite($handle, $new_contents);	
+	fclose($handle);
 }
 
 function install_package($machine, $name, $pkg) {
