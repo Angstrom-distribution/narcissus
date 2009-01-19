@@ -1,6 +1,6 @@
 <?
 /* Narcissus - Online image builder for the angstrom distribution
- * Koen Kooi (c) 2008 - all rights reserved 
+ * Koen Kooi (c) 2008, 2009 - all rights reserved 
  *
  * basic operation:
  * 1) select machine and assemble arch.conf

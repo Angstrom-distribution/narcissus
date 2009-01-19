@@ -1,6 +1,6 @@
 #!/bin/sh
 # Narcissus - Online image builder for the angstrom distribution
-# Koen Kooi (c) 2008 - all rights reserved 
+# Koen Kooi (c) 2008, 2009 - all rights reserved 
 
 MACHINE=$1
 IMAGENAME=$2
