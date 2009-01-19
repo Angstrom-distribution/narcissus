@@ -5,7 +5,7 @@
 <script language="javascript" type="text/javascript" src="scripts/js/internal_request.js"></script>
 <link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
-<body>
+<body onLoad="toggleVisibility('devel') ; toggleVisibility('packages')">
 <?
 /* Narcissus - Online image builder for the angstrom distribution
  * Koen Kooi (c) 2008 - all rights reserved 
@@ -38,7 +38,7 @@ foreach($machine as $value) {
 This is a proof of concept online image builder for the Angstrom distribution. <div id="intro">The basic operation is simple:
 <ol>
 <li>select machine from dropdown list</li>
-<li>select packages you want to have included</li>
+<li>select packages you want to have included, click the <img src='img/expand.gif'> sign to expand a section.</li>
 <li>Change the random name for the image into the name you want it to be called</li>
 <li>Click the "build me!" button</li>
 </ol></div>
@@ -50,7 +50,7 @@ Machine:
 </select >
 
 <hr width="80%"/>
-Package selections:<br/><br/>
+Base system:<br/><br/>
 <?
 $base_array = array("task-boot" => "task-boot", 
                     "task-base" => "task-base",
@@ -102,24 +102,33 @@ $packages_array = array("Abiword" => "abiword",
                         "Screen" => "screen",
                         "ScummVM" => "scummvm");
 
+print "<div id='base'>";
 foreach ($base_array as $pkg => $pkgdepends) {
 	print("<input type=\"checkbox\" name=\"pkg\" value=\"$pkgdepends\">$pkg<br/>\n");
 }
+print "</div>";
 print "<hr width='80%'/>\n\n";
 
+print "X11 window managers:<br/><br/>\n";
 foreach ($wm_array as $pkg => $pkgdepends) {
 	print("<input type=\"checkbox\" name=\"wm\" value=\"$pkgdepends\">$pkg<br/>\n");
 }
 print "<hr width='80%'/>\n\n";
-
+print "<img src='img/expand.gif' onClick=\"toggleVisibility('devel');\"> Development packages:<br/><br/>\n";
+print "<div id='devel'>";
 foreach ($devel_array as $pkg => $pkgdepends) {
 	print("<input type=\"checkbox\" name=\"devel\" value=\"$pkgdepends\">$pkg<br/>\n");
 }
+print "</div>";
+
 print "<hr width='80%'/>\n\n";
 
+print "<img src='img/expand.gif' onClick=\"toggleVisibility('packages');\"> Additional packages:<br/><br/>\n";
+print "<div id='packages'>";
 foreach ($packages_array as $pkg => $pkgdepends) {
 	print("<input type=\"checkbox\" name=\"packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 }
+print "</div>";
 print "<hr width='80%'/>\n\n";
 
 ?>

@@ -34,7 +34,8 @@ function configureImage(){
 	
 	if (packagestring == "" || packagestring == " ") {
  		document.getElementById('imgstatus').innerHTML = "You have to select at least one task, try 'task-boot' to get a minimal set.";
-   		return; 
+   		Highlight('base');
+		return; 
 	}
 	
     packagestring += concatArray(document.entry_form.wm); 
