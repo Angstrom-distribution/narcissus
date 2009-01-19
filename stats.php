@@ -65,7 +65,7 @@ MochiKit.DOM.addLoadEvent(drawGraph);
 <body>
 Statistics for the online image builder
 
-<div><canvas id="graph" height="300" width="300"></canvas></div>
+<div><canvas id="graph" height="500" width="700"></canvas></div>
 
 <? 
 $total = 0;
