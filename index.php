@@ -42,7 +42,9 @@ This is a proof of concept online image builder for the Angstrom distribution. <
 <li>Change the random name for the image into the name you want it to be called</li>
 <li>Click the "build me!" button</li>
 </ol></div>
-
+<br/>
+Depending on the load of this machine and the feed server the process might take a few <b>minutes</b>, so get a beverage of your choice and <b>DON'T</b> hit refresh.
+<br/><br/>
 <div id="form" class="kader"><form name="entry_form" onsubmit="javascript:configureImage();return false">
 Machine:
 <select name="machine">
