@@ -56,7 +56,20 @@ function drawGraph() {
     layout.addDataset("Usage count", [<? foreach($machine as $value) { print ("[$i, $value],"); $i = $i +1;} ?>]);
     layout.evaluate();
     var canvas = MochiKit.DOM.getElement("graph");
-    var plotter = new PlotKit.SweetCanvasRenderer(canvas, layout, {});
+    
+	if (parseInt(navigator.appVersion)>3) {
+		if (navigator.appName=="Netscape") {
+			winW = window.innerWidth - 30;
+  			winH = (window.innerHeight - 30) * 0.9;
+		}
+		if (navigator.appName.indexOf("Microsoft")!=-1) {
+			winW = document.body.offsetWidth - 30;
+			winH = (document.body.offsetHeight - 30) * 0.9;
+		}
+	}
+	canvas.setAttribute('width', winW);
+	canvas.setAttribute('height', winH);
+	var plotter = new PlotKit.SweetCanvasRenderer(canvas, layout, {});
     plotter.render();
 }
 MochiKit.DOM.addLoadEvent(drawGraph);
@@ -65,7 +78,7 @@ MochiKit.DOM.addLoadEvent(drawGraph);
 <body>
 Statistics for the online image builder
 
-<div><canvas id="graph" height="500" width="700"></canvas></div>
+<div><canvas id="graph" height="80%" width="100%"></canvas></div>
 
 <? 
 $total = 0;
