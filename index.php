@@ -21,7 +21,7 @@ if ($handle = opendir ('./conf/'))
       {
     	if ($file != "." && $file != ".." && file_exists("./conf/$file/arch.conf"))
       	{
-         $machine[] = $file;
+	 $machine[] = $file;
       	}
       }
     closedir ($handle);
@@ -58,60 +58,61 @@ Base system:<br/><br/>
 $repourl = "http://www.angstrom-distribution.org/repo/?pkgname";
 
 $base_array = array("small (<a href='$repourl=task-boot' target='foo'>task-boot</a>)" => "task-boot", 
-                    "regular (<a href='$repourl=task-base' target='foo'>task-base</a>)" => "task-base",
-                    "extended (<a href='$repourl=task-base-extended' target='foo'>task-base-extended</a>)" => "task-base-extended");
+		    "regular (<a href='$repourl=task-base' target='foo'>task-base</a>)" => "task-base",
+		    "extended (<a href='$repourl=task-base-extended' target='foo'>task-base-extended</a>)" => "task-base-extended");
 
 $wm_array = array("Matchbox" => "angstrom-x11-base-depends angstrom-gpe-task-base",
-                  "Illume" => "e-wm e-wm-config-illume angstrom-x11-base-depends angstrom-gpe-task-base",
-                  "Enlightenment" => "e-wm e-wm-config-standard e-wm-config-default angstrom-x11-base-depends angstrom-gpe-task-base",
-                  "Metacity" => "metacity angstrom-x11-base-depends angstrom-gpe-task-base");
+		  "Illume" => "e-wm e-wm-config-illume angstrom-x11-base-depends angstrom-gpe-task-base",
+		  "Enlightenment" => "e-wm e-wm-config-standard e-wm-config-default angstrom-x11-base-depends angstrom-gpe-task-base",
+		  "Metacity" => "metacity angstrom-x11-base-depends angstrom-gpe-task-base");
 
 $devel_array = array("Python" => "python-core python-modules",
-                     "Perl" => "perl perl-modules",
-                     "Toolchain" => "task-native-sdk",
-                     "Busybox replacements" => "task-proper-tools");
+		     "Perl" => "perl perl-modules",
+		     "Toolchain" => "task-native-sdk",
+		     "Busybox replacements" => "task-proper-tools");
 
 $packages_array = array("Abiword" => "abiword",
-                        "Aircrack-ng" => "aircrack-ng",
-                        "All kernel modules" => "kernel-modules",
-                        "Alsa utils" => "alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl",
-                        "Apache" => "apache2",
-                        "Bluez" => "bluez-utils",
-                        "Boa" => "boa",
-                        "Cherokee" => "cherokee",
-                        "Duke Nukem 3D" => "duke3d",
-                        "Doom (prboom)" => "prboom",
+			"Aircrack-ng" => "aircrack-ng",
+			"All kernel modules" => "kernel-modules",
+			"Alsa utils" => "alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl",
+			"Apache" => "apache2",
+			"Bluez" => "bluez-utils",
+			"Boa" => "boa",
+			"Cherokee" => "cherokee",
+			"Duke Nukem 3D" => "duke3d",
+			"Doom (prboom)" => "prboom",
 			"E-uae" => "e-uae",
-                        "Epiphany" => "epiphany",
-                        "Evince" => "evince",
-                        "Fennec" => "fennec",
-                        "Firefox" => "firefox",
-                        "Flite" => "flite libflite-cmu-us-kal1",
+			"Epiphany" => "epiphany",
+			"Evince" => "evince",
+			"Fennec" => "fennec",
+			"Firefox" => "firefox",
+			"Flite" => "flite libflite-cmu-us-kal1",
 			"Gdbserver" => "gdbserver",
-                        "Gimp" => "gimp",
-                        "Gnome Games" => "gnome-games",
-                        "Gnumeric" => "gnumeric",
-                        "Gnuradio" => "gnuradio",
-                        "Git" => "git",
-                        "GSM0710muxd" => "gsm0710muxd",
-                        "I2C-tools" => "i2c-tools",
-                        "JamVM" => "jamvm",
-                        "Kismet" => "kismet",
-                        "Mediatomb" => "mediatomb",
-                        "MPlayer" => "mplayer",
-                        "MythTV" => "mythtv mythtv-theme-blue mythtv-theme-default",
-                        "Nmap" => "nmap",
-                        "Numptyphysics" => "numptyphysics",
-                        "Octave" => "octave",
-                        "OpenCV" => "opencv-samples",
-                        "Pidgin IM" => "pidgin",
-                        "Quake 1" => "sdlquake",
+			"Gimp" => "gimp",
+			"Gnome Games" => "gnome-games",
+			"Gnumeric" => "gnumeric",
+			"Gnuradio" => "gnuradio",
+			"Git" => "git",
+			"GPE PIM suite" => "task-gpe-pim",
+			"GSM0710muxd" => "gsm0710muxd",
+			"I2C-tools" => "i2c-tools",
+			"JamVM" => "jamvm",
+			"Kismet" => "kismet",
+			"Mediatomb" => "mediatomb",
+			"MPlayer" => "mplayer",
+			"MythTV" => "mythtv mythtv-theme-blue mythtv-theme-default",
+			"Nmap" => "nmap",
+			"Numptyphysics" => "numptyphysics",
+			"Octave" => "octave",
+			"OpenCV" => "opencv-samples",
+			"Pidgin IM" => "pidgin",
+			"Quake 1" => "sdlquake",
 			"Quake 2" => "quake2",
 			"Quake 2 (quetoo)" => "quetoo",
 			"Quake 3 (ioq3)" => "ioquake3",
 			"Samba" => "samba",
-                        "Screen" => "screen",
-                        "ScummVM" => "scummvm",
+			"Screen" => "screen",
+			"ScummVM" => "scummvm",
 			"Stalonetray" => "stalonetray");
 
 print "<div id='base'>";
