@@ -54,9 +54,12 @@ Machine:
 <hr width="80%"/>
 Base system:<br/><br/>
 <?
-$base_array = array("task-boot" => "task-boot", 
-                    "task-base" => "task-base",
-                    "task-base-extended" => "task-base-extended");
+
+$repourl = "http://www.angstrom-distribution.org/repo/?pkgname";
+
+$base_array = array("small (<a href='$repourl=task-boot' target='foo'>task-boot</a>)" => "task-boot", 
+                    "regular (<a href='$repourl=task-base' target='foo'>task-base</a>)" => "task-base",
+                    "extended (<a href='$repourl=task-base-extended' target='foo'>task-base-extended</a>)" => "task-base-extended");
 
 $wm_array = array("Matchbox" => "angstrom-x11-base-depends angstrom-gpe-task-base",
                   "Illume" => "e-wm e-wm-config-illume angstrom-x11-base-depends angstrom-gpe-task-base",
