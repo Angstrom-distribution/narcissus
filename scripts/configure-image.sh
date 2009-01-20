@@ -6,6 +6,7 @@
 MACHINE=$1
 IMAGENAME=$2
 
+CACHEDIR="${PWD}/deploy/cache"
 TARGET_DIR="${PWD}/deploy/${MACHINE}/${IMAGENAME}"
 OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
 export D="${TARGET_DIR}"
@@ -17,6 +18,10 @@ export PATH=${WORKDIR}/bin:${PATH}
 if [ -e ${TARGET_DIR} ] ; then
 	echo "Stale directory found, removing  it"
 	rm ${TARGET_DIR} -rf
+fi
+
+if [ -e ${CACHEDIR} ] ; then
+	CACHE="--cache ${CACHEDIR}"
 fi
 
 if [ -e conf/${MACHINE}/arch.conf ] ; then
@@ -36,6 +41,6 @@ echo "running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install c
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/angstrom-feed-config* 
 echo "running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update"
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
-bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install opkg-nogpg
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install opkg-nogpg
 
 echo "Configure done"
