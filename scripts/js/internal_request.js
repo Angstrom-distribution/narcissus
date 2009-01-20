@@ -21,6 +21,7 @@ var opackage = "";
 var progress_text = ""
 var FAIL_image = "<img src='img/X_mark.png'>";
 var succes_image = "<img src='img/Green_tick'>";
+var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
 
 function configureImage(){
     showHideElement('intro',0);
@@ -51,7 +52,7 @@ function configureImage(){
 	
 	for (var i in packagelist) {
 		if (packagelist[i] != "" && packagelist[i] != " ") {
-			progress_text += "<tr><td>&nbsp;</td><td>" + packagelist[i] + "</td><td>&nbsp;</td><td><div id=\"td-" +  packagelist[i] + "\"></div></td></tr>\n";
+			progress_text += "<tr><td>&nbsp;</td><td><a href='" + repourl + packagelist[i] + "' target='foo'>" + packagelist[i] + "</a></td><td>&nbsp;</td><td><div id=\"td-" +  packagelist[i] + "\"></div></td></tr>\n";
 		}	
 	}
 	
