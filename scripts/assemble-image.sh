@@ -52,7 +52,7 @@ rm ${TARGET_DIR}/var/lib/opkg/* || true
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 
 echo "tarring up filesystem"
-( cd  ${TARGET_DIR} ; tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . ; RETVAL=$? 
+( cd  ${TARGET_DIR} ; nice -n10 tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . ; RETVAL=$? 
 
 if [ "${MACHINE}" = "beagleboard" ] ; then
 	MD5SUM_SD="$(md5sum ${TARGET_DIR}/boot/uImage | awk '{print $1}')"	
