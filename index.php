@@ -115,7 +115,8 @@ $packages_array = array("Abiword" => "abiword",
 			"Samba" => "samba",
 			"Screen" => "screen",
 			"ScummVM" => "scummvm",
-			"Stalonetray" => "stalonetray");
+			"Stalonetray" => "stalonetray",
+			"Zhone" => "zhone frameworkd");
 
 print "<div id='base'>";
 foreach ($base_array as $pkg => $pkgdepends) {
