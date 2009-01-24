@@ -70,6 +70,7 @@ PlotKit.CanvasRenderer.prototype.__init__ = function(element, layout, options) {
         "strokeColor": Color.whiteColor(),
         "strokeColorTransform": "asStrokeColor",
         "strokeWidth": 0.5,
+        "fillColorTransform": null,
         "shouldFill": true,
         "shouldStroke": true,
         "drawXAxis": true,
@@ -101,8 +102,15 @@ PlotKit.CanvasRenderer.prototype.__init__ = function(element, layout, options) {
         this.element = G_vmlCanvasManager.initElement(this.element);
     }
 
-    this.height = this.element.height;
-    this.width = this.element.width;
+    //this.height = this.element.height;
+    //this.width = this.element.width;
+
+    // TODO: I don't know whether this is correct.
+    this.height=MochiKit.DOM.elementDimensions(this.element).h;
+    this.width=MochiKit.DOM.elementDimensions(this.element).w;
+
+    this.element.width = this.width;
+    this.element.height = this.height;
 
     // --- check whether everything is ok before we return
 
@@ -131,7 +139,6 @@ PlotKit.CanvasRenderer.prototype.__init__ = function(element, layout, options) {
     {"style":{ "position": "relative", "width": this.width + "px"}});
 
     // load event system if we have Signals
-    /* Disabled until we have a proper implementation
     try {
         this.event_isinside = null;
         if (MochiKit.Signal && this.options.enableEvents) {
@@ -141,7 +148,6 @@ PlotKit.CanvasRenderer.prototype.__init__ = function(element, layout, options) {
     catch (e) {
         // still experimental
     }
-    */
 };
 
 PlotKit.CanvasRenderer.prototype.render = function() {
@@ -158,7 +164,7 @@ PlotKit.CanvasRenderer.prototype.render = function() {
             this.isFirstRender = false;
             if (this.maxTries-- > 0) {
                 this.renderDelay = MochiKit.Async.wait(this.IEDelay);
-                this.renderDelay.addCallback(bind(this.render, this));
+                this.renderDelay.addCallback(MochiKit.Base.bind(this.render, this));
             }
             return;
         }
@@ -192,11 +198,17 @@ PlotKit.CanvasRenderer.prototype._renderBarChartWrap = function(data, plotFunc) 
         var setName = setNames[i];
         var color = colorScheme[i%colorCount];
         context.save();
-        context.fillStyle = color.toRGBString();
+        if (this.options.fillColorTransform && color[this.options.fillColorTransform])
+            context.fillStyle = color[this.options.fillColorTransform]().toRGBString();
+        else
+            context.fillStyle = color.toRGBString();
+
         if (this.options.strokeColor)
             context.strokeStyle = this.options.strokeColor.toRGBString();
         else if (this.options.strokeColorTransform) 
             context.strokeStyle = color[this.options.strokeColorTransform]().toRGBString();
+        else
+            context.strokeStyle = color.toRGBString();
         
         context.lineWidth = this.options.strokeWidth;
         var forEachFunc = function(obj) {
@@ -204,7 +216,7 @@ PlotKit.CanvasRenderer.prototype._renderBarChartWrap = function(data, plotFunc) 
                 plotFunc(context, obj);
         };                
 
-        MochiKit.Iter.forEach(data, bind(forEachFunc, this));
+        MochiKit.Iter.forEach(data, MochiKit.Base.bind(forEachFunc, this));
         context.restore();
     }
 };
@@ -243,11 +255,17 @@ PlotKit.CanvasRenderer.prototype._renderLineChart = function() {
 
         // setup graphics context
         context.save();
-        context.fillStyle = color.toRGBString();
+        if (this.options.fillColorTransform && color[this.options.fillColorTransform])
+            context.fillStyle = color[this.options.fillColorTransform]().toRGBString();
+        else
+            context.fillStyle = color.toRGBString();
+
         if (this.options.strokeColor)
             context.strokeStyle = this.options.strokeColor.toRGBString();
         else if (this.options.strokeColorTransform) 
-            context.strokeStyle = color[strokeX]().toRGBString();
+            context.strokeStyle = color[this.options.strokeColorTransform]().toRGBString();
+        else
+            context.strokeStyle = color.toRGBString();
         
         context.lineWidth = this.options.strokeWidth;
         
@@ -261,10 +279,12 @@ PlotKit.CanvasRenderer.prototype._renderLineChart = function() {
                                 this.area.h * point.y + this.area.y);
             };
             MochiKit.Iter.forEach(this.layout.points, partial(addPoint, ctx), this);
-            ctx.lineTo(this.area.w + this.area.x,
-                           this.area.h + this.area.y);
-            ctx.lineTo(this.area.x, this.area.y + this.area.h);
-            ctx.closePath();
+            if (this.options.shouldFill) {
+                ctx.lineTo(this.area.w + this.area.x,
+                               this.area.h + this.area.y);
+                ctx.lineTo(this.area.x, this.area.y + this.area.h);
+                ctx.closePath();
+            }
         };
 
         if (this.options.shouldFill) {
@@ -303,7 +323,12 @@ PlotKit.CanvasRenderer.prototype._renderPieChart = function() {
     for (var i = 0; i < slices.length; i++) {
         var color = this.options.colorScheme[i%colorCount];
         context.save();
-        context.fillStyle = color.toRGBString();
+
+        if (this.options.fillColorTransform && color[this.options.fillColorTransform])
+            context.fillStyle = color[this.options.fillColorTransform]().toRGBString();
+        else
+            context.fillStyle = color.toRGBString();
+
 
         var makePath = function() {
             context.beginPath();
@@ -327,8 +352,10 @@ PlotKit.CanvasRenderer.prototype._renderPieChart = function() {
                 context.lineWidth = this.options.strokeWidth;
                 if (this.options.strokeColor)
                     context.strokeStyle = this.options.strokeColor.toRGBString();
-                else if (this.options.strokeColorTransform)
+                else if (this.options.strokeColorTransform) 
                     context.strokeStyle = color[this.options.strokeColorTransform]().toRGBString();
+                else
+                    context.strokeStyle = color.toRGBString();
                 context.stroke();
             }
         }
@@ -349,8 +376,11 @@ PlotKit.CanvasRenderer.prototype._renderAxis = function() {
     if (!this.options.drawXAxis && !this.options.drawYAxis)
         return;
 
-    var context = this.element.getContext("2d");
+    // Convenience Shortcuts.
+    var DIV = MochiKit.DOM.DIV;
 
+    var context = this.element.getContext("2d");
+    
     var labelStyle = {"style":
          {"position": "absolute",
           "fontSize": this.options.axisLabelFontSize + "px",
@@ -365,7 +395,6 @@ PlotKit.CanvasRenderer.prototype._renderAxis = function() {
     context.save();
     context.strokeStyle = this.options.axisLineColor.toRGBString();
     context.lineWidth = this.options.axisLineWidth;
-
 
     if (this.options.drawYAxis) {
         if (this.layout.yticks) {
@@ -388,7 +417,8 @@ PlotKit.CanvasRenderer.prototype._renderAxis = function() {
                 this.ylabels.push(label);
             };
             
-            MochiKit.Iter.forEach(this.layout.yticks, bind(drawTick, this));
+            MochiKit.Iter.forEach(this.layout.yticks, 
+                                  MochiKit.Base.bind(drawTick, this));
         }
 
         context.beginPath();
@@ -420,7 +450,8 @@ PlotKit.CanvasRenderer.prototype._renderAxis = function() {
                 this.xlabels.push(label);
             };
             
-            MochiKit.Iter.forEach(this.layout.xticks, bind(drawTick, this));
+            MochiKit.Iter.forEach(this.layout.xticks,
+                                  MochiKit.Base.bind(drawTick, this));
         }
 
         context.beginPath();
@@ -535,7 +566,7 @@ PlotKit.CanvasRenderer.prototype.clear = function() {
         catch (e) {
             this.isFirstRender = false;
             this.clearDelay = MochiKit.Async.wait(this.IEDelay);
-            this.clearDelay.addCallback(bind(this.clear, this));
+            this.clearDelay.addCallback(MochiKit.Base.bind(this.clear, this));
             return;
         }
     }
@@ -556,7 +587,6 @@ PlotKit.CanvasRenderer.prototype.clear = function() {
 PlotKit.CanvasRenderer.prototype._initialiseEvents = function() {
     var connect = MochiKit.Signal.connect;
     var bind = MochiKit.Base.bind;
-    //MochiKit.Signal.registerSignals(this, ['onmouseover', 'onclick', 'onmouseout', 'onmousemove']);
     //connect(this.element, 'onmouseover', bind(this.onmouseover, this));
     //connect(this.element, 'onmouseout', bind(this.onmouseout, this));
     //connect(this.element, 'onmousemove', bind(this.onmousemove, this));
