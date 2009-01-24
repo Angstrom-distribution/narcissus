@@ -49,6 +49,8 @@ done
 echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
 
+echo "$(date -u +%s) ${MACHINE}" >> ${WORKDIR}/deploy/stats.txt || true
+
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 
 echo "tarring up filesystem"
