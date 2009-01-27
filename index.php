@@ -120,6 +120,7 @@ $packages_array = array("Abiword" => "abiword",
 			"Screen" => "screen",
 			"ScummVM" => "scummvm",
 			"Stalonetray" => "stalonetray",
+			"Wireless-tools" => "wireless-tools",
 			"Zhone" => "zhone frameworkd");
 
 print "<div id='base'>";
