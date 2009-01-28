@@ -833,8 +833,8 @@ this.renderDelay=null;
 this.clearDelay=null;
 this.element=G_vmlCanvasManager.initElement(this.element);
 }
-this.height=MochiKit.DOM.elementDimensions(this.element).h;
-this.width=MochiKit.DOM.elementDimensions(this.element).w;
+this.height=MochiKit.Style.getElementDimensions(this.element).h;
+this.width=MochiKit.Style.getElementDimensions(this.element).w;
 this.element.width=this.width;
 this.element.height=this.height;
 if(_164(this.element)){

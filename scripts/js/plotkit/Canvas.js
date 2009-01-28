@@ -106,8 +106,8 @@ PlotKit.CanvasRenderer.prototype.__init__ = function(element, layout, options) {
     //this.width = this.element.width;
 
     // TODO: I don't know whether this is correct.
-    this.height=MochiKit.DOM.elementDimensions(this.element).h;
-    this.width=MochiKit.DOM.elementDimensions(this.element).w;
+    this.height=MochiKit.Style.getElementDimensions(this.element).h;
+    this.width=MochiKit.Style.getElementDimensions(this.element).w;
 
     this.element.width = this.width;
     this.element.height = this.height;
