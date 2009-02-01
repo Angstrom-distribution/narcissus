@@ -37,6 +37,7 @@ if ($handle = opendir ('./conf/'))
       	}
       }
     closedir ($handle);
+    arsort($machine);
   }
 
 $i = 0;
