@@ -50,6 +50,14 @@ echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
 rm ${TARGET_DIR}/usr/lib/opkg/lists/* || true
 
+# Add timestamp
+date "+%m%d%H%M%Y" > ${TARGET_DIR}/etc/timestamp
+
+# Add opendns to resolv.conf
+rm -f ${TARGET_DIR}/resolv.conf
+echo "nameserver 208.67.222.222" > ${TARGET_DIR}/etc/resolv.conf
+echo "nameserver 208.67.220.220" >> ${TARGET_DIR}/etc/resolv.conf
+
 echo "$(date -u +%s) ${MACHINE}" >> ${WORKDIR}/deploy/stats.txt || true
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
