@@ -48,6 +48,7 @@ done
 
 echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
+rm ${TARGET_DIR}/usr/lib/opkg/lists/* || true
 
 echo "$(date -u +%s) ${MACHINE}" >> ${WORKDIR}/deploy/stats.txt || true
 
