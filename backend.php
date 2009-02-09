@@ -64,7 +64,7 @@ function show_image_link($machine, $name) {
 		mkdir("deploy/$machine/$randomname");
 		rename("deploy/$machine/$name-image-$machine.tar.bz2", "deploy/$machine/$randomname/$name-image-$machine.tar.bz2");	
 		$imgsize = round(filesize("deploy/$machine/$randomname/$name-image-$machine.tar.bz2") / (1024 * 1024),2);
-		print "<br>Click to download <a href='deploy/$machine/$randomname/$name-image-$machine.tar.bz2'>your $name image for $machine</a> [$imgsize MiB]\n<br/><br/>This will get automatically deleted after 7 days.";
+		print "<br>Click to download <a href='deploy/$machine/$randomname/$name-image-$machine.tar.bz2'>your $name image for $machine</a> [$imgsize MiB]\n<br/><br/>This will get automatically deleted after 3 days.";
 	} else {
 		print "Image not found, something went wrong :/";
 	}
