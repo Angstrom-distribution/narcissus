@@ -54,7 +54,7 @@ rm ${TARGET_DIR}/usr/lib/opkg/lists/* || true
 date "+%m%d%H%M%Y" > ${TARGET_DIR}/etc/timestamp
 
 # Add opendns to resolv.conf
-rm -f ${TARGET_DIR}/resolv.conf
+rm -f ${TARGET_DIR}/etc/resolv.conf
 echo "nameserver 208.67.222.222" > ${TARGET_DIR}/etc/resolv.conf
 echo "nameserver 208.67.220.220" >> ${TARGET_DIR}/etc/resolv.conf
 
