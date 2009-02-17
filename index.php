@@ -69,6 +69,8 @@ $wm_array = array("Matchbox" => "angstrom-x11-base-depends angstrom-gpe-task-bas
 $devel_array = array("Python" => "python-core python-modules",
 		     "Perl" => "perl perl-modules",
 		     "Toolchain" => "task-native-sdk",
+		     "OProfile" => "oprofile",
+		     "GDB" => "gdb gdbserver",
 		     "Busybox replacements" => "task-proper-tools");
 
 $packages_array = array("Abiword" => "abiword",
