@@ -5,7 +5,7 @@
 <script language="javascript" type="text/javascript" src="scripts/js/internal_request.js"></script>
 <link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
-<body onLoad="toggleVisibility('devel') ; toggleVisibility('packages')">
+<body onLoad="toggleVisibility('devel') ; toggleVisibility('devman') ; toggleVisibility('packages')">
 <?
 /* Narcissus - Online image builder for the angstrom distribution
  * Koen Kooi (c) 2008, 2009 - all rights reserved 
@@ -138,7 +138,17 @@ foreach ($base_array as $pkg => $pkgdepends) {
 }
 print "</div>";
 print "<hr width='80%'/>\n\n";
+?>
+<img src='img/expand.gif' onClick="toggleVisibility('devman');"> /dev manager:<br/>
 
+<div id='devman'>
+<select name="devmanager">
+<option value="udev">udev</option>
+<option value="busybox-mdev">mdev</option>
+</select >
+</div>
+<hr width='80%'/>
+<?
 print "X11 window managers:<br/><br/>\n";
 foreach ($wm_array as $pkg => $pkgdepends) {
 	print("<input type=\"checkbox\" name=\"wm\" value=\"$pkgdepends\">$pkg<br/>\n");

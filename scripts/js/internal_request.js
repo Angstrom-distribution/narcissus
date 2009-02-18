@@ -39,7 +39,8 @@ function configureImage(){
 		return; 
 	}
 	
-    packagestring += concatArray(document.entry_form.wm); 
+    packagestring += document.entry_form.devmanager.value;
+	packagestring += concatArray(document.entry_form.wm); 
     packagestring += concatArray(document.entry_form.devel);
     packagestring += concatArray(document.entry_form.packages);
 	
