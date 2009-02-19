@@ -39,8 +39,8 @@ function configureImage(){
 		return; 
 	}
 	
-    packagestring += document.entry_form.devmanager.value;
-	packagestring += concatArray(document.entry_form.wm); 
+    packagestring += document.entry_form.devmanager.value + " tinylogin initscripts sysvinit sysvinit-pidof";
+    packagestring += concatArray(document.entry_form.wm); 
     packagestring += concatArray(document.entry_form.devel);
     packagestring += concatArray(document.entry_form.packages);
 	
