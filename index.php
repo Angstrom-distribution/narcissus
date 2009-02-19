@@ -142,10 +142,8 @@ print "<hr width='80%'/>\n\n";
 <img src='img/expand.gif' onClick="toggleVisibility('devman');"> /dev manager:<br/>
 
 <div id='devman'>
-<select name="devmanager">
-<option value="udev">udev</option>
-<option value="busybox-mdev">mdev</option>
-</select >
+<input name="devmanager" type="radio" checked="checked" value="udev">udev</option>
+<input name="devmanager" type="radio" value="busybox-mdev">mdev</option>
 </div>
 <hr width='80%'/>
 <?
