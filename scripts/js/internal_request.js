@@ -38,8 +38,15 @@ function configureImage(){
    		Highlight('base');
 		return; 
 	}
-	
-    packagestring += " " + document.entry_form.devmanager.value + " tinylogin initscripts sysvinit sysvinit-pidof ";
+
+    var devmanager = "";
+    for (i = 0; i < document.entry_form.devmanager.length; i++) {
+        if (document.entry_form.devmanager[i].checked) {
+            devmanager = document.entry_form.devmanager[i].value
+        }
+    }  
+   
+    packagestring += " " + devmanager + " tinylogin initscripts sysvinit sysvinit-pidof ";
     packagestring += concatArray(document.entry_form.wm); 
     packagestring += concatArray(document.entry_form.devel);
     packagestring += concatArray(document.entry_form.packages);
