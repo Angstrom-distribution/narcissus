@@ -83,9 +83,9 @@ if [ "${MACHINE}" = "beagleboard" ] ; then
 		cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
 		cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
 		if [ -e ${TARGET_DIR}/boot/uImage ] ;then 
-			cp -v ${TARGET_DIR}/boot/uImage /mnt/narcissus/sd_image1/uImage
+			cp -v ${TARGET_DIR}/boot/uImage /mnt/narcissus/sd_image1/uImage.bin
 		else
-			cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage
+			cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage.bin
 		fi
 		umount /dev/loop1
 	
