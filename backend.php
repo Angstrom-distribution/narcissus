@@ -92,10 +92,8 @@ function assemble_image($machine, $name) {
 	print "<div id=\"retval-image\">$installretval</div>";
 	$countfile = "conf/$machine/usage-count.txt";
 	$handle = fopen($countfile, "a+");
-		$contents = '';
-		while (!feof($handle)) {
-  			$contents .= fread($handle, 8192);
-		}
+  		$contents = fread($handle, filesize($countfile));
+		
 		if ($contents != '') {
 			$new_contents = $contents + 1;
 		}
