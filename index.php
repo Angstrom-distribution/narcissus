@@ -133,6 +133,7 @@ $packages_array = array("Abiword" => "abiword",
 			"ScummVM" => "scummvm",
 			"Stalonetray" => "stalonetray",
 			"Wireless-tools" => "wireless-tools",
+			"Wireshark" => "wireshark",
 			"Zhone" => "zhone frameworkd");
 
 print "<div id='base'>";
