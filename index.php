@@ -3,9 +3,31 @@
 <title>Narcissus - Online image builder for the angstrom distribution</title>
 <script language="javascript" type="text/javascript" src="scripts/js/MochiKit.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/internal_request.js"></script>
+
+<script language="javascript" type="text/javascript">
+function initForm() {
+	toggleVisibility('devel');
+	toggleVisibility('devman');
+	toggleVisibility('console_packages');
+	toggleVisibility('x11_packages');
+	environmentChange();
+}
+
+function environmentChange() {
+	if(document.entry_form.environment.selectedIndex == 1) {
+		showHideElement('x11_packages_block', 1);
+		showHideElement('x11_wm_block', 1);
+	}
+	else {
+		showHideElement('x11_packages_block', 0);
+		showHideElement('x11_wm_block', 0);
+	}
+}
+</script>
+
 <link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
-<body onLoad="toggleVisibility('devel') ; toggleVisibility('devman') ; toggleVisibility('packages')">
+<body onLoad="initForm()">
 <?
 /* Narcissus - Online image builder for the angstrom distribution
  * Koen Kooi (c) 2008, 2009 - all rights reserved 
@@ -61,10 +83,14 @@ $base_array = array("small (<a href='$repourl=task-boot' target='foo'>task-boot<
 		    "regular (<a href='$repourl=task-base' target='foo'>task-base</a>)" => "task-base",
 		    "extended (<a href='$repourl=task-base-extended' target='foo'>task-base-extended</a>)" => "task-base-extended");
 
-$wm_array = array("Matchbox" => "angstrom-x11-base-depends angstrom-gpe-task-base",
-		  "Illume" => "e-wm e-wm-config-illume angstrom-x11-base-depends angstrom-gpe-task-base",
-		  "Enlightenment" => "e-wm e-wm-config-standard e-wm-config-default angstrom-x11-base-depends angstrom-gpe-task-base",
-		  "Metacity" => "metacity angstrom-x11-base-depends angstrom-gpe-task-base");
+$env_array = array("Console only" => "",
+			"X11" => "angstrom-x11-base-depends angstrom-gpe-task-base",
+			"Opie" => "task-opie-base task-opie-base-applets task-opie-base-inputmethods task-opie-base-apps task-opie-base-settings task-opie-base-decorations task-opie-base-styles task-opie-base-pim task-opie-extra-settings task-opie-bluetooth task-opie-irda");
+
+$wm_array = array("Matchbox" => "",
+		  "Illume" => "e-wm e-wm-config-illume",
+		  "Enlightenment" => "e-wm e-wm-config-standard e-wm-config-default",
+		  "Metacity" => "metacity");
 
 $devel_array = array("Python" => "python-core python-modules",
 		     "Perl" => "perl perl-modules",
@@ -73,8 +99,7 @@ $devel_array = array("Python" => "python-core python-modules",
 		     "GDB" => "gdb gdbserver",
 		     "Busybox replacements" => "task-proper-tools");
 
-$packages_array = array("Abiword" => "abiword",
-			"Aircrack-ng" => "aircrack-ng",
+$console_packages_array = array("Aircrack-ng" => "aircrack-ng",
 			"All kernel modules" => "kernel-modules",
 			"Alsa utils" => "alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl",
 			"Apache" => "apache2",
@@ -83,23 +108,11 @@ $packages_array = array("Abiword" => "abiword",
 			"Boa" => "boa",
 			"cwiid" => "cwiid",
 			"Cherokee" => "cherokee",
-			"Duke Nukem 3D" => "duke3d",
-			"Doom (prboom)" => "prboom",
 			"Dropbear SSH server" => "dropbear",
-			"E-uae" => "e-uae",
-			"Ekiga" => "ekiga",
-			"Epiphany web browser" => "epiphany",
-			"Evince" => "evince",
-			"Fennec" => "fennec",
-			"Firefox" => "firefox",
 			"Flite" => "flite libflite-cmu-us-kal1",
 			"Gdbserver" => "gdbserver",
-			"Gimp" => "gimp",
-			"Gnome Games" => "gnome-games",
-			"Gnumeric" => "gnumeric",
 			"Gnuradio" => "gnuradio",
 			"Git" => "git",
-			"GPE PIM suite" => "task-gpe-pim",
 			"GSM0710muxd" => "gsm0710muxd",
 			"Gstreamer" => "gst-plugins-bad-meta gst-plugins-base-meta gst-plugins-good-meta gst-plugins-ugly-meta ",
 			"I2C-tools" => "i2c-tools",
@@ -108,31 +121,45 @@ $packages_array = array("Abiword" => "abiword",
 			"LCD4Linux" => "lc4linux",
 			"LIRC" => "lirc",
 			"Mediatomb" => "mediatomb",
-			"Midori web browser" => "midori",
 			"Moblin connection manager" => "connman",
-			"Moblin connection manager GTK+ applet" => "connman-gnome",
 			"MPlayer" => "mplayer",
-			"MythTV" => "mythtv mythtv-theme-blue mythtv-theme-default",
 			"Nmap" => "nmap",
 			"NTP" => "ntp",
 			"NTPclient" => "ntpclient",
 			"NTPdate" => "ntpdate",
-			"Numptyphysics" => "numptyphysics",
 			"Octave" => "octave",
 			"OpenCV" => "opencv-samples",
+			"Powertop" => "powertop",
+			"Rtorrent" => "rtorrent",
+			"Samba" => "samba",
+			"Screen" => "screen",
+			"Wireless-tools" => "wireless-tools");
+
+$x11_packages_array = array("Abiword" => "abiword",
+			"Duke Nukem 3D" => "duke3d",
+			"Doom (prboom)" => "prboom",
+			"E-uae" => "e-uae",
+			"Ekiga" => "ekiga",
+			"Epiphany web browser" => "epiphany",
+			"Evince" => "evince",
+			"Fennec" => "fennec",
+			"Firefox" => "firefox",
+			"Gimp" => "gimp",
+			"Gnome Games" => "gnome-games",
+			"Gnumeric" => "gnumeric",
+			"GPE PIM suite" => "task-gpe-pim",
+			"Midori web browser" => "midori",
+			"Moblin connection manager GTK+ applet" => "connman-gnome",
+			"MythTV" => "mythtv mythtv-theme-blue mythtv-theme-default",
+			"Numptyphysics" => "numptyphysics",
 			"Pidgin IM" => "pidgin",
 			"Pimlico" => "contacts dates tasks",
-			"Powertop" => "powertop",
 			"Quake 1" => "sdlquake",
 			"Quake 2" => "quake2",
 			"Quake 2 (quetoo)" => "quetoo",
 			"Quake 3 (ioq3)" => "ioquake3",
-			"Rtorrent" => "rtorrent",
-			"Samba" => "samba",
-			"Screen" => "screen",
 			"ScummVM" => "scummvm",
 			"Stalonetray" => "stalonetray",
-			"Wireless-tools" => "wireless-tools",
 			"Wireshark" => "wireshark",
 			"Zhone" => "zhone frameworkd");
 
@@ -151,10 +178,21 @@ print "<hr width='80%'/>\n\n";
 </div>
 <hr width='80%'/>
 <?
-print "X11 window managers:<br/><br/>\n";
+print "Environment:\n";
+print "<select name=\"environment\" onChange=\"environmentChange(this)\">";
+foreach($env_array as $env => $pkgs) {
+	print ("\t<option value=\"$pkgs\">$env</option>\n");
+}
+print "</select>";
+print "<br>";
+
+print "<div id='x11_wm_block'>";
+print "<br>X11 window managers:<br>\n";
 foreach ($wm_array as $pkg => $pkgdepends) {
 	print("<input type=\"checkbox\" name=\"wm\" value=\"$pkgdepends\">$pkg<br/>\n");
 }
+print "</div>";
+
 print "<hr width='80%'/>\n\n";
 print "<img src='img/expand.gif' onClick=\"toggleVisibility('devel');\"> Development packages:<br/><br/>\n";
 print "<div id='devel'>";
@@ -165,13 +203,23 @@ print "</div>";
 
 print "<hr width='80%'/>\n\n";
 
-print "<img src='img/expand.gif' onClick=\"toggleVisibility('packages');\"> Additional packages:<br/><br/>\n";
-print "<div id='packages'>";
-foreach ($packages_array as $pkg => $pkgdepends) {
-	print("<input type=\"checkbox\" name=\"packages\" value=\"$pkgdepends\">$pkg<br/>\n");
+print "<img src='img/expand.gif' onClick=\"toggleVisibility('console_packages');\"> Additional console packages:<br/><br/>\n";
+print "<div id='console_packages'>";
+foreach ($console_packages_array as $pkg => $pkgdepends) {
+	print("<input type=\"checkbox\" name=\"console_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 }
 print "</div>";
 print "<hr width='80%'/>\n\n";
+
+print "<div id='x11_packages_block'>";
+print "<img src='img/expand.gif' onClick=\"toggleVisibility('x11_packages');\"> Additional X11 packages:<br/><br/>\n";
+print "<div id='x11_packages'>";
+foreach ($x11_packages_array as $pkg => $pkgdepends) {
+	print("<input type=\"checkbox\" name=\"x11_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
+}
+print "</div>";
+print "<hr width='80%'/>\n\n";
+print "</div>";
 
 ?>
 Image name:

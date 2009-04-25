@@ -47,10 +47,15 @@ function configureImage(){
     }  
    
     packagestring += " " + devmanager + " angstrom-version tinylogin initscripts sysvinit sysvinit-pidof ";
-    packagestring += concatArray(document.entry_form.wm); 
-    packagestring += concatArray(document.entry_form.devel);
-    packagestring += concatArray(document.entry_form.packages);
+    packagestring += " " + concatArray(document.entry_form.devel);
+	packagestring += " " + concatArray(document.entry_form.console_packages);
 	
+	packagestring += " " + document.entry_form.environment.value;
+	if(document.entry_form.environment.selectedIndex == 1) {
+		packagestring += " " + concatArray(document.entry_form.wm); 
+		packagestring += " " + concatArray(document.entry_form.x11_packages);
+	}
+
 	var packagelisttemp = packagestring.split(" ");
 	packagelist = unique(packagelisttemp);
 	
