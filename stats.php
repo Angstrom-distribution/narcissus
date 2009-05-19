@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Narcissus - Online image builder for the angstrom distribution</title>
+<title>Narcissus - Online image builder for the Angstrom distribution</title>
 
 <meta http-equiv="refresh" content="600">
 
