@@ -40,6 +40,33 @@ for pkg in $packagelist ; do
 	grep -e "rror oc" -e "ollected er" ${TARGET_DIR}/log.txt
 	echo "<div id=\"${pkg}-returncode\">$?</div><br/>"
 done
+
+mkdir -p ${TARGET_DIR}/tmp/
+echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | grep locale-base | awk '{print $1}'"
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | grep locale-base | awk '{print $1}' > ${TARGET_DIR}/tmp/installed-translations
+for translation in $(cat ${TARGET_DIR}/tmp/installed-translations | awk -F- '{print $3}') en; do
+	echo angstrom-locale-${translation}-feed-config 
+done | xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install
+
+echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}' |sort | uniq"
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}' |sort | uniq > ${TARGET_DIR}/tmp/installed-packages
+for i in $(cat ${TARGET_DIR}/tmp/installed-packages) ; do
+	for translation in $(cat ${TARGET_DIR}/tmp/installed-translations | awk -F- '{print $3 ; print $3"-"$4}') ; do
+		echo ${i}-locale-${translation}
+	done
+done | sort | uniq > ${TARGET_DIR}/tmp/wanted-locale-packages
+
+echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update"
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
+
+echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list | awk '{print $1}' |grep locale |sort | uniq"
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list | awk '{print $1}' |grep locale |sort | uniq > ${TARGET_DIR}/tmp/available-locale-packages
+
+cat ${TARGET_DIR}/tmp/wanted-locale-packages ${TARGET_DIR}/tmp/available-locale-packages | sort | uniq -d > ${TARGET_DIR}/tmp/pending-locale-packages
+cat ${TARGET_DIR}/tmp/installed-packages ${TARGET_DIR}/tmp/pending-locale-packages | grep locale | sort | uniq -u > ${TARGET_DIR}/tmp/translation-list
+
+cat ${TARGET_DIR}/tmp/translation-list | xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install
+
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>"
 
 
