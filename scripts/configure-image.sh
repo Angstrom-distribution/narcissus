@@ -35,6 +35,13 @@ else
 	exit 0
 fi
 
+if [ -e conf/${MACHINE}/configs/${RELEASE}/ ] ; then
+	echo "Distro configs for ${RELEASE} found"
+else
+	echo "Distro configs for ${RELEASE} NOT found, defaulting to stable"
+	RELEASE="stable"
+fi
+
 echo "dest root /" > ${TARGET_DIR}/etc/opkg.conf 
 echo "lists_dir ext /var/lib/opkg" >> ${TARGET_DIR}/etc/opkg.conf 
 

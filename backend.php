@@ -40,7 +40,7 @@ if (isset($_POST["pkgs"]) && $_POST["pkgs"] != "") {
 }
 
 if (isset($_POST["release"]) && $_POST["release"] != "") {
-        $pkg = $_POST["release"];
+        $release = $_POST["release"];
 } else {
     $release = "stable";
 }
