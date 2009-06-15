@@ -33,28 +33,56 @@ function environmentChange() {
  * Koen Kooi (c) 2008, 2009 - all rights reserved 
  */
 
-function machine_dropdown() {
-$machine = array();
+function machine_dropdown()
+{
+  $machine = array();
 
-if ($handle = opendir ('./conf/'))
+  if ($handle = opendir ('./conf/'))
+    {
+      /* This is the correct way to loop over the directory. */
+      while (false !== ($file = readdir ($handle)))
+	{
+	  if ($file != "." && $file != ".."
+	      && file_exists ("./conf/$file/arch.conf"))
+	    {
+	      $machine[] = $file;
+	    }
+	}
+      closedir ($handle);
+    }
+
+  sort ($machine);
+  foreach ($machine as $value)
   {
-    /* This is the correct way to loop over the directory. */
-    while (false !== ($file = readdir ($handle)))
-      {
-    	if ($file != "." && $file != ".." && file_exists("./conf/$file/arch.conf"))
-      	{
-	 $machine[] = $file;
-      	}
-      }
-    closedir ($handle);
+    print ("\t<option value=\"$value\">$value</option>\n");
   }
-
-sort($machine);
-foreach($machine as $value) {
-	print ("\t<option value=\"$value\">$value</option>\n");
-}
 }
 
+function config_dropdown()
+{
+  $configs = array();
+  foreach ($machine as $machine_value)
+  {
+    if ($handle = opendir ('./conf/$machine_value'))
+      {
+	while (false !== ($file = readdir ($handle)))
+	  {
+	    if ($file != "." && $file != ".."
+		&& file_exists ("./conf/$machine_value/configs/$file/"))
+	      {
+		$configs[$machine_value][] = $file;
+	      }
+	  }
+	closedir ($handle);
+      }
+
+    sort ($configs);
+    foreach ($configs as $value)
+    {
+      print ("\t<option value=\"$value\">$value</option>\n");
+    }
+  }
+}
 ?>
 
 This is a proof of concept online image builder for the Angstrom distribution. <div id="intro">The basic operation is simple:
@@ -72,6 +100,12 @@ Machine:
 <select name="machine">
 <? machine_dropdown(); ?>
 </select >
+<br>
+Release:
+<select name="configs">
+	<option value="stable">stable</option>
+	<option value="unstable">unstable</option>
+</select>
 
 <hr width="80%"/>
 Base system:<br/><br/>
