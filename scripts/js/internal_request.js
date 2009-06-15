@@ -23,9 +23,9 @@ var FAIL_image = "<img src='img/X_mark.png'>";
 var succes_image = "<img src='img/Green_tick'>";
 var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
 
-var workerurl = 'http://dominion.thruhere.net/koen/narcissus/backend.php';
+//var workerurl = 'http://dominion.thruhere.net/koen/narcissus/backend.php';
 //var workerurl = 'http://amethyst.openembedded.net/~koen/narcissus/backend.php';
-//var workerurl = "backend.php";
+var workerurl = "backend.php";
 
 function configureImage(){
     showHideElement('intro',0);
