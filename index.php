@@ -268,6 +268,6 @@ Image name:
 <div id="image_progress"></div>
 <div id="imgstatus"></div>
 
-<br/><br/>Patches are welcome for the <a href="http://dominion.thruhere.net/git/?p=narcissus.git;a=summary">narcissus sources</a>
+<br/><br/>Patches are welcome for the <a href="http://dominion.thruhere.net/git/cgit.cgi/narcissus/">narcissus sources</a>
 </body>
 </html>
