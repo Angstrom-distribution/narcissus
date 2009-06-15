@@ -23,8 +23,9 @@ var FAIL_image = "<img src='img/X_mark.png'>";
 var succes_image = "<img src='img/Green_tick'>";
 var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
 
-//var workerurl = 'http://dominion.thruhere.net/koen/narcissus/backend.php';
-var workerurl = "backend.php";
+var workerurl = 'http://dominion.thruhere.net/koen/narcissus/backend.php';
+//var workerurl = 'http://amethyst.openembedded.net/~koen/narcissus/backend.php';
+//var workerurl = "backend.php";
 
 function configureImage(){
     showHideElement('intro',0);
@@ -77,9 +78,8 @@ function configureImage(){
 	
 	document.getElementById('pkg_progress').innerHTML = progress_text;
 	
-    
-    var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
-	http.open('post', workerurl);
+    var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&release=' + document.entry_form.configs.value + '&name=' + document.entry_form.name.value;
+	http.open('post', workerurl, true);
 	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.onreadystatechange = configureProgress; 
@@ -89,7 +89,7 @@ function configureImage(){
 
 function assembleImage(){
     var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
-	http.open('post', workerurl);
+	http.open('post', workerurl, true);
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.onreadystatechange = assembleProgress; 
 	http.send(params);
@@ -98,7 +98,7 @@ function assembleImage(){
 function installPackage(){
 	if (packagelist != "" && packagelist != " ") {
 		var params = 'action=install_package&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + packagelist;
-		http.open('post', workerurl);
+		http.open('post', workerurl, true);
 		http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		http.onreadystatechange = installProgress; 
 		http.send(params);
@@ -107,7 +107,7 @@ function installPackage(){
 
 function showImagelink(){
     var params = 'action=show_image_link&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
-	http.open('post', workerurl);
+	http.open('post', workerurl, true);
 	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.onreadystatechange = imageDisplay; 
