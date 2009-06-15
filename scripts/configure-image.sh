@@ -5,6 +5,7 @@
 
 MACHINE=$1
 IMAGENAME=$2
+RELEASE=$3
 
 CACHEDIR="${PWD}/deploy/cache"
 TARGET_DIR="${PWD}/deploy/${MACHINE}/${IMAGENAME}"
@@ -37,8 +38,8 @@ fi
 echo "dest root /" > ${TARGET_DIR}/etc/opkg.conf 
 echo "lists_dir ext /var/lib/opkg" >> ${TARGET_DIR}/etc/opkg.conf 
 
-echo "running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/angstrom-feed-config*"
-yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/angstrom-feed-config* 
+echo "running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/configs/${RELEASE}/angstrom-feed-config*"
+yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/configs/${RELEASE}/angstrom-feed-config* 
 echo "running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update"
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
 bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install opkg-nogpg

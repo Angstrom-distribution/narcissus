@@ -39,6 +39,12 @@ if (isset($_POST["pkgs"]) && $_POST["pkgs"] != "") {
     $pkg = "task-boot";
 }
 
+if (isset($_POST["release"]) && $_POST["release"] != "") {
+        $pkg = $_POST["release"];
+} else {
+    $release = "stable";
+}
+
 switch($action) {
 case "assemble_image":
 			print "assembling\n";
@@ -46,7 +52,7 @@ case "assemble_image":
 			break;
 case "configure_image":
 			print "configuring\n";
-			configure_image($machine, $name);
+			configure_image($machine, $name, $release);
 			break;
 case "show_image_link":
 			show_image_link($machine, $name);
@@ -75,9 +81,9 @@ function show_image_link($machine, $name) {
 	}
 }
 
-function configure_image($machine, $name) {
+function configure_image($machine, $name, $release) {
 	print "Machine: $machine, name: $name\n";
-	passthru ("scripts/configure-image.sh $machine $name-image && exit");
+	passthru ("scripts/configure-image.sh $machine $name-image $release && exit");
 }
 
 function install_package($machine, $name, $pkg) {
