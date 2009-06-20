@@ -50,7 +50,7 @@ done | xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.con
 
 echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}' |sort | uniq"
 bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}' |sort | uniq > ${TARGET_DIR}/tmp/installed-packages
-for i in $(cat ${TARGET_DIR}/tmp/installed-packages) ; do
+for i in $(cat ${TARGET_DIR}/tmp/installed-packages | grep -v locale) ; do
 	for translation in $(cat ${TARGET_DIR}/tmp/installed-translations | awk -F- '{print $3 ; print $3"-"$4}') ; do
 		echo ${i}-locale-${translation}
 	done
@@ -63,9 +63,8 @@ echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf 
 bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list | awk '{print $1}' |grep locale |sort | uniq > ${TARGET_DIR}/tmp/available-locale-packages
 
 cat ${TARGET_DIR}/tmp/wanted-locale-packages ${TARGET_DIR}/tmp/available-locale-packages | sort | uniq -d > ${TARGET_DIR}/tmp/pending-locale-packages
-cat ${TARGET_DIR}/tmp/installed-packages ${TARGET_DIR}/tmp/pending-locale-packages | grep locale | sort | uniq -u > ${TARGET_DIR}/tmp/translation-list
 
-cat ${TARGET_DIR}/tmp/translation-list | xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install
+cat ${TARGET_DIR}/tmp/pending-locale-packages | xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>"
 
