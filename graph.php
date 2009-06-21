@@ -45,7 +45,7 @@ $timeframe = ( date("Y", $lastdate) - date("Y", $firstdate) ) * 365 +  date("z",
 
 for ($i = 0 ; $i <= $timeframe ; $i++) {
     $statsdate = date("Ymd",$firstdate + ( $i * 86400 )) ;
-	if ( $i % 30 == 1 ) { 
+	if ( $i % 30 == 9 ) { 
 		$xtick = date("d F Y",$firstdate + ( $i * 86400 )) ;
 	} else {
 		$xtick = "";
