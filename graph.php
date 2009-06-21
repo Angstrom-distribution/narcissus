@@ -38,6 +38,9 @@ while ($stats = fscanf($handle, "%s %s\n")) {
 	if($maxbuilds < $builds[$machine][$builddate]) $maxbuilds = $builds[$machine][$builddate];
 }
 fclose ($handle);
+
+ksort($builds, SORT_STRING);
+
 $timeframe = ( date("Y", $lastdate) - date("Y", $firstdate) ) * 365 +  date("z", $lastdate) - date("z",$firstdate);
 
 for ($i = 0 ; $i <= $timeframe ; $i++) {
