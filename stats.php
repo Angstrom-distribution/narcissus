@@ -17,28 +17,20 @@
  * Koen Kooi (c) 2008,2009 - all rights reserved 
  */
 
-$machine = array();
+$buildcount = array();
 
-if ($handle = opendir ('./conf/'))
-  {
-    /* This is the correct way to loop over the directory. */
-    while (false !== ($file = readdir ($handle)))
-      {
-    	if ($file != "." && $file != ".." && file_exists("./conf/$file/usage-count.txt"))
-      	{
-		$handle2 = fopen("./conf/$file/usage-count.txt", "a+");
-                	$contents = '';
-                	while (!feof($handle2)) {
-				$contents .= fread($handle2, 8192);
-                	}
-        	fclose($handle2);
-
-         $machine["$file"] = $contents;
-      	}
-      }
-    closedir ($handle);
-    arsort($machine);
-  }
+$handle = fopen ("./deploy/stats.txt", "a+");
+while ($stats = fscanf($handle, "%s %s\n")) {
+    list ($timestamp, $machine) = $stats;
+    $builddate = date("Ymd", $timestamp);
+    if (isset($buildcount[$machine])) {
+        $buildcount[$machine] = $buildcount[$machine] +1 ;
+    } else {
+        $buildcount[$machine] = 1;
+    }
+    $total++;
+}
+fclose ($handle);
 
 $i = 0;
 $j = 0;
@@ -48,13 +40,13 @@ $j = 0;
 var options = {
    "colorScheme": PlotKit.Base.palette(PlotKit.Base.baseColors()[0]),
    "padding": {left: 0, right: 0, top: 10, bottom: 30},
-   "xTicks": [<? foreach($machine as $key => $value) { print ("{v:$j, label:\"$key\"},\n"); $j = $j +1;} print "],"; ?> 
+   "xTicks": [<? foreach($buildcount as $key => $value) { print ("{v:$j, label:\"$key\"},\n"); $j = $j +1;} print "],"; ?> 
    "drawYAxis": false
 };
 
 function drawGraph() {
     var layout = new PlotKit.Layout("pie", options);
-    layout.addDataset("Usage count", [<? foreach($machine as $value) { print ("[$i, $value],"); $i = $i +1;} ?>]);
+    layout.addDataset("Usage count", [<? foreach($buildcount as $value) { print ("[$i, $value],"); $i = $i +1;} ?>]);
     layout.evaluate();
     var canvas = MochiKit.DOM.getElement("graph");
     
@@ -83,7 +75,7 @@ Statistics for the online image builder
 
 <? 
 $total = 0;
-foreach($machine as $value) { 
+foreach($buildcount as $value) { 
 	$total = $total + $value;
 }
 print("Total builds: $total");
