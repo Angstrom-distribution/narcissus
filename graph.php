@@ -90,7 +90,7 @@ print("
         }
     }
     canvas.setAttribute('width', winW);
-    canvas.setAttribute('height', winH);
+    canvas.setAttribute('height', winH/5);
     var plotter = new PlotKit.SweetCanvasRenderer(canvas, layout, {});
     plotter.render();
 ");
