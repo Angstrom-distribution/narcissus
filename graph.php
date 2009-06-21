@@ -102,10 +102,10 @@ MochiKit.DOM.addLoadEvent(drawGraph);
 </head>
 <body>
 Statistics for the online image builder, number of builds per day<br>
-
+<br>
 <?
 foreach($builds as $machine => $foo) {
-	print("\n<br>$machine<br><br>\n<div><canvas id='graph-$machine' height='20%' width='100%'></canvas></div><br>\n");
+	print("\n$machine<br>\n<div><canvas id='graph-$machine' height='20%' width='100%'></canvas></div><br>\n");
 }
 ?>
 
