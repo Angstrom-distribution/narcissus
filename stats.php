@@ -32,6 +32,8 @@ while ($stats = fscanf($handle, "%s %s\n")) {
 }
 fclose ($handle);
 
+arsort($buildcount);
+
 $i = 0;
 $j = 0;
 
