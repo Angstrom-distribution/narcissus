@@ -96,22 +96,6 @@ function assemble_image($machine, $name) {
 	print "Machine: $machine, name: $name\n";
 	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image && exit", $installretval);
 	print "<div id=\"retval-image\">$installretval</div>";
-	$countfile = "conf/$machine/usage-count.txt";
-	$handle = fopen($countfile, "a+");
-  		$contents = fread($handle, filesize($countfile));
-		
-		if ($contents != '') {
-			$new_contents = $contents + 1;
-		}
-		else {
-			$new_contents = 1;
-		}	
-	fclose($handle);
-
-	print ("Machine usage count: $new_contents");
-	$handle = fopen($countfile, "w+");
-		fwrite($handle, $new_contents);	
-	fclose($handle);
 }
 
 
