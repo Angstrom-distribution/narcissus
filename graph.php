@@ -44,9 +44,9 @@ ksort($builds, SORT_STRING);
 $timeframe = ( date("Y", $lastdate) - date("Y", $firstdate) ) * 365 +  date("z", $lastdate) - date("z",$firstdate);
 
 for ($i = 0 ; $i <= $timeframe ; $i++) {
-    $statsdate = date("Ymd",$firstdate + ( $i * 86400 )) ;
+    $statsdate = date("Ymd",$lastdate - ( ($timeframe - $i) * 86400 ) ) ;
 	if ( $i % 30 == 9 ) { 
-		$xtick = date("d F Y",$firstdate + ( $i * 86400 )) ;
+		$xtick = date("d F Y", $lastdate - ( ($timeframe - $i) * 86400 )) ;
 	} else {
 		$xtick = "";
 	}
