@@ -73,15 +73,6 @@ var options = {
 };
 
 function drawGraph() {
-<?
-foreach($builds as $machine => $foo) {
-$machineyvars = $yvars[$machine];
-print("
-    var layout = new PlotKit.Layout(\"bar\", options);
-    layout.addDataset(\"$machine usage count\", [$machineyvars]);
-    layout.evaluate();
-    var canvas = MochiKit.DOM.getElement(\"graph-$machine\");
-   
     if (parseInt(navigator.appVersion)>3) {
         if (navigator.appName=='Netscape') {
             winW = window.innerWidth - 30;
@@ -92,6 +83,16 @@ print("
             winH = (document.body.offsetHeight - 30) * 0.9;
         }
     }
+
+<?
+foreach($builds as $machine => $foo) {
+$machineyvars = $yvars[$machine];
+print("
+    var layout = new PlotKit.Layout(\"bar\", options);
+    layout.addDataset(\"$machine usage count\", [$machineyvars]);
+    layout.evaluate();
+    var canvas = MochiKit.DOM.getElement(\"graph-$machine\");
+   
     canvas.setAttribute('width', winW);
     canvas.setAttribute('height', winH/5);
     var plotter = new PlotKit.SweetCanvasRenderer(canvas, layout, {});
