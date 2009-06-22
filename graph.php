@@ -43,9 +43,22 @@ ksort($builds, SORT_STRING);
 
 $timeframe = ( date("Y", $lastdate) - date("Y", $firstdate) ) * 365 +  date("z", $lastdate) - date("z",$firstdate);
 
+if (isset($_GET["timeframe"])) {
+	$maxdays = $_GET["timeframe"] + 1;
+	if ($timeframe > $maxdays) $timeframe = $maxdays -1;
+}
+
+if ($timeframe < 80) {
+	$hfactor = 3.1;
+} else {
+	$hfactor = 1;
+}	
+
+$modulovar = ceil($timeframe / 4) ;
+
 for ($i = 0 ; $i <= $timeframe ; $i++) {
     $statsdate = date("Ymd",$lastdate - ( ($timeframe - $i) * 86400 ) ) ;
-	if ( $i % 30 == 9 ) { 
+	if ( $i % $modulovar == 1 ) { 
 		$xtick = date("d F Y", $lastdate - ( ($timeframe - $i) * 86400 )) ;
 	} else {
 		$xtick = "";
@@ -93,7 +106,7 @@ print("
     layout.evaluate();
     var canvas = MochiKit.DOM.getElement(\"graph-$machine\");
    
-    canvas.setAttribute('width', winW);
+    canvas.setAttribute('width', winW/$hfactor);
     canvas.setAttribute('height', winH/5);
     var plotter = new PlotKit.SweetCanvasRenderer(canvas, layout, {});
     plotter.render();
@@ -108,11 +121,11 @@ MochiKit.DOM.addLoadEvent(drawGraph);
 Statistics for the online image builder, number of builds per day<br>
 <br>
 <?
-foreach($builds as $machine => $foo) {
-	print("\n$machine<br>\n<div><canvas id='graph-$machine' height='20%' width='100%'></canvas></div><br>\n");
+foreach ($builds as $machine => $foo) {
+        print("<table align=left><td><br>$machine<br><div><canvas id='graph-$machine'></canvas></div></td></table>\n");
 }
 ?>
 
-<br><br>Total builds for all machines: <? print $total; ?>
+<br clear=all><br>Total builds for all machines: <? print $total; ?>
 </body>
 </html>
