@@ -58,7 +58,7 @@ rm -f ${TARGET_DIR}/etc/resolv.conf
 echo "nameserver 208.67.222.222" > ${TARGET_DIR}/etc/resolv.conf
 echo "nameserver 208.67.220.220" >> ${TARGET_DIR}/etc/resolv.conf
 
-echo "$(date -u +%s) ${MACHINE}" >> ${WORKDIR}/deploy/stats.txt || true
+echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> ${WORKDIR}/deploy/stats.txt || true
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 
