@@ -35,7 +35,6 @@ while ($stats = fscanf($handle, "%s %s\n")) {
 	$total++;
 	if($lastdate < $timestamp) $lastdate = $timestamp;
 	if($firstdate > $timestamp) $firstdate = $timestamp;
-	if($maxbuilds < $builds[$machine][$builddate]) $maxbuilds = $builds[$machine][$builddate];
 }
 fclose ($handle);
 
@@ -68,7 +67,8 @@ for ($i = 0 ; $i <= $timeframe ; $i++) {
 		if (isset($builds[$machine][$statsdate])) {
 			$buildcount = $builds[$machine][$statsdate];
 			$yvars[$machine] .= "[ $i, $buildcount ], \n";
-	    } else {
+			if($maxbuilds < $builds[$machine][$statsdate]) $maxbuilds = $builds[$machine][$statsdate];
+		} else {
 			$yvars[$machine] .= "[ $i, 0 ], \n";
 		}
 	}
