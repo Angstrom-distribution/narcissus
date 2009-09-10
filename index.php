@@ -108,7 +108,7 @@ Release:
 </select>
 
 <hr width="80%"/>
-Base system:<br/><br/>
+Base system<br> <font size="-2">each entry down is a superset of the one above it</font><br/><br/>
 <?
 
 $repourl = "http://www.angstrom-distribution.org/repo/?pkgname";
@@ -202,7 +202,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 
 print "<div id='base'>";
 foreach ($base_array as $pkg => $pkgdepends) {
-	print("<input type=\"checkbox\" name=\"pkg\" value=\"$pkgdepends\">$pkg<br/>\n");
+	print("<input type=\"radio\" name=\"pkg\" value=\"$pkgdepends\">$pkg<br/>\n");
 }
 print "</div>";
 print "<hr width='80%'/>\n\n";
