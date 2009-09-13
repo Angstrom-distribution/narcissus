@@ -74,22 +74,33 @@ if [ "${MACHINE}" = "beagleboard" ] ; then
 		echo "No cached SD image found, generating new one"
 		zcat ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz > sd.img
 		/sbin/fdisk -l -u sd.img
+		
+		BYTES_PER_SECTOR="$(/sbin/fdisk -l -u sd.img | grep Units | awk '{print $9}')"
+		VFAT_SECTOR_OFFSET="$(/sbin/fdisk -l -u sd.img | grep img1 | awk '{print $3}')"
 
-		/sbin/losetup -v -o 32256 /dev/loop1 sd.img
+		LOOP_DEV="/dev/loop0"
+		echo "/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img"
+		/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img
 	
-		echo "mount /dev/loop1"
-		mount /dev/loop1
+		echo "mount ${LOOP_DEV}"
+		mount ${LOOP_DEV}
 		"echo copying files to vfat"
 		cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
 		cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
-		if [ -e ${TARGET_DIR}/boot/uImage ] ;then 
-			cp -v ${TARGET_DIR}/boot/uImage /mnt/narcissus/sd_image1/uImage
+		if [ -e ${TARGET_DIR}/boot/uImage-2.6* ] ;then 
+			cp -v ${TARGET_DIR}/boot/uImage-2.6* /mnt/narcissus/sd_image1/uImage
+			echo "Copied from /boot"
 		else
 			cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage
+			echo "Using uImage from narcissus, no uImage found in rootfs"
 		fi
-		umount /dev/loop1
+
+		export MD5SUM_SD="$(md5sum /mnt/narcissus/sd_image1/uImage | awk '{print $1}')"
+		echo "MD5 of file in vfat partition: ${MD5SUM_SD}"
+		
+		umount ${LOOP_DEV}
 	
-		/sbin/losetup -d /dev/loop1
+		/sbin/losetup -d ${LOOP_DEV}
 		gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
 		cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz
 	fi
