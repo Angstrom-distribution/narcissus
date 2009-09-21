@@ -10,6 +10,7 @@ function initForm() {
 	toggleVisibility('devman');
 	toggleVisibility('console_packages');
 	toggleVisibility('x11_packages');
+	toggleVisibility('imagetypebox');
 	environmentChange();
 }
 
@@ -260,6 +261,16 @@ print "<hr width='80%'/>\n\n";
 print "</div>";
 
 ?>
+
+<div id='imagetypebox'>
+<input name="imagetype" type="radio" checked="checked" value="tbz2">tar.bz2
+<input name="imagetype" type="radio" value="ext2">ext2
+<input name="imagetype" type="radio" value="ubifs">ubifs2
+<input name="imagetype" type="radio" value="jffs2">jffs2
+</div>
+
+<hr width="80%"/>
+
 Image name:
   <input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
 <hr width="80%"/>
