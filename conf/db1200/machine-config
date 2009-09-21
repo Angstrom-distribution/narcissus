@@ -1,0 +1,1 @@
+EXTRA_IMAGECMD_jffs2="--little-endian --no-cleanmarkers --eraseblock=${ERASEBLOCK_SIZE}"

@@ -1,0 +1,1 @@
+EXTRA_IMAGECMD_jffs2_nokia770="--pad --little-endian --eraseblock=0x20000"

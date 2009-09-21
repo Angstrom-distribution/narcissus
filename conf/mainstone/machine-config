@@ -1,0 +1,1 @@
+EXTRA_IMAGECMD_jffs2="--little-endian -e 0x40000 --pad=0x02000000"

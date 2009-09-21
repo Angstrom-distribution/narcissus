@@ -1,0 +1,1 @@
+EXTRA_IMAGECMD_jffs2="-pad --big-endian --squash -e 0x10000"

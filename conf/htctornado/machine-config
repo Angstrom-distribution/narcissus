@@ -1,0 +1,1 @@
+EXTRA_IMAGECMD_jffs2="--eraseblock=0x4000 -n"

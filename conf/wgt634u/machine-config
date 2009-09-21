@@ -1,0 +1,1 @@
+EXTRA_IMAGECMD_jffs2="--pad --little-endian --squash --eraseblock=0x10000 -n" 
