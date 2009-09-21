@@ -7,14 +7,9 @@ MACHINE=$1
 IMAGENAME=$2
 RELEASE=$3
 
-CACHEDIR="${PWD}/deploy/cache"
-TARGET_DIR="${PWD}/deploy/${MACHINE}/${IMAGENAME}"
-OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
-export D="${TARGET_DIR}"
-export OPKG_OFFLINE_ROOT="${TARGET_DIR}"
-export OFFLINE_ROOT="${TARGET_DIR}"
-export IPKG_OFFLINE_ROOT="${TARGET_DIR}"
-export PATH=${WORKDIR}/bin:${PATH}
+if [ -e ${PWD}/conf/host-config ] ; then
+	. ${PWD}/conf/host-config
+fi
 
 if [ -e ${TARGET_DIR} ] ; then
 	echo "Stale directory found, removing  it"
