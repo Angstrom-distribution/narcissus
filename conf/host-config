@@ -17,6 +17,8 @@ export OPKG_OFFLINE_ROOT="${TARGET_DIR}"
 export OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
 export PACKAGELISTFILE="${PWD}/deploy/${MACHINE}/${IMAGENAME}-packages.txt"
 
+export IMAGE_ROOTFS="${TARGET_DIR}"
+
 # Proxy config
 #export http_proxy=http://proxy.foo.com:80
 

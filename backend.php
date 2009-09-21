@@ -52,6 +52,17 @@ if (isset($_POST["imagetype"]) && $_POST["imagetype"] != "") {
 	$imagesuffix = "tar.bz2";
 }
 
+switch($imagetype) {
+case "tbz2":
+			$imagesuffix = "tar.bz2";
+			break;
+case "ubifs":
+			$imagesuffix = "ubi";
+			break;
+default:
+			$imagesuffix = $imagetype;
+}
+
 switch($action) {
 case "assemble_image":
 			print "assembling\n";
