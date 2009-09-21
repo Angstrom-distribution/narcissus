@@ -49,6 +49,7 @@ if (isset($_POST["imagetype"]) && $_POST["imagetype"] != "") {
 	$imagetype = $_POST["imagetype"];
 } else {
 	$imagetype = "tbz2";
+	$imagesuffix = "tar.bz2";
 }
 
 switch($action) {
@@ -61,7 +62,7 @@ case "configure_image":
 			configure_image($machine, $name, $release);
 			break;
 case "show_image_link":
-			show_image_link($machine, $name);
+			show_image_link($machine, $name, $imagesuffix);
 			break;
 case "install_package":
 			print "installing $pkg\n";
@@ -70,13 +71,13 @@ case "install_package":
 }
 
 
-function show_image_link($machine, $name) {
-	if (file_exists("deploy/$machine/$name-image-$machine.tar.bz2")) {
+function show_image_link($machine, $name, $imagesuffix) {
+	if (file_exists("deploy/$machine/$name-image-$machine.$imagesuffix")) {
 		$randomname = substr(md5(time()), 0, 6);
 		mkdir("deploy/$machine/$randomname");
-		rename("deploy/$machine/$name-image-$machine.tar.bz2", "deploy/$machine/$randomname/$name-image-$machine.tar.bz2");	
-		$imgsize = round(filesize("deploy/$machine/$randomname/$name-image-$machine.tar.bz2") / (1024 * 1024),2);
-		print "<br>Click to download <a href='deploy/$machine/$randomname/$name-image-$machine.tar.bz2'>your $name image for $machine</a> [$imgsize MiB]\n<br/><br/>This will get automatically deleted after 3 days.";
+		rename("deploy/$machine/$name-image-$machine.$imagesuffix", "deploy/$machine/$randomname/$name-image-$machine.$imagesuffix");	
+		$imgsize = round(filesize("deploy/$machine/$randomname/$name-image-$machine.$imagesuffix") / (1024 * 1024),2);
+		print "<br>Click to download <a href='deploy/$machine/$randomname/$name-image-$machine.$imagesuffix'>your $name image for $machine</a> [$imgsize MiB]\n<br/><br/>This will get automatically deleted after 3 days.";
 	} else {
 		print "Image not found, something went wrong :/";
 	}
