@@ -78,6 +78,7 @@ function do_ubifs()
 	  echo vol_type=dynamic >> ubinize.cfg
 	  echo vol_name=${UBI_VOLNAME} >> ubinize.cfg
 	  echo vol_flags=autoresize >> ubinize.cfg
+	  echo "running: mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg"
 	  mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg )
 }
 
@@ -143,7 +144,7 @@ echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> $
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 
 case ${IMAGETYPE} in
-	jffis2)
+	jffs2)
 		do_jffs2;;
 	ubifs)
 		do_ubifs;;
