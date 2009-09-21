@@ -14,8 +14,87 @@ if [ -e ${PWD}/conf/${MACHINE}/machine-config ] ; then
 	. ${PWD}/conf/${MACHINE}/machine-config
 fi
 
+function make_sdimg() 
+{
+if [ "${MACHINE}" = "beagleboard" ] ; then
+	MD5SUM_SD="$(md5sum ${TARGET_DIR}/boot/uImage | awk '{print $1}')"	
+	if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz ] ; then
+		echo "Cached SD image found, using that"	
+		cp ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
+	else
+		echo "No cached SD image found, generating new one"
+		zcat ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz > sd.img
+		/sbin/fdisk -l -u sd.img
+		
+		BYTES_PER_SECTOR="$(/sbin/fdisk -l -u sd.img | grep Units | awk '{print $9}')"
+		VFAT_SECTOR_OFFSET="$(/sbin/fdisk -l -u sd.img | grep img1 | awk '{print $3}')"
+
+		LOOP_DEV="/dev/loop0"
+		echo "/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img"
+		/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img
+	
+		echo "mount ${LOOP_DEV}"
+		mount ${LOOP_DEV}
+		"echo copying files to vfat"
+		cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
+		cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
+		if [ -e ${TARGET_DIR}/boot/uImage-2.6* ] ;then 
+			cp -v ${TARGET_DIR}/boot/uImage-2.6* /mnt/narcissus/sd_image1/uImage
+			echo "Copied from /boot"
+		else
+			cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage
+			echo "Using uImage from narcissus, no uImage found in rootfs"
+		fi
+
+		export MD5SUM_SD="$(md5sum /mnt/narcissus/sd_image1/uImage | awk '{print $1}')"
+		echo "MD5 of file in vfat partition: ${MD5SUM_SD}"
+		
+		umount ${LOOP_DEV}
+	
+		/sbin/losetup -d ${LOOP_DEV}
+		gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
+		cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz
+	fi
+fi
+}
+
+function do_tar() 
+{
+	echo "tarring up filesystem"
+	( cd ${TARGET_DIR}
+	  tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 .
+	  RETVAL=$?
+	  make_sdimg )
+}
+
+function do_ubifs()
+{
+	echo "creating ubi volume"
+	( cd ${TARGET_DIR}/../
+	  echo \[ubifs\] > ubinize.cfg
+	  echo mode=ubi >> ubinize.cfg 
+	  echo image=${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs >> ubinize.cfg
+	  echo vol_id=0 >> ubinize.cfg
+	  echo vol_type=dynamic >> ubinize.cfg
+	  echo vol_name=${UBI_VOLNAME} >> ubinize.cfg
+	  echo vol_flags=autoresize >> ubinize.cfg
+	  mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg )
+}
+
+function do_jffs2()
+{
+	echo "creating jffs2 image"
+	mkfs.jffs2 -x lzo --root=${IMAGE_ROOTFS} --faketime --output=${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.jffs2 ${EXTRA_IMAGECMD_jffs2}
+}
+
+function do_ext2()
+{
+	echo "creating ext2 image"
+	genext2fs -b ${ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ext2 ${EXTRA_IMAGECMD_ext2}
+}
+
 if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
-	print "Initial filesystem not found, something went wrong in the configure step!"
+	echo "Initial filesystem not found, something went wrong in the configure step!"
 	exit 0
 fi
 
@@ -61,53 +140,22 @@ echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> $
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 
-echo "tarring up filesystem"
-( cd  ${TARGET_DIR} ; nice -n10 tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 . ; RETVAL=$? 
-
-if [ "${MACHINE}" = "beagleboard" ] ; then
-	MD5SUM_SD="$(md5sum ${TARGET_DIR}/boot/uImage | awk '{print $1}')"	
-	if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz ] ; then
-		echo "Cached SD image found, using that"	
-		cp ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
-	else
-		echo "No cached SD image found, generating new one"
-		zcat ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz > sd.img
-		/sbin/fdisk -l -u sd.img
-		
-		BYTES_PER_SECTOR="$(/sbin/fdisk -l -u sd.img | grep Units | awk '{print $9}')"
-		VFAT_SECTOR_OFFSET="$(/sbin/fdisk -l -u sd.img | grep img1 | awk '{print $3}')"
-
-		LOOP_DEV="/dev/loop0"
-		echo "/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img"
-		/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img
-	
-		echo "mount ${LOOP_DEV}"
-		mount ${LOOP_DEV}
-		"echo copying files to vfat"
-		cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
-		cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
-		if [ -e ${TARGET_DIR}/boot/uImage-2.6* ] ;then 
-			cp -v ${TARGET_DIR}/boot/uImage-2.6* /mnt/narcissus/sd_image1/uImage
-			echo "Copied from /boot"
-		else
-			cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage
-			echo "Using uImage from narcissus, no uImage found in rootfs"
-		fi
-
-		export MD5SUM_SD="$(md5sum /mnt/narcissus/sd_image1/uImage | awk '{print $1}')"
-		echo "MD5 of file in vfat partition: ${MD5SUM_SD}"
-		
-		umount ${LOOP_DEV}
-	
-		/sbin/losetup -d ${LOOP_DEV}
-		gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
-		cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz
-	fi
-fi
-)
+case ${IMAGETYPE} in
+	jffis2)
+		do_jffs2;;
+	ubifs)
+		do_ubifs;;
+	tbz2)
+		do_tar;;
+	ext2)
+		do_ext2;;
+	*)
+		do_tar;;
+esac
 
 echo "removing target dir"
 rm -rf ${TARGET_DIR}
 
 exit ${RETVAL}
+
 
