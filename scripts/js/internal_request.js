@@ -49,7 +49,7 @@ function configureImage(){
             devmanager = document.entry_form.devmanager[i].value
         }
     }  
-   
+  
     packagestring += " " + devmanager + " angstrom-version tinylogin initscripts sysvinit sysvinit-pidof ";
     packagestring += " " + concatArray(document.entry_form.devel);
 	packagestring += " " + concatArray(document.entry_form.console_packages);
@@ -88,7 +88,15 @@ function configureImage(){
 }
 
 function assembleImage(){
-    var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
+
+    var imagetype = "";
+    for (i = 0; i < document.entry_form.imagetype.length; i++) {
+        if (document.entry_form.imagetype[i].checked) {
+            imagetype = document.entry_form.imagetype[i].value
+        }
+    }
+
+    var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype;
 	http.open('post', workerurl, true);
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.onreadystatechange = assembleProgress; 
@@ -106,7 +114,14 @@ function installPackage(){
 }
 
 function showImagelink(){
-    var params = 'action=show_image_link&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value;
+    var imagetype = "";
+    for (i = 0; i < document.entry_form.imagetype.length; i++) {
+        if (document.entry_form.imagetype[i].checked) {
+            imagetype = document.entry_form.imagetype[i].value
+        }
+    }
+
+    var params = 'action=show_image_link&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype;
 	http.open('post', workerurl, true);
 	
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

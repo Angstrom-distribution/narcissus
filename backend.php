@@ -110,9 +110,9 @@ function install_package($machine, $name, $pkg) {
 	print "<div id=\"retval\">$installretval</div>";
 }
 
-function assemble_image($machine, $name) {
-	print "Machine: $machine, name: $name\n";
-	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image && exit", $installretval);
+function assemble_image($machine, $name, $imagetype) {
+	print "Machine: $machine, name: $name, type: $imagetype\n";
+	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image $imagetype && exit", $installretval);
 	print "<div id=\"retval-image\">$installretval</div>";
 }
 
