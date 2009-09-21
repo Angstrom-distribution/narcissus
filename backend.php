@@ -34,21 +34,27 @@ if (isset($_POST["name"]) && $_POST["name"] != "") {
 }
 
 if (isset($_POST["pkgs"]) && $_POST["pkgs"] != "") {
-		$pkg = $_POST["pkgs"];
+	$pkg = $_POST["pkgs"];
 } else {
-    $pkg = "task-boot";
+	$pkg = "task-boot";
 }
 
 if (isset($_POST["release"]) && $_POST["release"] != "") {
-        $release = $_POST["release"];
+	$release = $_POST["release"];
 } else {
-    $release = "stable";
+	$release = "stable";
+}
+
+if (isset($_POST["imagetype"]) && $_POST["imagetype"] != "") {
+	$imagetype = $_POST["imagetype"];
+} else {
+	$imagetype = "tbz2";
 }
 
 switch($action) {
 case "assemble_image":
 			print "assembling\n";
-			assemble_image($machine, $name);
+			assemble_image($machine, $name, $imagetype);
 			break;
 case "configure_image":
 			print "configuring\n";

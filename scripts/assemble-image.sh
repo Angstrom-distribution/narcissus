@@ -4,11 +4,14 @@
 
 MACHINE=$1
 IMAGENAME=$2
-
-WORKDIR="${PWD}"
+IMAGETYPE=$3
 
 if [ -e ${PWD}/conf/host-config ] ; then
 	. ${PWD}/conf/host-config
+fi
+
+if [ -e ${PWD}/conf/${MACHINE}/machine-config ] ; then
+	. ${PWD}/conf/${MACHINE}/machine-config
 fi
 
 if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then

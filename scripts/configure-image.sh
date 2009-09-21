@@ -9,6 +9,7 @@ RELEASE=$3
 
 if [ -e ${PWD}/conf/host-config ] ; then
 	. ${PWD}/conf/host-config
+	echo "Loaded host config"
 fi
 
 if [ -e ${TARGET_DIR} ] ; then
