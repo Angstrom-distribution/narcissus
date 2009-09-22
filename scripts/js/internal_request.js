@@ -28,7 +28,6 @@ var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
 var workerurl = "backend.php";
 
 function configureImage(){
-    showHideElement('intro',0);
     showHideElement('image_progress',0);
 	
 	document.getElementById('image_link').innerHTML = "";
@@ -36,12 +35,15 @@ function configureImage(){
 	document.getElementById('image_progress').innerHTML = "";
 	
     packagestring = concatArray(document.entry_form.pkg);
-	
+
 	if (packagestring == "" || packagestring == " ") {
- 		document.getElementById('imgstatus').innerHTML = "You have to select at least one task, try 'task-boot' to get a minimal set.";
-   		Highlight('base');
+ 		document.getElementById('imgstatus').innerHTML = "You have to select the base system, try 'task-boot' to get a minimal set.";
 		return; 
 	}
+
+	document.getElementById('beverage').innerHTML = "Depending on the load of this machine and the feed server the process might take a few <b>minutes</b>, so get a beverage of your choice and <b>DON'T</b> hit refresh."
+
+	slideUp('packageblock');
 
     var devmanager = "";
     for (i = 0; i < document.entry_form.devmanager.length; i++) {
@@ -84,7 +86,7 @@ function configureImage(){
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	http.onreadystatechange = configureProgress; 
 	http.send(params);
-	slideUp('form');
+	//slideUp('form');
 }
 
 function assembleImage(){
@@ -236,11 +238,11 @@ o:for(var i = 0, n = a.length; i < n; i++) {
 function launchWindow(id)
 {
 	//select all the a tag with name equal to modal
-	$('a[name=modal]').click(function(e) {
+//	$('a[name=modal]').click(function(e) {
 		//Cancel the link behavior
-		e.preventDefault();
+//		e.preventDefault();
 		//Get the A tag
-		var id = $(this).attr('href');
+//		var id = $(this).attr('href');
 	
 		//Get the screen height and width
 		var maskHeight = $(document).height();
@@ -257,7 +259,14 @@ function launchWindow(id)
 		//Get the window height and width
 		var winH = $(window).height();
 		var winW = $(window).width();
-              
+       
+		$(document.getElementById('dialog')).css('width' , winW/2); 
+		$(document.getElementById('dialog')).css('height' , winH*0.8);
+        $(id).height = winH*0.75;
+		if($(id).height > $(document.getElementById('dialog')).height) {
+			$(document.getElementById('dialog')).css('height' , $(id).height);
+		}
+ 
 		//Set the popup window to center
 		$(id).css('top',  winH/2-$(id).height()/2);
 		$(id).css('left', winW/2-$(id).width()/2);
@@ -265,7 +274,7 @@ function launchWindow(id)
 		//transition effect
 		$(id).fadeIn(2000); 
 	
-	});
+//	});
 	
 	//if close button is clicked
 	$('.window .close').click(function (e) {
