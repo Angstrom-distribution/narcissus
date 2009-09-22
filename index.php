@@ -192,11 +192,11 @@ $x11_packages_array = array("Abiword" => "abiword",
 <div id="boxes">
 	<div id="dialog" class="window">
 		<div id="welcomedialog">
-			Welcome! 
+			Welcome!<br/><br/>This is an online tool to create so called 'rootfs' images for your favourite device. This wizard will guide through the basic options and will close to let you select the additional packages you want.<br/>
 			<br/><table width='100%' valign='bottom'><tr><td align='right'><a href="#machinedialog" onClick="toggleVisibility('welcomedialog') ; toggleVisibility('machinedialog');">Machine selection &gt;</a></td></table>
 		</div>
 		<div id="machinedialog">
-			Machine:
+			Select the machine you want to build your rootfs image for:<br/><br/>
 			<select name="machine">
 				<? machine_dropdown(); ?>
 			</select > 
@@ -204,7 +204,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 		     <table width='100%' valign='bottom'><tr><td align='right'><a href="#releasedialog" onClick="toggleVisibility('machinedialog') ; toggleVisibility('releasedialog');">Release selection &gt;</a></td></table>
 		</div>
 		<div id="releasedialog">
-			Release:
+			Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then.</font><br/><br/>
 			<select name="configs">
 				<option value="stable">stable</option>
 				<option value="unstable">unstable</option>
@@ -213,7 +213,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 			     <td align='right'><a href="#basesystemdialog" onClick="toggleVisibility('releasedialog') ; toggleVisibility('basesystemdialog');">Base system selection &gt;</a></td></table>
 		</div>
 		<div id="basesystemdialog">
-			Base system<br> <font size="-2">each entry down is a superset of the one above it</font><br/><br/>
+			Base system<br> <font size="-2">Each entry down is a superset of the one above it. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
 
 				<? 
 				foreach ($base_array as $pkg => $pkgdepends) {
@@ -226,6 +226,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 		</div>
 
 		<div id='devman'>
+			Select the /dev manager.<br/><font size="-2">Udev is generally the best choice, only select mdev for fixed-function devices and if you know what you're doing</font><br/><br/>
 			<input name="devmanager" type="radio" checked="checked" value="udev">udev
 			<input name="devmanager" type="radio" value="busybox-mdev">mdev
 			<br/>
@@ -234,7 +235,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 		</div>
 
 		<div id='environment'>
-			Environment:
+			Select the preferred user environment.<br/><font size="-2">Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a windowmanager option during the package selection phase. Opie is a qt/e 2.0 based environment for PDA style devices.</font><br/><br/>
 			<select name="environment" onChange="environmentChange(this)">
 			<? foreach($env_array as $env => $pkgs) {
 				print ("\t<option value=\"$pkgs\">$env</option>\n");
@@ -246,6 +247,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 		</div>
 
 		<div id='imagetypebox'>
+Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is the most versatile choice since it can be easily converted to other formats later on. The practicality of the other formats depends too much on the device in question to give meaningfull advice here, so we leave that op to you :)</font><br/><br/>
 			<input name="imagetype" type="radio" checked="checked" value="tbz2">tar.bz2
 			<input name="imagetype" type="radio" value="ext2">ext2
 			<input name="imagetype" type="radio" value="ubifs">ubifs2
@@ -256,7 +258,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 
 		</div>
 		<div id='imagename'>
-			Image name:
+			Image name.<br/><font size="-2">This is used in the filename offered for download, makes it easier to distinguish between rootfs images after downloading.</font><br/><br/>
 			<input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
 			<!-- close button is defined as close class -->
 			<table width='100%' valign='bottom'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagename') ; toggleVisibility('imagetypebox');">&lt; Image type</a></td>
@@ -277,6 +279,8 @@ $x11_packages_array = array("Abiword" => "abiword",
 	}?>
 	</div>
 
+<br/><br/><br/>
+
 	<div id='x11_packages_block'>
 	<img src='img/expand.gif' onClick="toggleVisibility('x11_packages');"> Additional X11 packages:<br/><br/>
 		<div id='x11_packages'>
@@ -286,12 +290,15 @@ $x11_packages_array = array("Abiword" => "abiword",
 		</div>
 	</div>
 
+<br/><br/><br/>
 
 	<div id='devel'>
 	<?foreach ($devel_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"devel\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 	</div>
+
+<br/><br/><br/>
 
 	<div id='console_packages'>
 	<?foreach ($console_packages_array as $pkg => $pkgdepends) {
