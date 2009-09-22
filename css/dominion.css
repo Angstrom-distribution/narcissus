@@ -335,3 +335,30 @@ div.menubar img {
 div.menubar img.logo {
 	height:0px;
 }
+
+/* Z-index of #mask must lower than #boxes .window */
+#mask {
+  position:absolute;
+  z-index:9000;
+  background-color:#000;
+  display:none;
+}
+  
+#boxes .window {
+  position:absolute;
+  width:440px;
+  height:200px;
+  display:none;
+  z-index:9001;
+  padding:20px;
+}
+
+
+/* Customize your modal window here, you can add background image too */
+#boxes #dialog {
+  width:375px; 
+  height:203px;
+  background-color:#fff;
+}
+
+
