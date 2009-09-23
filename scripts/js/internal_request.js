@@ -245,8 +245,8 @@ function launchWindow(id)
 //		var id = $(this).attr('href');
 	
 		//Get the screen height and width
-		var maskHeight = $(document).height();
-		var maskWidth = $(window).width();
+		var maskHeight = $(document).height() * 0.99;
+		var maskWidth = $(window).width() * 0.99;
 	
 		//Set height and width to mask to fill up the whole screen
 		$('#mask').css({'width':maskWidth,'height':maskHeight});
@@ -261,7 +261,7 @@ function launchWindow(id)
 		var winW = $(window).width();
        
 		$(document.getElementById('dialog')).css('width' , winW/2); 
-		$(document.getElementById('dialog')).css('height' , winH*0.8);
+		$(document.getElementById('dialog')).css('height' , winH*0.7);
         $(id).height = winH*0.75;
 		if($(id).height > $(document.getElementById('dialog')).height) {
 			$(document.getElementById('dialog')).css('height' , $(id).height);

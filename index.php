@@ -17,6 +17,9 @@ function initForm() {
 	toggleVisibility('imagetypebox');
 	toggleVisibility('imagename');
 
+	toggleVisibility('buildbutton');
+	toggleVisibility('patchbox');
+	
 	environmentChange();
 }
 
@@ -34,9 +37,7 @@ function environmentChange() {
 
 <link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
-<body onLoad="initForm() ; launchWindow(dialog);">
-
-<?
+<body onLoad="initForm() ; launchWindow(dialog);"><?
 /* Narcissus - Online image builder for the angstrom distribution
  * Koen Kooi (c) 2008, 2009 - all rights reserved 
  */
@@ -185,11 +186,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 
 
 ?>
-
-<form name="entry_form" onsubmit="javascript:configureImage();return false">
-
-<!-- #dialog is the id of a DIV defined in the code below -->
-<div id="boxes">
+<form name="entry_form" onsubmit="javascript:configureImage();return false"><!-- #dialog is the id of a DIV defined in the code below --><div id="boxes">
 	<div id="dialog" class="window">
 		<div id="welcomedialog">
 			Welcome!<br/><br/>This is an online tool to create so called 'rootfs' images for your favourite device. This wizard will guide through the basic options and will close to let you select the additional packages you want.<br/>
@@ -262,7 +259,7 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 			<input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
 			<!-- close button is defined as close class -->
 			<table width='100%' valign='bottom'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagename') ; toggleVisibility('imagetypebox');">&lt; Image type</a></td>
-			<td align='right'><a href="#final" onClick="$('#mask, .window').hide(); toggleVisibility('packageblock'); toggleVisibility('imagename');">Package selection &gt;</a></td></table>
+<td align='right'><a href="#final" onClick="$('#mask, .window').hide(); toggleVisibility('packageblock'); toggleVisibility('buildbutton'); toggleVisibility('patchbox'); toggleVisibility('imagename');">Package selection &gt;</a></td></table>
 
 		</div>
 
@@ -307,7 +304,9 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 	</div>
 </div>
 
+<div id="buildbutton">
 <center><input type="submit" value="Build me!"/></center></form>
+</div>
 
 <br clear='all'/>
 <div id="beverage"></div>
@@ -317,6 +316,6 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 <div id="image_progress"></div>
 <div id="imgstatus"></div>
 
-<br/><br/>Patches are welcome for the <a href="http://dominion.thruhere.net/git/cgit.cgi/narcissus/">narcissus sources</a>
+<div id="patchbox"><br/><br/>Patches are welcome for the <a href="http://dominion.thruhere.net/git/cgit.cgi/narcissus/">narcissus sources</a></div>
 </body>
 </html>
