@@ -34,8 +34,13 @@ fi
 if [ -e conf/${MACHINE}/configs/${RELEASE}/ ] ; then
 	echo "Distro configs for ${RELEASE} found"
 else
-	echo "Distro configs for ${RELEASE} NOT found, defaulting to stable"
-	RELEASE="stable"
+	if [ -e conf/${MACHINE}/configs/stable ] ; then
+		echo "Distro configs for ${RELEASE} NOT found, defaulting to stable"
+		RELEASE="stable"
+	else 
+		echo "Distro configs for ${RELEASE} NOT found, defaulting to unstable"
+		RELEASE="unstable"
+	fi
 fi
 
 echo "dest root /" > ${TARGET_DIR}/etc/opkg.conf 
