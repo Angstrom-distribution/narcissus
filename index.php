@@ -185,8 +185,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 
 
 
-?>
-<form name="entry_form" onsubmit="javascript:configureImage();return false"><!-- #dialog is the id of a DIV defined in the code below --><div id="boxes">
+?><form name="entry_form" onsubmit="javascript:configureImage(); toggleVisibility('buildbutton'); return false"><!-- #dialog is the id of a DIV defined in the code below --><div id="boxes">
 	<div id="dialog" class="window">
 		<div id="welcomedialog">
 			Welcome!<br/><br/>This is an online tool to create so called 'rootfs' images for your favourite device. This wizard will guide through the basic options and will close to let you select the additional packages you want.<br/>
