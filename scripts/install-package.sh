@@ -26,6 +26,8 @@ fi
 
 packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sed s:,:\ :g | sort | uniq)"
 
+echo $packagelist > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt
+
 echo "installing $packagelist"
 for pkg in $packagelist ; do
 	echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $pkg"
