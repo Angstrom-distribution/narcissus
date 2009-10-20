@@ -95,10 +95,6 @@ function config_dropdown()
 
 $repourl = "http://www.angstrom-distribution.org/repo/?pkgname";
 
-$base_array = array("small (<a href='$repourl=task-boot' target='foo'>task-boot</a>)" => "task-boot", 
-					"regular (<a href='$repourl=task-base' target='foo'>task-base</a>)" => "task-base",
-					"extended (<a href='$repourl=task-base-extended' target='foo'>task-base-extended</a>)" => "task-base-extended");
-
 $env_array = array("Console only" => "",
 				   "X11" => "angstrom-x11-base-depends angstrom-gpe-task-base",
 				   "Opie" => "task-opie-base task-opie-base-applets task-opie-base-inputmethods task-opie-base-apps task-opie-base-settings task-opie-base-decorations task-opie-base-styles task-opie-base-pim task-opie-extra-settings task-opie-bluetooth task-opie-irda");
@@ -185,11 +181,11 @@ $x11_packages_array = array("Abiword" => "abiword",
 
 
 
-?><form name="entry_form" onsubmit="javascript:configureImage(); toggleVisibility('buildbutton'); return false"><!-- #dialog is the id of a DIV defined in the code below --><div id="boxes">
+?><div id="summary"></div><form name="entry_form" onsubmit="javascript:configureImage(); toggleVisibility('buildbutton'); return false"><!-- #dialog is the id of a DIV defined in the code below --><div id="boxes">
 	<div id="dialog" class="window">
 		<div id="welcomedialog">
 			Welcome!<br/><br/>This is an online tool to create so called 'rootfs' images for your favourite device. This wizard will guide through the basic options and will close to let you select the additional packages you want.<br/>
-			<br/><table width='100%' valign='bottom'><tr><td align='right'><a href="#machinedialog" onClick="toggleVisibility('welcomedialog') ; toggleVisibility('machinedialog');">Machine selection &gt;</a></td></table>
+			<br/><table width='100%' id='beneden' ><tr><td align='right'><a href="#machinedialog" onClick="toggleVisibility('welcomedialog') ; toggleVisibility('machinedialog');">Machine selection &gt;</a></td></table>
 		</div>
 		<div id="machinedialog">
 			Select the machine you want to build your rootfs image for:<br/><br/>
@@ -197,7 +193,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 				<? machine_dropdown(); ?>
 			</select > 
 		<br/>
-		     <table width='100%' valign='bottom'><tr><td align='right'><a href="#releasedialog" onClick="toggleVisibility('machinedialog') ; toggleVisibility('releasedialog');">Release selection &gt;</a></td></table>
+		     <table width='100%' id='beneden'><tr><td align='right'><a href="#releasedialog" onClick="toggleVisibility('machinedialog') ; toggleVisibility('releasedialog');">Release selection &gt;</a></td></table>
 		</div>
 		<div id="releasedialog">
 			Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then.</font><br/><br/>
@@ -205,19 +201,16 @@ $x11_packages_array = array("Abiword" => "abiword",
 				<option value="stable">stable</option>
 				<option value="unstable">unstable</option>
 			</select>
-			<br/><table width='100%' valign='bottom'><tr><td align='left'><a href="#machinedialog" onClick="toggleVisibility('releasedialog') ; toggleVisibility('machinedialog');">&lt; Machine selection</a></td>
+			<br/><table width='100%' id='beneden'><tr><td align='left'><a href="#machinedialog" onClick="toggleVisibility('releasedialog') ; toggleVisibility('machinedialog');">&lt; Machine selection</a></td>
 			     <td align='right'><a href="#basesystemdialog" onClick="toggleVisibility('releasedialog') ; toggleVisibility('basesystemdialog');">Base system selection &gt;</a></td></table>
 		</div>
 		<div id="basesystemdialog">
 			Base system<br> <font size="-2">Each entry down is a superset of the one above it. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
-
-				<? 
-				foreach ($base_array as $pkg => $pkgdepends) {
-					print("<input type=\"radio\" name=\"pkg\" value=\"$pkgdepends\">$pkg<br/>\n");
-				}
-				?>
+				<input type="radio" name="pkg" value="task-boot">small (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-boot' target='foo'>task-boot</a>)<br/>
+				<input type="radio" name="pkg" value="task-base" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base' target='foo'>task-base</a>)<br/>
+				<input type="radio" name="pkg" value="task-base-extended">extended (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base-extended' target='foo'>task-base-extended</a>)<br/>
 				<br/>
-				<table width='100%' valign='bottom'><tr><td align='left'><a href="#releasedialog" onClick="toggleVisibility('basesystemdialog') ; toggleVisibility('releasedialog');">&lt;Release selection</a></td>
+				<table width='100%' id='beneden'><tr><td align='left'><a href="#releasedialog" onClick="toggleVisibility('basesystemdialog') ; toggleVisibility('releasedialog');">&lt;Release selection</a></td>
 				<td align='right'><a href="#devmandialog" onClick="toggleVisibility('basesystemdialog') ; toggleVisibility('devman');">Devicemanager selection &gt;</a></td></table>
 		</div>
 
@@ -226,7 +219,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 			<input name="devmanager" type="radio" checked="checked" value="udev">udev
 			<input name="devmanager" type="radio" value="busybox-mdev">mdev
 			<br/>
-			<table width='100%' valign='bottom'><tr><td align='left'><a href="#basesystemdialog" onClick="toggleVisibility('devman') ; toggleVisibility('basesystemdialog');">&lt; Base system selection</a></td>
+			<table width='100%' id='beneden'><tr><td align='left'><a href="#basesystemdialog" onClick="toggleVisibility('devman') ; toggleVisibility('basesystemdialog');">&lt; Base system selection</a></td>
 			<td align='right'><a href="#environment" onClick="toggleVisibility('devman') ; toggleVisibility('environment');">Environment selection &gt;</a></td></table>
 		</div>
 
@@ -238,7 +231,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 			}?>
 			</select>
 			<br/>
-			<table width='100%' valign='bottom'><tr><td align='left'><a href="#devmandialog" onClick="toggleVisibility('environment') ; toggleVisibility('devman');">&lt; Devicemanager selection</a></td>
+			<table width='100%' id='beneden'><tr><td align='left'><a href="#devmandialog" onClick="toggleVisibility('environment') ; toggleVisibility('devman');">&lt; Devicemanager selection</a></td>
 			<td align='right'><a href="#imagetype" onClick="toggleVisibility('environment') ; toggleVisibility('imagetypebox');">Image type &gt;</a></td></table>
 		</div>
 
@@ -249,7 +242,7 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 			<input name="imagetype" type="radio" value="ubifs">ubifs2
 			<input name="imagetype" type="radio" value="jffs2">jffs2
 			<br/>
-			<table width='100%' valign='bottom'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagetypebox') ; toggleVisibility('environment');">&lt; Environment selection</a></td>
+			<table width='100%' id='beneden'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagetypebox') ; toggleVisibility('environment');">&lt; Environment selection</a></td>
 			<td align='right'><a href="#imagename" onClick="toggleVisibility('imagetypebox') ; toggleVisibility('imagename');">Image name &gt;</a></td></table>
 
 		</div>
@@ -257,8 +250,8 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 			Image name.<br/><font size="-2">This is used in the filename offered for download, makes it easier to distinguish between rootfs images after downloading.</font><br/><br/>
 			<input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
 			<!-- close button is defined as close class -->
-			<table width='100%' valign='bottom'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagename') ; toggleVisibility('imagetypebox');">&lt; Image type</a></td>
-<td align='right'><a href="#final" onClick="$('#mask, .window').hide(); toggleVisibility('packageblock'); toggleVisibility('buildbutton'); toggleVisibility('patchbox'); toggleVisibility('imagename');">Package selection &gt;</a></td></table>
+			<table width='100%' id='beneden'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagename') ; toggleVisibility('imagetypebox');">&lt; Image type</a></td>
+<td align='right'><a href="#final" onClick="$('#mask, .window').hide(); showSummary(); toggleVisibility('packageblock'); toggleVisibility('buildbutton'); toggleVisibility('patchbox'); toggleVisibility('imagename');">Package selection &gt;</a></td></table>
 
 		</div>
 

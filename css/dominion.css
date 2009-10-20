@@ -359,4 +359,10 @@ div.menubar img.logo {
   background-color:#fff;
 }
 
+#beneden {
+  	position: absolute;
+	bottom: 0;
+//    background-color:#f00;
+}
+
 
