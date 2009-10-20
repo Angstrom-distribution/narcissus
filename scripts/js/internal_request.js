@@ -27,6 +27,10 @@ var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
 //var workerurl = 'http://amethyst.openembedded.net/~koen/narcissus/backend.php';
 var workerurl = "backend.php";
 
+function showSummary(){
+    document.getElementById('summary').innerHTML = 'Machine: ' + document.entry_form.machine.value + '<br/>Release: ' + document.entry_form.configs.value + '<br/>Name: ' + document.entry_form.name.value;
+}
+
 function configureImage(){
     showHideElement('image_progress',0);
 	
