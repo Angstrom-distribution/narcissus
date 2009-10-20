@@ -46,6 +46,7 @@ if [ "${MACHINE}" = "beagleboard" ] ; then
 			echo "Using uImage from narcissus, no uImage found in rootfs"
 		fi
 
+		echo "files in sd image:" $(ls /mnt/narcissus/sd_image1/)
 		export MD5SUM_SD="$(md5sum /mnt/narcissus/sd_image1/uImage | awk '{print $1}')"
 		echo "MD5 of file in vfat partition: ${MD5SUM_SD}"
 		
