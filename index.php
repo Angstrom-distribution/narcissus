@@ -210,7 +210,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 				<input type="radio" name="pkg" value="task-base" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base' target='foo'>task-base</a>)<br/>
 				<input type="radio" name="pkg" value="task-base-extended">extended (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base-extended' target='foo'>task-base-extended</a>)<br/>
 				<br/>
-				<table width='100%' id='beneden'><tr><td align='left'><a href="#releasedialog" onClick="toggleVisibility('basesystemdialog') ; toggleVisibility('releasedialog');">&lt;Release selection</a></td>
+				<table width='100%' id='beneden'><tr><td align='left'><a href="#releasedialog" onClick="toggleVisibility('basesystemdialog') ; toggleVisibility('releasedialog');">&lt; Release selection</a></td>
 				<td align='right'><a href="#devmandialog" onClick="toggleVisibility('basesystemdialog') ; toggleVisibility('devman');">Devicemanager selection &gt;</a></td></table>
 		</div>
 
