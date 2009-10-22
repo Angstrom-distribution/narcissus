@@ -22,6 +22,7 @@ function initForm() {
 	
 	toggleVisibility('devel');
 	toggleVisibility('console_packages');
+	toggleVisibility('x11_packages');
 
 	environmentChange();
 }
@@ -272,7 +273,7 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 		print("<input type=\"checkbox\" name=\"wm\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 	</div>
-
+	<br/>
 	<div id='x11_packages_block'>
 	<img src='img/expand.gif' onClick="toggleVisibility('x11_packages');"> Additional X11 packages:<br/>
 		<div id='x11_packages'>
