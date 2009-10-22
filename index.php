@@ -20,6 +20,9 @@ function initForm() {
 	toggleVisibility('buildbutton');
 	toggleVisibility('patchbox');
 	
+	toggleVisibility('devel');
+	toggleVisibility('console_packages');
+
 	environmentChange();
 }
 
@@ -261,6 +264,7 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 </div>
 
 <div id="packageblock">
+<br/>Select additional packages below, click the <img src='img/expand.gif'> icon to expand or collaps a section.<br/><br/>
 	<div id='x11_wm_block'>
 	<br>X11 window managers:<br>
 	<? foreach ($wm_array as $pkg => $pkgdepends) {
@@ -268,10 +272,8 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 	}?>
 	</div>
 
-<br/><br/><br/>
-
 	<div id='x11_packages_block'>
-	<img src='img/expand.gif' onClick="toggleVisibility('x11_packages');"> Additional X11 packages:<br/><br/>
+	<img src='img/expand.gif' onClick="toggleVisibility('x11_packages');"> Additional X11 packages:<br/>
 		<div id='x11_packages'>
 		<?foreach ($x11_packages_array as $pkg => $pkgdepends) {
 			print("<input type=\"checkbox\" name=\"x11_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
@@ -279,16 +281,14 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 		</div>
 	</div>
 
-<br/><br/><br/>
-
+	<img src='img/expand.gif' onClick="toggleVisibility('devel');"> Development packages:<br/>
 	<div id='devel'>
 	<?foreach ($devel_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"devel\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 	</div>
 
-<br/><br/><br/>
-
+	<img src='img/expand.gif' onClick="toggleVisibility('console_packages');"> Additional console packages:<br/>
 	<div id='console_packages'>
 	<?foreach ($console_packages_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"console_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
