@@ -16,7 +16,7 @@ fi
 
 function make_sdimg() 
 {
-if [ "${MACHINE}" = "beagleboard" ] ; then
+if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz ] ; then
 	MD5SUM_SD="$(md5sum ${TARGET_DIR}/boot/uImage | awk '{print $1}')"	
 	if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz ] ; then
 		echo "Cached SD image found, using that"	
