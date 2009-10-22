@@ -28,7 +28,7 @@ var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
 var workerurl = "backend.php";
 
 function showSummary(){
-    document.getElementById('summary').innerHTML = 'Machine: ' + document.entry_form.machine.value + '<br/>Release: ' + document.entry_form.configs.value + '<br/>Name: ' + document.entry_form.name.value;
+    document.getElementById('summary').innerHTML = '<b>Summary:</b><br/><br/>Machine: ' + document.entry_form.machine.value + '<br/>Release: ' + document.entry_form.configs.value + '<br/>Name: ' + document.entry_form.name.value;
 }
 
 function configureImage(){

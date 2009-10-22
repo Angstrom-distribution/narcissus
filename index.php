@@ -264,7 +264,8 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 </div>
 
 <div id="packageblock">
-<br/>Select additional packages below, click the <img src='img/expand.gif'> icon to expand or collaps a section.<br/><br/>
+<br/><b>Additional packages selection:</b><br/><br/>
+	Select additional packages below, click the <img src='img/expand.gif'> icon to expand or collaps a section. When you're done, click the 'build me!' button.<br/><br/>
 	<div id='x11_wm_block'>
 	<br>X11 window managers:<br>
 	<? foreach ($wm_array as $pkg => $pkgdepends) {
