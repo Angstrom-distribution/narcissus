@@ -110,7 +110,8 @@ $wm_array = array("Matchbox" => "",
 
 $devel_array = array("Python" => "python-core python-modules",
 					 "Perl" => "perl perl-modules",
-					 "Toolchain" => "task-native-sdk",
+					 "Mono (C#, .NET)" => "mono mono-mcs",
+                                         "Toolchain" => "task-native-sdk",
 					 "OProfile" => "oprofile",
 					 "GDB" => "gdb gdbserver",
 					 "Busybox replacements" => "task-proper-tools");
