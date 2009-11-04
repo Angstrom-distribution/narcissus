@@ -104,7 +104,7 @@ $env_array = array("Console only" => "",
 
 $wm_array = array("Enlightenment" => "angstrom-gpe-task-base e-wm e-wm-config-standard e-wm-config-default",
 				  "GNOME" => "angstrom-task-gnome shadow",
-                  "XFCE 4.6" => "task-xfce46-base task-xfce46-extras shadow",
+                  "Xfce 4.6" => "task-xfce46-base task-xfce46-extras shadow",
                   "Matchbox" => "angstrom-gpe-task-base",
 				  "Illume" => " angstrom-gpe-task-base e-wm e-wm-config-illume");
 
