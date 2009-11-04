@@ -13,7 +13,6 @@ function initForm() {
 	toggleVisibility('releasedialog');
 	toggleVisibility('basesystemdialog');
 	toggleVisibility('devman');
-	toggleVisibility('environment');
 	toggleVisibility('imagetypebox');
 	toggleVisibility('imagename');
 
@@ -100,13 +99,14 @@ function config_dropdown()
 $repourl = "http://www.angstrom-distribution.org/repo/?pkgname";
 
 $env_array = array("Console only" => "",
-				   "X11" => "angstrom-x11-base-depends angstrom-gpe-task-base",
+				   "X11" => "angstrom-x11-base-depends",
 				   "Opie" => "task-opie-base task-opie-base-applets task-opie-base-inputmethods task-opie-base-apps task-opie-base-settings task-opie-base-decorations task-opie-base-styles task-opie-base-pim task-opie-extra-settings task-opie-bluetooth task-opie-irda");
 
-$wm_array = array("Matchbox" => "",
-				  "Illume" => "e-wm e-wm-config-illume",
-				  "Enlightenment" => "e-wm e-wm-config-standard e-wm-config-default",
-				  "Metacity" => "metacity");
+$wm_array = array("Enlightenment" => "angstrom-gpe-task-base e-wm e-wm-config-standard e-wm-config-default",
+				  "GNOME" => "angstrom-task-gnome shadow",
+                  "XFCE 4.6" => "task-xfce46-base task-xfce46-extras shadow",
+                  "Matchbox" => "angstrom-gpe-task-base",
+				  "Illume" => " angstrom-gpe-task-base e-wm e-wm-config-illume");
 
 $devel_array = array("Python" => "python-core python-modules",
 					 "Perl" => "perl perl-modules",
@@ -225,19 +225,7 @@ $x11_packages_array = array("Abiword" => "abiword",
 			<input name="devmanager" type="radio" value="busybox-mdev">mdev
 			<br/>
 			<table width='100%' id='beneden'><tr><td align='left'><a href="#basesystemdialog" onClick="toggleVisibility('devman') ; toggleVisibility('basesystemdialog');">&lt; Base system selection</a></td>
-			<td align='right'><a href="#environment" onClick="toggleVisibility('devman') ; toggleVisibility('environment');">Environment selection &gt;</a></td></table>
-		</div>
-
-		<div id='environment'>
-			Select the preferred user environment.<br/><font size="-2">Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a windowmanager option during the package selection phase. Opie is a qt/e 2.0 based environment for PDA style devices.</font><br/><br/>
-			<select name="environment" onChange="environmentChange(this)">
-			<? foreach($env_array as $env => $pkgs) {
-				print ("\t<option value=\"$pkgs\">$env</option>\n");
-			}?>
-			</select>
-			<br/>
-			<table width='100%' id='beneden'><tr><td align='left'><a href="#devmandialog" onClick="toggleVisibility('environment') ; toggleVisibility('devman');">&lt; Devicemanager selection</a></td>
-			<td align='right'><a href="#imagetype" onClick="toggleVisibility('environment') ; toggleVisibility('imagetypebox');">Image type &gt;</a></td></table>
+			<td align='right'><a href="#imagetype" onClick="toggleVisibility('devman') ; toggleVisibility('imagetypebox');">Image type &gt;</a></td></table>
 		</div>
 
 		<div id='imagetypebox'>
@@ -247,7 +235,7 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 			<input name="imagetype" type="radio" value="ubifs">ubifs2
 			<input name="imagetype" type="radio" value="jffs2">jffs2
 			<br/>
-			<table width='100%' id='beneden'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagetypebox') ; toggleVisibility('environment');">&lt; Environment selection</a></td>
+			<table width='100%' id='beneden'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagetypebox') ; toggleVisibility('devman');">&lt; Devicemanager</a></td>
 			<td align='right'><a href="#imagename" onClick="toggleVisibility('imagetypebox') ; toggleVisibility('imagename');">Image name &gt;</a></td></table>
 
 		</div>
@@ -266,10 +254,21 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 </div>
 
 <div id="packageblock">
+		<div id='environment'>
+<br/><b>User environment selection:</b><br/><br/>
+            Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a Desktop Environment option below. Opie is a qt/e 2.0 based environment for PDA style devices.<br/><br/>
+			<select name="environment" onChange="environmentChange(this)">
+			<? foreach($env_array as $env => $pkgs) {
+				print ("\t<option value=\"$pkgs\">$env</option>\n");
+			}?>
+			</select>
+			<br/>
+        </div>
+        
 <br/><b>Additional packages selection:</b><br/><br/>
-	Select additional packages below, click the <img src='img/expand.gif'> icon to expand or collaps a section. When you're done, click the 'build me!' button.<br/><br/>
+	Select additional packages below, click the <img src='img/expand.gif'> icon to expand or collaps a section. When you're done, click the 'build me!' button.<br/>
 	<div id='x11_wm_block'>
-	<br>X11 window managers:<br>
+	<br>X11 Desktop Environments:<br>
 	<? foreach ($wm_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"wm\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
