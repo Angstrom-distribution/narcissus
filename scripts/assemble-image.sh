@@ -36,7 +36,11 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz ] ; then
 		echo "mount ${LOOP_DEV}"
 		mount ${LOOP_DEV}
 		"echo copying files to vfat"
-		cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
+		if [ -e ${WORKDIR}/conf/${MACHINE}/sd/MLO ] ; then
+			cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
+		else
+			rm -f /mnt/narcissus/sd_image1/MLO		
+		fi
 		cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
 		if [ -e ${TARGET_DIR}/boot/uImage-2.6* ] ;then 
 			cp -v ${TARGET_DIR}/boot/uImage-2.6* /mnt/narcissus/sd_image1/uImage
