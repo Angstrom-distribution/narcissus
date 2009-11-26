@@ -52,6 +52,6 @@ echo "running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install c
 yes | bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install conf/${MACHINE}/configs/${RELEASE}/angstrom-feed-config* 
 echo "running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update"
 bin/opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
-bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install opkg-nogpg
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install opkg-nogpg-nocurl
 
 echo "Configure done"
