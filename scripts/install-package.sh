@@ -24,6 +24,8 @@ if [ -e ${TARGET_DIR}/log.txt ] ; then
 	rm ${TARGET_DIR}/log.txt
 fi
 
+OPKGARGS="${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf"
+
 packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sed s:,:\ :g | sort | uniq)"
 
 echo $packagelist > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt
@@ -46,8 +48,10 @@ done | xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.con
 echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}' |sort | uniq"
 bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}' |sort | uniq > ${TARGET_DIR}/tmp/installed-packages
 for i in $(cat ${TARGET_DIR}/tmp/installed-packages | grep -v locale) ; do
-	for translation in $(cat ${TARGET_DIR}/tmp/installed-translations | awk -F- '{print $3 ; print $3"-"$4}') ; do
-		echo ${i}-locale-${translation}
+	for translation in $(cat ${TARGET_DIR}/tmp/installed-translations | awk -F- '{print $3 ; print $3"-"$4}') en-gb ; do
+            translation_split=$(echo ${translation} | awk -F '-' '{print $1}')
+            echo ${i}-locale-${translation}
+            echo ${i}-locale-${translation_split}
 	done
 done | sort | uniq > ${TARGET_DIR}/tmp/wanted-locale-packages
 
@@ -59,8 +63,10 @@ bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list | awk 
 
 cat ${TARGET_DIR}/tmp/wanted-locale-packages ${TARGET_DIR}/tmp/available-locale-packages | sort | uniq -d > ${TARGET_DIR}/tmp/pending-locale-packages
 
-echo "running: xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install"
-cat ${TARGET_DIR}/tmp/pending-locale-packages | xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install
+for i in $(cat ${TARGET_DIR}/tmp/pending-locale-packages) ; do
+	echo "running: bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install $i"
+	bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install $i
+done
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>"
 
