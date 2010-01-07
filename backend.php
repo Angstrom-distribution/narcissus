@@ -1,13 +1,7 @@
 <?
 /* Narcissus - Online image builder for the angstrom distribution
- * Koen Kooi (c) 2008, 2009 - all rights reserved 
+ * Koen Kooi (c) 2008-2010 - all rights reserved 
  *
- * basic operation:
- * 1) select machine and assemble arch.conf
- * 2) select package set and print to file
- * 3) have daemon prime rootfs with opkg-collateral and angstrom-feed-configs
- * 4) have daemon install package set
- * 5) have daemon tar it up
  */
 
 
@@ -83,20 +77,40 @@ case "install_package":
 
 
 function show_image_link($machine, $name, $imagesuffix) {
-	if (file_exists("deploy/$machine/$name-image-$machine.$imagesuffix")) {
-		$randomname = substr(md5(time()), 0, 6);
-		mkdir("deploy/$machine/$randomname");
-		rename("deploy/$machine/$name-image-$machine.$imagesuffix", "deploy/$machine/$randomname/$name-image-$machine.$imagesuffix");	
-		$imgsize = round(filesize("deploy/$machine/$randomname/$name-image-$machine.$imagesuffix") / (1024 * 1024),2);
-		print "<br>Click to download <a href='deploy/$machine/$randomname/$name-image-$machine.$imagesuffix'>your $name image for $machine</a> [$imgsize MiB]\n<br/><br/>This will get automatically deleted after 3 days.";
-	} else {
+    $foundimage = 0;
+    $printedcacheinfo = 0;
+    $printstring = "";
+
+    $randomname = substr(md5(time()), 0, 6);
+    $deploydir = "deploy/$machine/$randomname";
+	mkdir($deploydir);
+
+    $imagefiles = scandir("deploy/$machine");
+    foreach($imagefiles as $value) {
+        $location = "deploy/$machine/$value";
+        // The !== operator must be used.  Using != would not work as expected
+        // because the position of 'a' is 0. The statement (0 != false) evaluates 
+        // to false.
+        if(strpos($value, "$name-image-$machine-sd") !== false) {
+            rename($location, "$deploydir/$value");
+            $imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
+            $printstring .= "<a href='$deploydir/$value'>$value</a> [$imgsize MiB]<br/> "; 
+            continue;
+        }
+        if(strpos($value, "$name-image-$machine.$imagesuffix") !== false) {
+            rename($location, "$deploydir/$value");
+            $imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
+            $imagestring = "<br/><br/><a href='$deploydir/$value'>$value</a> [$imgsize MiB]: This is the rootfs '$name' for $machine you just built. This will get automatically deleted after 3 days.<br/>";
+            $foundimage = 1;
+        }
+    }    
+
+	if ($foundimage == 0){
 		print "Image not found, something went wrong :/";
-	}
-	if (file_exists("deploy/$machine/$name-image-$machine-sd.img.gz")) {
-		rename("deploy/$machine/$name-image-$machine-sd.img.gz", "deploy/$machine/$randomname/$name-image-$machine-sd.img.gz");
-		$imgsize = round(filesize("deploy/$machine/$randomname/$name-image-$machine-sd.img.gz") / (1024 * 1024),2);
-		print("<br/><br/>This <a href='deploy/$machine/$randomname/$name-image-$machine-sd.img.gz'>raw SD card image</a> has its vfat partition populated with the bootloader and kernel, but has an <b>empty</b> ext3 partition. You can extract the tarball to that partition to make it ready to boot."); 
-	}
+	} else {
+        print("$imagestring <br/><br/> The raw SD card image(s) below have a vfat partition populated with the bootloader and kernel, but an <b>empty</b> ext3 partition. You can extract the tarball to that partition to make it ready to boot.<br>The intended size for the SD card is encoded in the file name, e.g. 1GiB for a one gigabyte card.<br/><br/> $printstring");
+    }
+
 }
 
 function configure_image($machine, $name, $release) {

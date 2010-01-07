@@ -1,6 +1,6 @@
 #!/bin/sh
 # Narcissus - Online image builder for the angstrom distribution
-# Koen Kooi (c) 2008, 2009 - all rights reserved 
+# Koen Kooi (c) 2008-2010 - all rights reserved 
 
 MACHINE=$1
 IMAGENAME=$2
@@ -16,14 +16,23 @@ fi
 
 function make_sdimg() 
 {
-if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz ] ; then
+
+#sd-master-1GiB.img.gz
+
+if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 	MD5SUM_SD="$(md5sum ${TARGET_DIR}/boot/uImage | awk '{print $1}')"	
-	if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz ] ; then
+
+	for sdsize in $(ls ${WORKDIR}/conf/${MACHINE}/sd/sd-master* | sed -e s:${WORKDIR}/conf/${MACHINE}/sd/sd-master-::g -e 's:.img.gz::g' | xargs echo) ; do
+
+	echo "SD size: $sdsize"
+
+	if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz ] ; then
 		echo "Cached SD image found, using that"	
-		cp ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
+		echo "cp ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz"
+		cp ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz
 	else
 		echo "No cached SD image found, generating new one"
-		zcat ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz > sd.img
+		zcat ${WORKDIR}/conf/${MACHINE}/sd/sd-master-$sdsize.img.gz > sd.img
 		/sbin/fdisk -l -u sd.img
 		
 		BYTES_PER_SECTOR="$(/sbin/fdisk -l -u sd.img | grep Units | awk '{print $9}')"
@@ -57,9 +66,12 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd.img.gz ] ; then
 		umount ${LOOP_DEV}
 	
 		/sbin/losetup -d ${LOOP_DEV}
-		gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz
-		cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}.img.gz
+		echo "gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz"
+		gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz
+		echo "cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz"
+		cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz
 	fi
+    done
 fi
 }
 
