@@ -78,6 +78,7 @@ case "install_package":
 
 function show_image_link($machine, $name, $imagesuffix) {
     $foundimage = 0;
+    $foundsdimage = 0;
     $printedcacheinfo = 0;
     $printstring = "";
 
@@ -95,7 +96,8 @@ function show_image_link($machine, $name, $imagesuffix) {
             rename($location, "$deploydir/$value");
             $imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
             $printstring .= "<a href='$deploydir/$value'>$value</a> [$imgsize MiB]<br/> "; 
-            continue;
+            $foundsdimage = 1;
+			continue;
         }
         if(strpos($value, "$name-image-$machine.$imagesuffix") !== false) {
             rename($location, "$deploydir/$value");
@@ -105,10 +107,14 @@ function show_image_link($machine, $name, $imagesuffix) {
         }
     }    
 
-	if ($foundimage == 0){
+	if ($foundimage == 0) {
 		print "Image not found, something went wrong :/";
 	} else {
-        print("$imagestring <br/><br/> The raw SD card image(s) below have a vfat partition populated with the bootloader and kernel, but an <b>empty</b> ext3 partition. You can extract the tarball to that partition to make it ready to boot.<br>The intended size for the SD card is encoded in the file name, e.g. 1GiB for a one gigabyte card.<br/><br/> $printstring");
+        print("$imagestring");
+    }
+
+	if($foundsdimage == 1) {
+		print(" <br/><br/> The raw SD card image(s) below have a vfat partition populated with the bootloader and kernel, but an <b>empty</b> ext3 partition. You can extract the tarball to that partition to make it ready to boot.<br>The intended size for the SD card is encoded in the file name, e.g. 1GiB for a one gigabyte card.<br/><br/> $printstring");
     }
 
 }
