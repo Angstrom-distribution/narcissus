@@ -185,6 +185,7 @@ $x11_packages_array = array("Abiword" => "abiword",
                             "ScummVM" => "scummvm",
 							"SDR-shell" => "sdrshell",
 							"Stalonetray" => "stalonetray",
+							"Totem media player" => "totem",
 							"Wireshark" => "wireshark",
 							"Zhone" => "zhone frameworkd");
 
