@@ -21,6 +21,7 @@ function initForm() {
 	
 	toggleVisibility('devel');
 	toggleVisibility('console_packages');
+	toggleVisibility('platform_packages');
 	toggleVisibility('x11_packages');
 	
 	environmentChange();
@@ -133,11 +134,9 @@ $console_packages_array = array("Aircrack-ng" => "aircrack-ng",
 								"Git" => "git",
 								"GSM0710muxd" => "gsm0710muxd",
 								"Gstreamer" => "gst-plugins-bad-meta gst-plugins-base-meta gst-plugins-good-meta gst-plugins-ugly-meta ",
-								"Texas Instruments Gstreamer plugins" => "gstreamer-ti",
 								"I2C-tools" => "i2c-tools",
 								"JamVM" => "jamvm",
 								"Julius speech recognizer" => "julius",
-								"Julius demo for Texas Instruments" => "ti-julius-demo",
 								"Kismet" => "kismet",
 								"LCD4Linux" => "lc4linux",
 								"LIRC" => "lirc",
@@ -152,7 +151,6 @@ $console_packages_array = array("Aircrack-ng" => "aircrack-ng",
 								"Octave" => "octave",
 								"OpenCV" => "opencv-samples",
 								"Powertop" => "powertop",
-								"PowerVR SGX drivers for OMAP3" => "libgles-omap3",
 								"QT/e 4" => "qt4-embedded-demos qt4-embedded-plugin-gfxdriver-gfxvnc qt4-embedded",
 								"Rtorrent" => "rtorrent",
 								"Samba" => "samba",
@@ -184,12 +182,21 @@ $x11_packages_array = array("Abiword" => "abiword",
 							"Quake 2" => "quake2",
 							"Quake 2 (quetoo)" => "quetoo",
 							"Quake 3 (ioq3)" => "ioquake3",
-							"Quake 3 (GLES)" => "quake3-pandora-gles libgles-omap3",
                             "ScummVM" => "scummvm",
 							"SDR-shell" => "sdrshell",
 							"Stalonetray" => "stalonetray",
 							"Wireshark" => "wireshark",
 							"Zhone" => "zhone frameworkd");
+
+$platform_omap_packages_array = array("Texas Instruments Gstreamer plugins" => "gstreamer-ti",
+									  "PowerVR SGX drivers for OMAP3" => "libgles-omap3",
+									  "Quake 3 (GLES)" => "quake3-pandora-gles libgles-omap3",
+									  "Julius demo for Texas Instruments" => "ti-julius-demo");
+
+$platform_davinci_packages_array = array("Texas Instruments Gstreamer plugins" => "gstreamer-ti",
+										  "Julius demo for Texas Instruments" => "ti-julius-demo");
+
+$platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 
 
 
@@ -210,8 +217,8 @@ $x11_packages_array = array("Abiword" => "abiword",
 		<div id="releasedialog">
 			Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then.</font><br/><br/>
 			<select name="configs">
-				<option value="stable">stable</option>
 				<option value="unstable">unstable</option>
+				<option value="stable">stable</option>
 			</select>
 			<br/><table width='100%' id='beneden'><tr><td align='left'><a href="#machinedialog" onClick="toggleVisibility('releasedialog') ; toggleVisibility('machinedialog');">&lt; Machine selection</a></td>
 			     <td align='right'><a href="#basesystemdialog" onClick="toggleVisibility('releasedialog') ; toggleVisibility('basesystemdialog');">Base system selection &gt;</a></td></table>
@@ -303,6 +310,27 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 		print("<input type=\"checkbox\" name=\"console_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 	</div>
+
+	<img src='img/expand.gif' onClick="toggleVisibility('platform_packages');"> Platform specific packages:<br/>
+	<div id='platform_packages'>
+
+	<br/>Texas Instruments OMAP family:<br/>
+	<?foreach ($platform_omap_packages_array as $pkg => $pkgdepends) {
+		print("<input type=\"checkbox\" name=\"platform_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
+	}?>
+
+	<br>Texas Instruments DaVinci family:<br/>
+	<?foreach ($platform_davinci_packages_array as $pkg => $pkgdepends) {
+		print("<input type=\"checkbox\" name=\"platform_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
+	}?>
+
+	<br/>Marvell XScale Family:<br/>
+	<?foreach ($platform_pxa_packages_array as $pkg => $pkgdepends) {
+		print("<input type=\"checkbox\" name=\"platform_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
+	}?>
+
+	</div>
+
 </div>
 
 <div id="buildbutton">

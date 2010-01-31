@@ -59,6 +59,8 @@ function configureImage(){
     packagestring += " " + devmanager + " angstrom-version tinylogin initscripts sysvinit sysvinit-pidof ";
     packagestring += " " + concatArray(document.entry_form.devel);
 	packagestring += " " + concatArray(document.entry_form.console_packages);
+	packagestring += " " + concatArray(document.entry_form.platform_packages);
+
 	
 	packagestring += " " + document.entry_form.environment.value;
 	if(document.entry_form.environment.selectedIndex == 1) {
