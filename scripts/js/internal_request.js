@@ -39,23 +39,23 @@ function configureImage(){
 	document.getElementById('image_progress').innerHTML = "";
 	
     packagestring = concatArray(document.entry_form.pkg);
-
+	
 	if (packagestring == "" || packagestring == " ") {
  		document.getElementById('imgstatus').innerHTML = "You have to select the base system, try 'task-boot' to get a minimal set.";
 		return; 
 	}
-
+	
 	document.getElementById('beverage').innerHTML = "Depending on the load of this machine and the feed server the process might take a few <b>minutes</b>, so get a beverage of your choice and <b>DON'T</b> hit refresh."
-
+	
 	slideUp('packageblock');
-
+	
     var devmanager = "";
     for (i = 0; i < document.entry_form.devmanager.length; i++) {
         if (document.entry_form.devmanager[i].checked) {
             devmanager = document.entry_form.devmanager[i].value
         }
     }  
-  
+	
     packagestring += " " + devmanager + " angstrom-version tinylogin initscripts sysvinit sysvinit-pidof ";
     packagestring += " " + concatArray(document.entry_form.devel);
 	packagestring += " " + concatArray(document.entry_form.console_packages);
@@ -65,7 +65,7 @@ function configureImage(){
 		packagestring += " " + concatArray(document.entry_form.wm); 
 		packagestring += " " + concatArray(document.entry_form.x11_packages);
 	}
-
+	
 	var packagelisttemp = packagestring.split(" ");
 	packagelist = unique(packagelisttemp);
 	
@@ -94,14 +94,14 @@ function configureImage(){
 }
 
 function assembleImage(){
-
+	
     var imagetype = "";
     for (i = 0; i < document.entry_form.imagetype.length; i++) {
         if (document.entry_form.imagetype[i].checked) {
             imagetype = document.entry_form.imagetype[i].value
         }
     }
-
+	
     var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype;
 	http.open('post', workerurl, true);
 	http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -126,7 +126,7 @@ function showImagelink(){
             imagetype = document.entry_form.imagetype[i].value
         }
     }
-
+	
     var params = 'action=show_image_link&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype;
 	http.open('post', workerurl, true);
 	
@@ -242,56 +242,56 @@ o:for(var i = 0, n = a.length; i < n; i++) {
 function launchWindow(id)
 {
 	//select all the a tag with name equal to modal
-//	$('a[name=modal]').click(function(e) {
-		//Cancel the link behavior
-//		e.preventDefault();
-		//Get the A tag
-//		var id = $(this).attr('href');
+	//	$('a[name=modal]').click(function(e) {
+	//Cancel the link behavior
+	//		e.preventDefault();
+	//Get the A tag
+	//		var id = $(this).attr('href');
 	
-		//Get the screen height and width
-		var maskHeight = $(document).height() * 0.99;
-		var maskWidth = $(window).width() * 0.99;
+	//Get the screen height and width
+	var maskHeight = $(document).height() * 0.99;
+	var maskWidth = $(window).width() * 0.99;
 	
-		//Set height and width to mask to fill up the whole screen
-		$('#mask').css({'width':maskWidth,'height':maskHeight});
-        $('#mask').css('top',  0);
+	//Set height and width to mask to fill up the whole screen
+	$('#mask').css({'width':maskWidth,'height':maskHeight});
+	$('#mask').css('top',  0);
 	
-		//transition effect		
-		$('#mask').fadeIn(1000);	
-		$('#mask').fadeTo("slow",0.8);	
+	//transition effect		
+	$('#mask').fadeIn(1000);	
+	$('#mask').fadeTo("slow",0.8);	
 	
-		//Get the window height and width
-		var winH = $(window).height();
-		var winW = $(window).width();
-       
-		$(document.getElementById('dialog')).css('width' , winW/2); 
-		$(document.getElementById('dialog')).css('height' , winH*0.7);
-        $(id).height = winH*0.75;
-		if($(id).height > $(document.getElementById('dialog')).height) {
-			$(document.getElementById('dialog')).css('height' , $(id).height);
-		}
- 
-		//Set the popup window to center
-		$(id).css('top',  winH/2-$(id).height()/2);
-		$(id).css('left', winW/2-$(id).width()/2);
-
-		//transition effect
-		$(id).fadeIn(2000); 
+	//Get the window height and width
+	var winH = $(window).height();
+	var winW = $(window).width();
 	
-//	});
+	$(document.getElementById('dialog')).css('width' , winW/2); 
+	$(document.getElementById('dialog')).css('height' , winH*0.7);
+	$(id).height = winH*0.75;
+	if($(id).height > $(document.getElementById('dialog')).height) {
+		$(document.getElementById('dialog')).css('height' , $(id).height);
+	}
+	
+	//Set the popup window to center
+	$(id).css('top',  winH/2-$(id).height()/2);
+	$(id).css('left', winW/2-$(id).width()/2);
+	
+	//transition effect
+	$(id).fadeIn(2000); 
+	
+	//	});
 	
 	//if close button is clicked
 	$('.window .close').click(function (e) {
-		//Cancel the link behavior
-		e.preventDefault();
-		$('#mask, .window').hide();
-	});		
+							  //Cancel the link behavior
+							  e.preventDefault();
+							  $('#mask, .window').hide();
+							  });		
 	
 	//if mask is clicked
 	$('#mask').click(function () {
-		$(this).hide();
-		$('.window').hide();
-	});
+					 $(this).hide();
+					 $('.window').hide();
+					 });
 }
 
 
