@@ -15,14 +15,14 @@ function initForm() {
 	toggleVisibility('devman');
 	toggleVisibility('imagetypebox');
 	toggleVisibility('imagename');
-
+	
 	toggleVisibility('buildbutton');
 	toggleVisibility('patchbox');
 	
 	toggleVisibility('devel');
 	toggleVisibility('console_packages');
 	toggleVisibility('x11_packages');
-
+	
 	environmentChange();
 }
 
@@ -47,53 +47,53 @@ function environmentChange() {
 
 function machine_dropdown()
 {
-  $machine = array();
-
-  if ($handle = opendir ('./conf/'))
+	$machine = array();
+	
+	if ($handle = opendir ('./conf/'))
     {
-      /* This is the correct way to loop over the directory. */
-      while (false !== ($file = readdir ($handle)))
-	{
-	  if ($file != "." && $file != ".."
-	      && file_exists ("./conf/$file/arch.conf"))
-	    {
-	      $machine[] = $file;
-	    }
-	}
-      closedir ($handle);
+		/* This is the correct way to loop over the directory. */
+		while (false !== ($file = readdir ($handle)))
+		{
+			if ($file != "." && $file != ".."
+				&& file_exists ("./conf/$file/arch.conf"))
+			{
+				$machine[] = $file;
+			}
+		}
+		closedir ($handle);
     }
-
-  sort ($machine);
-  foreach ($machine as $value)
-  {
-    print ("\t<option value=\"$value\">$value</option>\n");
-  }
+	
+	sort ($machine);
+	foreach ($machine as $value)
+	{
+		print ("\t<option value=\"$value\">$value</option>\n");
+	}
 }
 
 function config_dropdown()
 {
-  $configs = array();
-  foreach ($machine as $machine_value)
-  {
-    if ($handle = opendir ('./conf/$machine_value'))
-      {
-	while (false !== ($file = readdir ($handle)))
-	  {
-	    if ($file != "." && $file != ".."
-		&& file_exists ("./conf/$machine_value/configs/$file/"))
-	      {
-		$configs[$machine_value][] = $file;
-	      }
-	  }
-	closedir ($handle);
-      }
-
-    sort ($configs);
-    foreach ($configs as $value)
-    {
-      print ("\t<option value=\"$value\">$value</option>\n");
-    }
-  }
+	$configs = array();
+	foreach ($machine as $machine_value)
+	{
+		if ($handle = opendir ('./conf/$machine_value'))
+		{
+			while (false !== ($file = readdir ($handle)))
+			{
+				if ($file != "." && $file != ".."
+					&& file_exists ("./conf/$machine_value/configs/$file/"))
+				{
+					$configs[$machine_value][] = $file;
+				}
+			}
+			closedir ($handle);
+		}
+		
+		sort ($configs);
+		foreach ($configs as $value)
+		{
+			print ("\t<option value=\"$value\">$value</option>\n");
+		}
+	}
 }
 
 $repourl = "http://www.angstrom-distribution.org/repo/?pkgname";
@@ -111,7 +111,7 @@ $wm_array = array("Enlightenment" => "angstrom-gpe-task-base e-wm e-wm-config-st
 $devel_array = array("Python" => "python-core python-modules",
 					 "Perl" => "perl perl-modules",
 					 "Mono (C#, .NET)" => "mono mono-mcs",
-                                         "Toolchain" => "task-native-sdk",
+					 "Toolchain" => "task-native-sdk",
 					 "OProfile" => "oprofile",
 					 "GDB" => "gdb gdbserver",
 					 "Busybox replacements" => "task-proper-tools");

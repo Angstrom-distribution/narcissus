@@ -77,12 +77,12 @@ for ($i = 0 ; $i <= $timeframe ; $i++) {
 ?>
 <script language="javascript">
 var options = {
-   "colorScheme": PlotKit.Base.palette(PlotKit.Base.baseColors()[0]),
-   "padding": {left: 0, right: 0, top: 10, bottom: 30},
-   "xTicks": [<? print $xticks; ?> ],
-   "drawYAxis": false,
-   "yAxis": [0, <?print $maxbuilds; ?>],
-   "yTickPrecision": 0
+	"colorScheme": PlotKit.Base.palette(PlotKit.Base.baseColors()[0]),
+	"padding": {left: 0, right: 0, top: 10, bottom: 30},
+	"xTicks": [<? print $xticks; ?> ],
+	"drawYAxis": false,
+	"yAxis": [0, <?print $maxbuilds; ?>],
+	"yTickPrecision": 0
 };
 
 function drawGraph() {
@@ -96,23 +96,23 @@ function drawGraph() {
             winH = (document.body.offsetHeight - 30) * 0.9;
         }
     }
-
-<?
-foreach($builds as $machine => $foo) {
-$machineyvars = $yvars[$machine];
-print("
-    var layout = new PlotKit.Layout(\"bar\", options);
-    layout.addDataset(\"$machine usage count\", [$machineyvars]);
-    layout.evaluate();
-    var canvas = MochiKit.DOM.getElement(\"graph-$machine\");
-   
-    canvas.setAttribute('width', winW/$hfactor);
-    canvas.setAttribute('height', winH/5);
-    var plotter = new PlotKit.SweetCanvasRenderer(canvas, layout, {});
-    plotter.render();
-");
-}
-?>
+	
+	<?
+	foreach($builds as $machine => $foo) {
+		$machineyvars = $yvars[$machine];
+		print("
+			  var layout = new PlotKit.Layout(\"bar\", options);
+			  layout.addDataset(\"$machine usage count\", [$machineyvars]);
+			  layout.evaluate();
+			  var canvas = MochiKit.DOM.getElement(\"graph-$machine\");
+			  
+			  canvas.setAttribute('width', winW/$hfactor);
+			  canvas.setAttribute('height', winH/5);
+			  var plotter = new PlotKit.SweetCanvasRenderer(canvas, layout, {});
+			  plotter.render();
+			  ");
+	}
+	?>
 }
 MochiKit.DOM.addLoadEvent(drawGraph);
 </script>
@@ -122,7 +122,7 @@ Statistics for the online image builder, number of builds per day<br>
 <br>
 <?
 foreach ($builds as $machine => $foo) {
-        print("<table align=left><td><br>$machine<br><div><canvas id='graph-$machine'></canvas></div></td></table>\n");
+	print("<table align=left><td><br>$machine<br><div><canvas id='graph-$machine'></canvas></div></td></table>\n");
 }
 ?>
 

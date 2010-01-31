@@ -40,10 +40,10 @@ $j = 0;
 ?>
 <script language="javascript">
 var options = {
-   "colorScheme": PlotKit.Base.palette(PlotKit.Base.baseColors()[0]),
-   "padding": {left: 0, right: 0, top: 10, bottom: 30},
-   "xTicks": [<? foreach($buildcount as $key => $value) { print ("{v:$j, label:\"$key\"},\n"); $j = $j +1;} print "],"; ?> 
-   "drawYAxis": false
+	"colorScheme": PlotKit.Base.palette(PlotKit.Base.baseColors()[0]),
+	"padding": {left: 0, right: 0, top: 10, bottom: 30},
+	"xTicks": [<? foreach($buildcount as $key => $value) { print ("{v:$j, label:\"$key\"},\n"); $j = $j +1;} print "],"; ?> 
+	"drawYAxis": false
 };
 
 function drawGraph() {

@@ -47,32 +47,32 @@ if (isset($_POST["imagetype"]) && $_POST["imagetype"] != "") {
 }
 
 switch($imagetype) {
-case "tbz2":
-			$imagesuffix = "tar.bz2";
-			break;
-case "ubifs":
-			$imagesuffix = "ubi";
-			break;
-default:
-			$imagesuffix = $imagetype;
+	case "tbz2":
+		$imagesuffix = "tar.bz2";
+		break;
+	case "ubifs":
+		$imagesuffix = "ubi";
+		break;
+	default:
+		$imagesuffix = $imagetype;
 }
 
 switch($action) {
-case "assemble_image":
-			print "assembling\n";
-			assemble_image($machine, $name, $imagetype);
-			break;
-case "configure_image":
-			print "configuring\n";
-			configure_image($machine, $name, $release);
-			break;
-case "show_image_link":
-			show_image_link($machine, $name, $imagesuffix);
-			break;
-case "install_package":
-			print "installing $pkg\n";
-			install_package($machine, $name, $pkg);
-			break;
+	case "assemble_image":
+		print "assembling\n";
+		assemble_image($machine, $name, $imagetype);
+		break;
+	case "configure_image":
+		print "configuring\n";
+		configure_image($machine, $name, $release);
+		break;
+	case "show_image_link":
+		show_image_link($machine, $name, $imagesuffix);
+		break;
+	case "install_package":
+		print "installing $pkg\n";
+		install_package($machine, $name, $pkg);
+		break;
 }
 
 
@@ -81,11 +81,11 @@ function show_image_link($machine, $name, $imagesuffix) {
     $foundsdimage = 0;
     $printedcacheinfo = 0;
     $printstring = "";
-
+	
     $randomname = substr(md5(time()), 0, 6);
     $deploydir = "deploy/$machine/$randomname";
 	mkdir($deploydir);
-
+	
     $imagefiles = scandir("deploy/$machine");
     foreach($imagefiles as $value) {
         $location = "deploy/$machine/$value";
@@ -106,17 +106,17 @@ function show_image_link($machine, $name, $imagesuffix) {
             $foundimage = 1;
         }
     }    
-
+	
 	if ($foundimage == 0) {
 		print "Image not found, something went wrong :/";
 	} else {
         print("$imagestring");
     }
-
+	
 	if($foundsdimage == 1) {
 		print(" <br/><br/> The raw SD card image(s) below have a vfat partition populated with the bootloader and kernel, but an <b>empty</b> ext3 partition. You can extract the tarball to that partition to make it ready to boot.<br>The intended size for the SD card is encoded in the file name, e.g. 1GiB for a one gigabyte card.<br/><br/> $printstring");
     }
-
+	
 }
 
 function configure_image($machine, $name, $release) {
