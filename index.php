@@ -22,6 +22,8 @@ function initForm() {
 	toggleVisibility('devel');
 	toggleVisibility('console_packages');
 	toggleVisibility('platform_packages');
+	toggleVisibility('network_packages');
+
 	toggleVisibility('x11_packages');
 	
 	environmentChange();
@@ -120,13 +122,9 @@ $devel_array = array("Python" => "python-core python-modules",
 $console_packages_array = array("Aircrack-ng" => "aircrack-ng",
 								"All kernel modules" => "kernel-modules",
 								"Alsa utils" => "alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl",
-								"Apache" => "apache2",
 								"Beagleboard demo" => "task-beagleboard-demo",
 								"Bluez" => "bluez-utils",
-								"Boa" => "boa",
 								"cwiid" => "cwiid",
-								"Cherokee" => "cherokee",
-								"Dropbear SSH server" => "dropbear",
 								"DVB-utils" => "dvb-azap dvb-tzap dvb-czap dvb-szap dvb-scan wscan dvbstream dvbtune",
 								"Flite" => "flite libflite-cmu-us-kal1",
 								"Gdbserver" => "gdbserver",
@@ -141,22 +139,14 @@ $console_packages_array = array("Aircrack-ng" => "aircrack-ng",
 								"LCD4Linux" => "lc4linux",
 								"LIRC" => "lirc",
 								"Mediatomb" => "mediatomb",
-								"Moblin connection manager" => "connman",
 								"MPlayer" => "mplayer",
 								"Mythtv backend" => "mythtv-backend",
-								"Nmap" => "nmap",
-								"NTP" => "ntp",
-								"NTPclient" => "ntpclient",
-								"NTPdate" => "ntpdate",
 								"Octave" => "octave",
 								"OpenCV" => "opencv-samples",
 								"Powertop" => "powertop",
 								"QT/e 4" => "qt4-embedded-demos qt4-embedded-plugin-gfxdriver-gfxvnc qt4-embedded",
-								"Rtorrent" => "rtorrent",
-								"Samba" => "samba",
 								"Screen" => "screen",
-								"Video Disc Recoder" => "vdr",
-								"Wireless-tools" => "wireless-tools");
+								"Video Disc Recoder" => "vdr");
 
 $x11_packages_array = array("Abiword" => "abiword",
 							"Duke Nukem 3D" => "duke3d",
@@ -188,6 +178,22 @@ $x11_packages_array = array("Abiword" => "abiword",
 							"Totem media player" => "totem",
 							"Wireshark" => "wireshark",
 							"Zhone" => "zhone frameworkd");
+
+$network_packages_array = array("Apache" => "apache2",
+								"Boa" => "boa",
+								"Cherokee" => "cherokee",
+								"Dropbear SSH server" => "dropbear",
+								"Moblin connection manager" => "connman",
+								"NetworkManager" => "networkmanager networkmanager-openvpn",
+								"NetworkManager GUI applet" => "network-manager-applet",
+								"Nmap" => "nmap",
+								"NTP" => "ntp",
+								"NTPclient" => "ntpclient",
+								"NTPdate" => "ntpdate",	
+								"Rtorrent" => "rtorrent",
+								"Samba" => "samba",
+								"Wireless-tools" => "wireless-tools"
+								);
 
 $platform_omap_packages_array = array("Texas Instruments Gstreamer plugins" => "gstreamer-ti",
 									  "PowerVR SGX drivers for OMAP3" => "libgles-omap3",
@@ -309,6 +315,13 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 	<div id='console_packages'>
 	<?foreach ($console_packages_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"console_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
+	}?>
+	</div>
+
+	<img src='img/expand.gif' onClick="toggleVisibility('network_packages');"> Network related packages:<br/>
+	<div id='network_packages'>
+	<?foreach ($network_packages_array as $pkg => $pkgdepends) {
+		print("<input type=\"checkbox\" name=\"network_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 	</div>
 
