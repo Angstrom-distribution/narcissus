@@ -106,7 +106,7 @@ $env_array = array("Console only" => "",
 				   "Opie" => "task-opie-base task-opie-base-applets task-opie-base-inputmethods task-opie-base-apps task-opie-base-settings task-opie-base-decorations task-opie-base-styles task-opie-base-pim task-opie-extra-settings task-opie-bluetooth task-opie-irda");
 
 $wm_array = array("Enlightenment" => "angstrom-gpe-task-base e-wm e-wm-config-standard e-wm-config-default",
-				  "GNOME" => "angstrom-task-gnome shadow",
+				  "GNOME" => "angstrom-task-gnome shadow bash",
                   "Xfce 4.6" => "task-xfce46-base task-xfce46-extras shadow",
                   "Matchbox" => "angstrom-gpe-task-base",
 				  "Illume" => " angstrom-gpe-task-base e-wm e-wm-config-illume");
