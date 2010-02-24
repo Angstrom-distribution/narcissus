@@ -44,8 +44,8 @@ function environmentChange() {
 <link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
 <body onLoad="initForm() ; launchWindow(dialog);"><?
-/* Narcissus - Online image builder for the angstrom distribution
- * Koen Kooi (c) 2008, 2009 - all rights reserved 
+/* Narcissus - online image builder for the angstrom distribution
+ * Koen Kooi (c) 2008 - 2010 - all rights reserved 
  */
 
 function machine_dropdown()
