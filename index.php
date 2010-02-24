@@ -197,6 +197,8 @@ $network_packages_array = array("Apache" => "apache2",
 
 $platform_omap_packages_array = array("Texas Instruments Gstreamer plugins" => "gstreamer-ti",
 									  "PowerVR SGX drivers for OMAP3" => "libgles-omap3",
+									  "PowerVR SGX demos for framebuffer" => "libgles-omap3-rawdemos",
+									  "PowerVR SGX demos for X11" => "libgles-omap3-x11demos",
 									  "Quake 3 (GLES)" => "quake3-pandora-gles libgles-omap3",
 									  "Julius demo for Texas Instruments" => "ti-julius-demo");
 
