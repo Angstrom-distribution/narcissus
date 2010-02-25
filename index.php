@@ -199,6 +199,7 @@ $platform_omap_packages_array = array("Texas Instruments Gstreamer plugins" => "
 									  "PowerVR SGX drivers for OMAP3" => "libgles-omap3",
 									  "PowerVR SGX demos for framebuffer" => "libgles-omap3-rawdemos",
 									  "PowerVR SGX demos for X11" => "libgles-omap3-x11demos",
+									  "PowerVR SGX gfxdriver plugin for QT/embedded" => "qt4-embedded-plugin-gfxdriver-gfxpvregl",
 									  "Quake 3 (GLES)" => "quake3-pandora-gles libgles-omap3",
 									  "Julius demo for Texas Instruments" => "ti-julius-demo");
 
