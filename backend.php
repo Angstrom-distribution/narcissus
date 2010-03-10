@@ -103,6 +103,7 @@ function show_image_link($machine, $name, $imagesuffix) {
             rename($location, "$deploydir/$value");
             $imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
             $imagestring = "<br/><br/><a href='$deploydir/$value'>$value</a> [$imgsize MiB]: This is the rootfs '$name' for $machine you just built. This will get automatically deleted after 3 days.<br/>";
+            $imagestring .= "You can also have a look at the software <a href='deploy/$machine/$name-image-manifest.html' target='manifest'>manifest</a> for this rootfs<br/>";
             $foundimage = 1;
         }
     }    
