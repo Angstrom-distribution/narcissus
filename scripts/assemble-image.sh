@@ -146,15 +146,11 @@ done
 
 # Print list of installed packages and their filenames
 echo "Print list of installed packages and their filenames to deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt"
-echo "<html><head><link rel='stylesheet' type='text/css' title='dominion' href='css/dominion.css' media='screen' /></head><body>" > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.html
 
 for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
-	echo -n "<a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a>:  "
-	opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | awk '{print $2}'
-	echo "<br/>"
-done >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.html
-
-echo "</body></html>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.html
+	echo -n "<tr><td><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td><td> "
+	opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2 "</td></tr>"}'
+done > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt
 
 echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
@@ -171,6 +167,39 @@ echo "nameserver 208.67.220.220" >> ${TARGET_DIR}/etc/resolv.conf
 echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> ${WORKDIR}/deploy/stats.txt || true
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
+
+# Write out manifest
+echo "Write out manifest"
+
+echo "<html><head><link rel='stylesheet' type='text/css' title='dominion' href='css/dominion.css' media='screen' /></head><body>" > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "<b>Machine:</b> ${MACHINE}<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "<b>Image name:</b> ${IMAGENAME}<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "<b>Image type:</b> ${IMAGETYPE}<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+
+echo -n "<b>Image size:</b> " >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+du ${TARGET_DIR} -hs | awk '{print $1 "<br/>"}' >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+
+echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "Narcissus package list:<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+
+echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "Sample OE image recipe: <a href='${IMAGENAME}.bb'>${IMAGENAME}.bb</a>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+
+echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "Complete package list:<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "<p/><table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "</table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+
+echo "</body></html>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+
+# Write sample OE image
+echo "Write sample OE image"
+
+echo "export IMAGE_BASENAME = \"${IMAGENAME}\"" > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
+echo "IMAGE_INSTALL = \" $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt) \"" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
+echo "inherit image" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
 
 case ${IMAGETYPE} in
 	jffs2)
