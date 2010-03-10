@@ -144,6 +144,18 @@ for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
 	fi
 done 
 
+# Print list of installed packages and their filenames
+echo "Print list of installed packages and their filenames to deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt"
+echo "<html><head><link rel='stylesheet' type='text/css' title='dominion' href='css/dominion.css' media='screen' /></head><body>" > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.html
+
+for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
+	echo -n "<a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a>:  "
+	opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | awk '{print $2}'
+	echo "<br/>"
+done >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.html
+
+echo "</body></html>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.html
+
 echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
 rm ${TARGET_DIR}/usr/lib/opkg/lists/* || true
