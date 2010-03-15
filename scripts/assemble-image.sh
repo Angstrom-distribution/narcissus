@@ -147,11 +147,15 @@ done
 # Print list of installed packages and their filenames
 echo "Print list of installed packages and their filenames to deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt"
 
+if [ -e conf/metadata.txt ] ; then
+	METADATACACHE="1"
+fi
+
 for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
 	FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
 	echo -n "<tr><td><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
 
-	if [ -e conf/metadata.txt ] ; then
+	if [ $METADATACACHE = "1"  ] ; then
 		LICENSE="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $2}')"
 		VERSION="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $3}')"
 		echo -n "<td>$VERSION</td><td>$LICENSE</td><td>$FILENAME</td>"
