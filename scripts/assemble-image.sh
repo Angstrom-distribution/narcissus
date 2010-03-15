@@ -150,13 +150,14 @@ echo "Print list of installed packages and their filenames to deploy/${MACHINE}/
 for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
 	FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
 	echo -n "<tr><td><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
-	echo -n "<td>$FILENAME</td>"
 
 	if [ -e conf/metadata.txt ] ; then
-		LICENSE="$(grep $FILENAME conf/metadata.txt | awk -F: '{print $2}')"
-		echo "<td>$LICENSE</td>"
+		LICENSE="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $2}')"
+		VERSION="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $3}')"
+		echo -n "<td>$VERSION</td><td>$LICENSE</td><td>$FILENAME</td>"
+	else
+		echo -n "<td></td><td></td><td>$FILENAME</td>"		
 	fi
-
 	echo "</tr>"
 done > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt
 
@@ -180,7 +181,7 @@ echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 # Write out manifest
 echo "Write out manifest"
 
-echo "<html><head><link rel='stylesheet' type='text/css' title='dominion' href='css/dominion.css' media='screen' /></head><body>" > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+cat conf/manifest-header.html > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 echo "<b>Machine:</b> ${MACHINE}<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 echo "<b>Image name:</b> ${IMAGENAME}<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 echo "<b>Image type:</b> ${IMAGETYPE}<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
@@ -197,7 +198,7 @@ echo "Sample OE image recipe: <a href='${IMAGENAME}.bb'>${IMAGENAME}.bb</a>" >> 
 
 echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 echo "Complete package list:<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "<p/><table><tr><td>Package</td><td>Filename</td><td>License</td></tr>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "<p/><table border='1' style='border-collapse: collapse;'><tr><td>Package Name</td><td>Version</td><td>License</td><td>Location</td><td>Delivered as</td><td>modified</td><td>Obtained from</td></tr>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 echo "</table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 

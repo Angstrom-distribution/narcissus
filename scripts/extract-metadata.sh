@@ -15,9 +15,10 @@ if [ -e ${CACHEDIR} ] ; then
 	rm -f  metadata.txt
 	for i in *ipk ; do
 		dpkg-deb -I $i > control
-		LICENSE="$(grep License control | awk -F": " '{print $2}')"
+		LICENSE="$(grep License control | awk -F': ' '{print $2}')"
 		FILENAME="$(echo $i |  awk -F, '{print $NF}')"
-		echo "$FILENAME:$LICENSE" >> metadata.txt
+		VERSION="$(grep Version control | awk -F': ' '{print $2}' | awk -F':' '{print $NF}')"
+		echo "$FILENAME,$LICENSE,$VERSION" >> metadata.txt
 	done )
 
 	touch conf/metadata.txt
