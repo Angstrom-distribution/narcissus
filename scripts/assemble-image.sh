@@ -148,13 +148,22 @@ done
 echo "Print list of installed packages and their filenames to deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt"
 
 for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
-	echo -n "<tr><td><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td><td> "
-	opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2 "</td></tr>"}'
+	FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
+	echo -n "<tr><td><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
+	echo -n "<td>$FILENAME</td>"
+
+	if [ -e conf/metadata.txt ] ; then
+		LICENSE="$(grep $FILENAME conf/metadata.txt | awk -F: '{print $2}')"
+		echo "<td>$LICENSE</td>"
+	fi
+
+	echo "</tr>"
 done > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt
 
 echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
 rm ${TARGET_DIR}/usr/lib/opkg/lists/* || true
+rm ${TARGET_DIR}/linuxrc || true
 
 # Add timestamp
 date "+%m%d%H%M%Y" > ${TARGET_DIR}/etc/timestamp
@@ -188,7 +197,7 @@ echo "Sample OE image recipe: <a href='${IMAGENAME}.bb'>${IMAGENAME}.bb</a>" >> 
 
 echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 echo "Complete package list:<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "<p/><table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "<p/><table><tr><td>Package</td><td>Filename</td><td>License</td></tr>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 echo "</table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 
