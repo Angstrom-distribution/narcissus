@@ -17,8 +17,9 @@ if [ -e ${CACHEDIR} ] ; then
 		dpkg-deb -I $i > control
 		LICENSE="$(grep License control | awk -F': ' '{print $2}')"
 		FILENAME="$(echo $i |  awk -F, '{print $NF}')"
-		VERSION="$(grep Version control | awk -F': ' '{print $2}' | awk -F':' '{print $NF}')"
-		echo "$FILENAME,$LICENSE,$VERSION" >> metadata.txt
+		VERSION="$(grep Version control | head -n1 | awk -F': ' '{print $2}' | awk -F':' '{print $NF}')"
+		RECIPE="$(grep OE control | awk -F': ' '{print $2}')"
+		echo "$FILENAME,$LICENSE,$VERSION,$RECIPE" >> metadata.txt
 	done )
 
 	touch conf/metadata.txt
