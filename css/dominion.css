@@ -346,8 +346,6 @@ div.menubar img.logo {
   
 #boxes .window {
   position:absolute;
-//  width:440px;
-//  height:200px;
   display:none;
   z-index:9001;
   padding:20px;
@@ -362,7 +360,6 @@ div.menubar img.logo {
 #beneden {
   	position: absolute;
 	bottom: 10;
-//    background-color:#f00;
 }
 
 
