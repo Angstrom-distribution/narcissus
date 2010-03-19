@@ -85,7 +85,20 @@ function configureImage(){
 	progress_text += "</table>\n";
 	
 	document.getElementById('pkg_progress').innerHTML = progress_text;
-	
+
+    /* jQuery ajax implementation
+    $.ajax({
+       type: "POST",
+       url: workerurl,
+       data: params,
+       success: function(msg){
+        showHideElement('configure_progress', 0);
+        document.getElementById('configure_progress').innerHTML = msg;
+		document.getElementById('td-configure').innerHTML = succes_image;
+		installPackage("test");
+       }
+     });
+    */	
     var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&release=' + document.entry_form.configs.value + '&name=' + document.entry_form.name.value;
 	http.open('post', workerurl, true);
 	

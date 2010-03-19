@@ -2,8 +2,8 @@
 <head>
 <title>Narcissus - Online image builder for the angstrom distribution</title>
 <script language="javascript" type="text/javascript" src="scripts/js/MochiKit.js"></script>
-<script language="javascript" type="text/javascript" src="scripts/js/internal_request.js"></script>
-<script language="javascript" type="text/javascript" src="scripts/js/jquery-1.3.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="scripts/js/narcissus.js"></script>
+<script language="javascript" type="text/javascript" src="scripts/js/jquery-1.4.2.min.js"></script>
 
 <script language="javascript" type="text/javascript">
 function initForm() {
