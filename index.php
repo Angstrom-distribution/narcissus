@@ -235,7 +235,8 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 			     <td align='right'><a href="#basesystemdialog" onClick="toggleVisibility('releasedialog') ; toggleVisibility('basesystemdialog');">Base system selection &gt;</a></td></table>
 		</div>
 		<div id="basesystemdialog">
-			Base system<br> <font size="-2">Each entry down is a superset of the one above it. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
+			Base system<br> <font size="-2">Each entry down is a superset of the one above it. Busybox will give you only busybox, usefull for e.g. small ramdisks. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
+				<input type="radio" name="pkg" value="busybox">bare bones (<a href='http://www.angstrom-distribution.org/repo/?pkgname=busybox' target='foo'>busybox</a>)<br/>
 				<input type="radio" name="pkg" value="task-boot">small (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-boot' target='foo'>task-boot</a>)<br/>
 				<input type="radio" name="pkg" value="task-base" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base' target='foo'>task-base</a>)<br/>
 				<input type="radio" name="pkg" value="task-base-extended">extended (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base-extended' target='foo'>task-base-extended</a>)<br/>
@@ -248,6 +249,7 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 			Select the /dev manager.<br/><font size="-2">Udev is generally the best choice, only select mdev for fixed-function devices and if you know what you're doing</font><br/><br/>
 			<input name="devmanager" type="radio" checked="checked" value="udev">udev
 			<input name="devmanager" type="radio" value="busybox-mdev">mdev
+			<input name="devmanager" type="radio" value=" ">kernel
 			<br/>
 			<table width='100%' id='beneden'><tr><td align='left'><a href="#basesystemdialog" onClick="toggleVisibility('devman') ; toggleVisibility('basesystemdialog');">&lt; Base system selection</a></td>
 			<td align='right'><a href="#imagetype" onClick="toggleVisibility('devman') ; toggleVisibility('imagetypebox');">Image type &gt;</a></td></table>
