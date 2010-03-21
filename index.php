@@ -246,7 +246,7 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 		</div>
 
 		<div id='devman'>
-			Select the /dev manager.<br/><font size="-2">Udev is generally the best choice, only select mdev for fixed-function devices and if you know what you're doing</font><br/><br/>
+			Select the /dev manager.<br/><font size="-2">Udev is generally the best choice, only select mdev for fixed-function devices and if you know what you're doing. Kernel will use the in-kernel <a href='http://lwn.net/Articles/330985/'>devtmpfs</a> feature present in 2.6.32 and newer</font><br/><br/>
 			<input name="devmanager" type="radio" checked="checked" value="udev">udev
 			<input name="devmanager" type="radio" value="busybox-mdev">mdev
 			<input name="devmanager" type="radio" value=" ">kernel
