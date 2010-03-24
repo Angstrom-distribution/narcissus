@@ -218,6 +218,7 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 		<div id="welcomedialog">
 			Welcome!<br/><br/>This is an online tool to create so called 'rootfs' images for your favourite device. This page will guide through the basic options and will close to let you select the additional packages you want.<br/><br/>
 		</div>
+		<br/><b>Base settings:</b><br/><br/>
 		<div id="machinedialog" class="nblock">
 			Select the machine you want to build your rootfs image for:<br/><br/>
 			<select name="machine">
@@ -275,20 +276,21 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 			}?>
 			</select>
 			</div>
+			<div id='x11_wm_block'>
+				<br/><b>X11 Desktop Environments:</b><br/><br/>
+				<div  class="nblock"><? foreach ($wm_array as $pkg => $pkgdepends) {
+					print("<input type=\"checkbox\" name=\"wm\" value=\"$pkgdepends\">$pkg<br/>\n");
+				}?></div>
+			</div>
         </div>
         
 <br/><b>Additional packages selection:</b><br/><br/>
 	Select additional packages below, click the <img src='img/expand.gif'> icon to expand or collaps a section. When you're done, click the 'build me!' button.<br/>
-	<div id='x11_wm_block' class="nblock">
-	<br>X11 Desktop Environments:<br>
-	<? foreach ($wm_array as $pkg => $pkgdepends) {
-		print("<input type=\"checkbox\" name=\"wm\" value=\"$pkgdepends\">$pkg<br/>\n");
-	}?>
-	</div>
+
 	<br/>
-	<div id='x11_packages_block' class="nblock">
+	<div id='x11_packages_block'>
 	<img src='img/expand.gif' onClick="toggleVisibility('x11_packages');"> Additional X11 packages:<br/>
-		<div id='x11_packages'>
+		<div id='x11_packages' class="nblock">
 		<?foreach ($x11_packages_array as $pkg => $pkgdepends) {
 			print("<input type=\"checkbox\" name=\"x11_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 		}?>
