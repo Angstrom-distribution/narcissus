@@ -39,6 +39,8 @@ function configureImage(){
 	document.getElementById('beverage').innerHTML = "Depending on the load of this machine and the feed server the process might take a few <b>minutes</b>, so get a beverage of your choice and <b>DON'T</b> hit refresh."
 	
 	slideUp('packageblock');
+    slideUp('settings');
+    
 	
     var devmanager = "";
     for (i = 0; i < document.entry_form.devmanager.length; i++) {
@@ -75,6 +77,8 @@ function configureImage(){
 	progress_text += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id='td-assemble'></td></tr>\n";
 	progress_text += "</table>\n";
 	
+    showSummary();
+    
 	document.getElementById('pkg_progress').innerHTML = progress_text;
     var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&release=' + document.entry_form.configs.value + '&name=' + document.entry_form.name.value;
 

@@ -8,7 +8,7 @@
 <script language="javascript" type="text/javascript">
 function initForm() {
 	toggleVisibility('packageblock');
-	
+/*	
 	toggleVisibility('machinedialog');
 	toggleVisibility('releasedialog');
 	toggleVisibility('basesystemdialog');
@@ -18,12 +18,13 @@ function initForm() {
 	
 	toggleVisibility('buildbutton');
 	toggleVisibility('patchbox');
-	
+*/	
 	toggleVisibility('devel');
 	toggleVisibility('console_packages');
 	toggleVisibility('platform_packages');
 	toggleVisibility('network_packages');
 
+	toggleVisibility('packageblock');
 	toggleVisibility('x11_packages');
 	
 	environmentChange();
@@ -211,97 +212,81 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 
 
 
-?><div id="summary"></div><form name="entry_form" onsubmit="javascript:configureImage(); toggleVisibility('buildbutton'); return false"><!-- #dialog is the id of a DIV defined in the code below --><div id="boxes">
-	<div id="dialog" class="window">
+?>
+<div id="summary"></div><form name="entry_form" onsubmit="javascript:configureImage(); toggleVisibility('buildbutton'); return false">
+	<div id="settings">
 		<div id="welcomedialog">
 			Welcome!<br/><br/>This is an online tool to create so called 'rootfs' images for your favourite device. This wizard will guide through the basic options and will close to let you select the additional packages you want.<br/>
-			<br/><table width='100%' id='beneden' ><tr><td align='right'><a href="#machinedialog" onClick="toggleVisibility('welcomedialog') ; toggleVisibility('machinedialog');">Machine selection &gt;</a></td></table>
 		</div>
-		<div id="machinedialog">
+		<div id="machinedialog" class="nblock">
 			Select the machine you want to build your rootfs image for:<br/><br/>
 			<select name="machine">
 				<? machine_dropdown(); ?>
 			</select > 
 		<br/>
-		     <table width='100%' id='beneden'><tr><td align='right'><a href="#releasedialog" onClick="toggleVisibility('machinedialog') ; toggleVisibility('releasedialog');">Release selection &gt;</a></td></table>
 		</div>
-		<div id="releasedialog">
+		<div id="releasedialog" class="nblock">
 			Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then.</font><br/><br/>
 			<select name="configs">
 				<option value="unstable">unstable</option>
 				<option value="stable">stable</option>
 			</select>
-			<br/><table width='100%' id='beneden'><tr><td align='left'><a href="#machinedialog" onClick="toggleVisibility('releasedialog') ; toggleVisibility('machinedialog');">&lt; Machine selection</a></td>
-			     <td align='right'><a href="#basesystemdialog" onClick="toggleVisibility('releasedialog') ; toggleVisibility('basesystemdialog');">Base system selection &gt;</a></td></table>
 		</div>
-		<div id="basesystemdialog">
+		<div id="basesystemdialog" class="nblock">
 			Base system<br> <font size="-2">Each entry down is a superset of the one above it. Busybox will give you only busybox, usefull for e.g. small ramdisks. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
 				<input type="radio" name="pkg" value="busybox">bare bones (<a href='http://www.angstrom-distribution.org/repo/?pkgname=busybox' target='foo'>busybox</a>)<br/>
 				<input type="radio" name="pkg" value="task-boot">small (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-boot' target='foo'>task-boot</a>)<br/>
 				<input type="radio" name="pkg" value="task-base" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base' target='foo'>task-base</a>)<br/>
 				<input type="radio" name="pkg" value="task-base-extended">extended (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base-extended' target='foo'>task-base-extended</a>)<br/>
 				<br/>
-				<table width='100%' id='beneden'><tr><td align='left'><a href="#releasedialog" onClick="toggleVisibility('basesystemdialog') ; toggleVisibility('releasedialog');">&lt; Release selection</a></td>
-				<td align='right'><a href="#devmandialog" onClick="toggleVisibility('basesystemdialog') ; toggleVisibility('devman');">Devicemanager selection &gt;</a></td></table>
 		</div>
 
-		<div id='devman'>
+		<div id='devman' class="nblock">
 			Select the /dev manager.<br/><font size="-2">Udev is generally the best choice, only select mdev for fixed-function devices and if you know what you're doing. Kernel will use the in-kernel <a href='http://lwn.net/Articles/330985/'>devtmpfs</a> feature present in 2.6.32 and newer</font><br/><br/>
 			<input name="devmanager" type="radio" checked="checked" value="udev">udev
 			<input name="devmanager" type="radio" value="busybox-mdev">mdev
 			<input name="devmanager" type="radio" value=" ">kernel
 			<br/>
-			<table width='100%' id='beneden'><tr><td align='left'><a href="#basesystemdialog" onClick="toggleVisibility('devman') ; toggleVisibility('basesystemdialog');">&lt; Base system selection</a></td>
-			<td align='right'><a href="#imagetype" onClick="toggleVisibility('devman') ; toggleVisibility('imagetypebox');">Image type &gt;</a></td></table>
 		</div>
 
-		<div id='imagetypebox'>
+		<div id='imagetypebox' class="nblock">
 Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is the most versatile choice since it can be easily converted to other formats later on. The practicality of the other formats depends too much on the device in question to give meaningfull advice here, so we leave that op to you :)</font><br/><br/>
 			<input name="imagetype" type="radio" checked="checked" value="tbz2">tar.bz2
 			<input name="imagetype" type="radio" value="ext2">ext2
 			<input name="imagetype" type="radio" value="ubifs">ubifs2
 			<input name="imagetype" type="radio" value="jffs2">jffs2
 			<br/>
-			<table width='100%' id='beneden'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagetypebox') ; toggleVisibility('devman');">&lt; Devicemanager</a></td>
-			<td align='right'><a href="#imagename" onClick="toggleVisibility('imagetypebox') ; toggleVisibility('imagename');">Image name &gt;</a></td></table>
 
 		</div>
-		<div id='imagename'>
+		<div id='imagename' class="nblock">
 			Image name.<br/><font size="-2">This is used in the filename offered for download, makes it easier to distinguish between rootfs images after downloading.</font><br/><br/>
 			<input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
-			<!-- close button is defined as close class -->
-			<table width='100%' id='beneden'><tr><td align='left'><a href="#environment" onClick="toggleVisibility('imagename') ; toggleVisibility('imagetypebox');">&lt; Image type</a></td>
-<td align='right'><a href="#final" onClick="$('#mask, .window').hide(); showSummary(); toggleVisibility('packageblock'); toggleVisibility('buildbutton'); toggleVisibility('patchbox'); toggleVisibility('imagename');">Package selection &gt;</a></td></table>
-
 		</div>
-
 	</div>
-	<!-- Do not remove div #mask, because you'll need it to fill the whole screen -->	
-	<div id="mask"></div>
 </div>
 
 <div id="packageblock">
 		<div id='environment'>
-<br/><b>User environment selection:</b><br/><br/>
-            Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a Desktop Environment option below. Opie is a qt/e 2.0 based environment for PDA style devices.<br/><br/>
+			<br/><b>User environment selection:</b><br/><br/>
+            <div class="nblock">Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a Desktop Environment option below. Opie is a qt/e 2.0 based environment for PDA style devices.<br/><br/>
 			<select name="environment" onChange="environmentChange(this)">
 			<? foreach($env_array as $env => $pkgs) {
 				print ("\t<option value=\"$pkgs\">$env</option>\n");
 			}?>
 			</select>
-			<br/>
+			</div>
         </div>
         
 <br/><b>Additional packages selection:</b><br/><br/>
 	Select additional packages below, click the <img src='img/expand.gif'> icon to expand or collaps a section. When you're done, click the 'build me!' button.<br/>
-	<div id='x11_wm_block'>
+	<div id='x11_wm_block' class="nblock">
 	<br>X11 Desktop Environments:<br>
 	<? foreach ($wm_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"wm\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 	</div>
 	<br/>
-	<div id='x11_packages_block'>
+	<div id='x11_packages_block' class="nblock">
 	<img src='img/expand.gif' onClick="toggleVisibility('x11_packages');"> Additional X11 packages:<br/>
 		<div id='x11_packages'>
 		<?foreach ($x11_packages_array as $pkg => $pkgdepends) {
@@ -311,28 +296,28 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('devel');"> Development packages:<br/>
-	<div id='devel'>
+	<div id='devel' class="nblock">
 	<?foreach ($devel_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"devel\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('console_packages');"> Additional console packages:<br/>
-	<div id='console_packages'>
+	<div id='console_packages' class="nblock">
 	<?foreach ($console_packages_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"console_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('network_packages');"> Network related packages:<br/>
-	<div id='network_packages'>
+	<div id='network_packages' class="nblock">
 	<?foreach ($network_packages_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"network_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('platform_packages');"> Platform specific packages:<br/>
-	<div id='platform_packages'>
+	<div id='platform_packages' class="nblock">
 
 	<br/>Texas Instruments OMAP family:<br/>
 	<?foreach ($platform_omap_packages_array as $pkg => $pkgdepends) {

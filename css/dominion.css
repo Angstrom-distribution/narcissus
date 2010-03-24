@@ -362,4 +362,12 @@ div.menubar img.logo {
 	bottom: 10;
 }
 
+div.nblock {
+    border: 1px dotted #7893a9;
+    margin: 3px;
+    padding: 3px;
+    background: #eeeeee;
+    width:89%;
+    clear: both;
+}
 
