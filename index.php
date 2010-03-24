@@ -216,7 +216,7 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 <div id="summary"></div><form name="entry_form" onsubmit="javascript:configureImage(); toggleVisibility('buildbutton'); return false">
 	<div id="settings">
 		<div id="welcomedialog">
-			Welcome!<br/><br/>This is an online tool to create so called 'rootfs' images for your favourite device. This wizard will guide through the basic options and will close to let you select the additional packages you want.<br/>
+			Welcome!<br/><br/>This is an online tool to create so called 'rootfs' images for your favourite device. This page will guide through the basic options and will close to let you select the additional packages you want.<br/><br/>
 		</div>
 		<div id="machinedialog" class="nblock">
 			Select the machine you want to build your rootfs image for:<br/><br/>
