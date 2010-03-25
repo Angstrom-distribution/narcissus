@@ -44,7 +44,7 @@ function environmentChange() {
 
 <link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
-<body onLoad="initForm() ; launchWindow(dialog);"><?
+<body onLoad="initForm();"><?
 /* Narcissus - online image builder for the angstrom distribution
  * Koen Kooi (c) 2008 - 2010 - all rights reserved 
  */
@@ -202,6 +202,8 @@ $platform_omap_packages_array = array("Texas Instruments Gstreamer plugins" => "
 									  "PowerVR SGX demos for X11" => "libgles-omap3-x11demos",
 									  "PowerVR SGX gfxdriver plugin for QT/embedded" => "qt4-embedded-plugin-gfxdriver-gfxpvregl",
 									  "PowerVR SGX gfxdriver plugin for QT/X11" => "qt4-plugin-graphicssystems-glgraphicssystem",
+									  "TI texture streaming demo for X11" => "bc-cube-x11",
+									  "TI texture streaming demo for framebuffer" => "bc-cube-fb",
 									  "Quake 3 (GLES)" => "quake3-pandora-gles libgles-omap3",
 									  "Julius demo for Texas Instruments" => "ti-julius-demo");
 
@@ -225,6 +227,10 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 				<? machine_dropdown(); ?>
 			</select > 
 		<br/>
+		</div>
+		<div id='imagename' class="nblock">
+			Choose your image name.<br/><font size="-2">This is used in the filename offered for download, makes it easier to distinguish between rootfs images after downloading.</font><br/><br/>
+			<input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
 		</div>
 		<div id="releasedialog" class="nblock">
 			Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then.</font><br/><br/>
@@ -258,10 +264,6 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 			<input name="imagetype" type="radio" value="jffs2">jffs2
 			<br/>
 
-		</div>
-		<div id='imagename' class="nblock">
-			Image name.<br/><font size="-2">This is used in the filename offered for download, makes it easier to distinguish between rootfs images after downloading.</font><br/><br/>
-			<input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
 		</div>
 	</div>
 </div>
