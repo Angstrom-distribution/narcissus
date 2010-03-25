@@ -19,6 +19,8 @@ function initForm() {
 	toggleVisibility('buildbutton');
 	toggleVisibility('patchbox');
 */	
+	toggleVisibility('expert');
+
 	toggleVisibility('devel');
 	toggleVisibility('console_packages');
 	toggleVisibility('platform_packages');
@@ -39,6 +41,10 @@ function environmentChange() {
 		showHideElement('x11_packages_block', 0);
 		showHideElement('x11_wm_block', 0);
 	}
+}
+
+function guruChange() {
+	toggleVisibility('expert');
 }
 </script>
 
@@ -232,39 +238,53 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 			Choose your image name.<br/><font size="-2">This is used in the filename offered for download, makes it easier to distinguish between rootfs images after downloading.</font><br/><br/>
 			<input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
 		</div>
-		<div id="releasedialog" class="nblock">
-			Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then.</font><br/><br/>
-			<select name="configs">
-				<option value="unstable">unstable</option>
-				<option value="stable">stable</option>
+
+		<div id="guru" class="nblock">
+			Choose the complexity of the options below.<br/><font size="-2"><i>simple</i> will hide the options most users don't need to care about and <i>advanced</i> will give you lots of options to fiddle with.</font><br/><br/>
+			<select name="guru" onChange="guruChange(this)">
+				<option value="basic">simple</option>
+				<option value="hard">advanced</option>
 			</select>
 		</div>
-		<div id="basesystemdialog" class="nblock">
-			Base system<br> <font size="-2">Each entry down is a superset of the one above it. Busybox will give you only busybox, usefull for e.g. small ramdisks. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
-				<input type="radio" name="pkg" value="busybox">bare bones (<a href='http://www.angstrom-distribution.org/repo/?pkgname=busybox' target='foo'>busybox</a>)<br/>
-				<input type="radio" name="pkg" value="task-boot">small (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-boot' target='foo'>task-boot</a>)<br/>
-				<input type="radio" name="pkg" value="task-base" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base' target='foo'>task-base</a>)<br/>
-				<input type="radio" name="pkg" value="task-base-extended">extended (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base-extended' target='foo'>task-base-extended</a>)<br/>
+
+		<div id="expert">
+		<br/><b>Advanced settings:</b><br/><br/>
+
+			<div id="releasedialog" class="nblock">
+				Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then.</font><br/><br/>
+				<select name="configs">
+					<option value="unstable">unstable</option>
+					<option value="stable">stable</option>
+				</select>
+			</div>
+			<div id="basesystemdialog" class="nblock">
+				Base system<br/> <font size="-2">Each entry down is a superset of the one above it. Busybox will give you only busybox, usefull for e.g. small ramdisks. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
+					<input type="radio" name="pkg" value="busybox">bare bones (<a href='http://www.angstrom-distribution.org/repo/?pkgname=busybox' target='foo'>busybox</a>)<br/>
+					<input type="radio" name="pkg" value="task-boot">small (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-boot' target='foo'>task-boot</a>)<br/>
+					<input type="radio" name="pkg" value="task-base" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base' target='foo'>task-base</a>)<br/>
+					<input type="radio" name="pkg" value="task-base-extended">extended (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base-extended' target='foo'>task-base-extended</a>)<br/>
+					<br/>
+			</div>
+
+			<div id='devman' class="nblock">
+				Select the /dev manager.<br/><font size="-2">Udev is generally the best choice, only select mdev for fixed-function devices and if you know what you're doing. Kernel will use the in-kernel <a href='http://lwn.net/Articles/330985/'>devtmpfs</a> feature present in 2.6.32 and newer</font><br/><br/>
+				<input name="devmanager" type="radio" checked="checked" value="udev">udev
+				<input name="devmanager" type="radio" value="busybox-mdev">mdev
+				<input name="devmanager" type="radio" value=" ">kernel
 				<br/>
+			</div>
+
+			<div id='imagetypebox' class="nblock">
+	Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is the most versatile choice since it can be easily converted to other formats later on. The practicality of the other formats depends too much on the device in question to give meaningfull advice here, so we leave that op to you :)</font><br/><br/>
+				<input name="imagetype" type="radio" checked="checked" value="tbz2">tar.bz2
+				<input name="imagetype" type="radio" value="ext2">ext2
+				<input name="imagetype" type="radio" value="ubifs">ubifs2
+				<input name="imagetype" type="radio" value="jffs2">jffs2
+				<br/>
+			</div>
+		
 		</div>
 
-		<div id='devman' class="nblock">
-			Select the /dev manager.<br/><font size="-2">Udev is generally the best choice, only select mdev for fixed-function devices and if you know what you're doing. Kernel will use the in-kernel <a href='http://lwn.net/Articles/330985/'>devtmpfs</a> feature present in 2.6.32 and newer</font><br/><br/>
-			<input name="devmanager" type="radio" checked="checked" value="udev">udev
-			<input name="devmanager" type="radio" value="busybox-mdev">mdev
-			<input name="devmanager" type="radio" value=" ">kernel
-			<br/>
-		</div>
-
-		<div id='imagetypebox' class="nblock">
-Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is the most versatile choice since it can be easily converted to other formats later on. The practicality of the other formats depends too much on the device in question to give meaningfull advice here, so we leave that op to you :)</font><br/><br/>
-			<input name="imagetype" type="radio" checked="checked" value="tbz2">tar.bz2
-			<input name="imagetype" type="radio" value="ext2">ext2
-			<input name="imagetype" type="radio" value="ubifs">ubifs2
-			<input name="imagetype" type="radio" value="jffs2">jffs2
-			<br/>
-
-		</div>
 	</div>
 </div>
 
@@ -328,7 +348,7 @@ Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is t
 		print("<input type=\"checkbox\" name=\"platform_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
 
-	<br>Texas Instruments DaVinci family:<br/>
+	<br/>Texas Instruments DaVinci family:<br/>
 	<?foreach ($platform_davinci_packages_array as $pkg => $pkgdepends) {
 		print("<input type=\"checkbox\" name=\"platform_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
 	}?>
