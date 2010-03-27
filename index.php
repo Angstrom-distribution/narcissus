@@ -76,7 +76,7 @@ function machine_dropdown()
 	sort ($machine);
 	foreach ($machine as $value)
 	{
-		print ("\t<option value=\"$value\">$value</option>\n");
+		print ("\t\t\t\t<option value=\"$value\">$value</option>\n");
 	}
 }
 
@@ -108,118 +108,6 @@ function config_dropdown()
 
 $repourl = "http://www.angstrom-distribution.org/repo/?pkgname";
 
-$env_array = array("Console only" => "",
-				   "X11" => "angstrom-x11-base-depends",
-				   "Opie" => "task-opie-base task-opie-base-applets task-opie-base-inputmethods task-opie-base-apps task-opie-base-settings task-opie-base-decorations task-opie-base-styles task-opie-base-pim task-opie-extra-settings task-opie-bluetooth task-opie-irda");
-
-$wm_array = array("Enlightenment" => "angstrom-gpe-task-base e-wm e-wm-config-standard e-wm-config-default",
-				  "GNOME" => "angstrom-task-gnome shadow bash",
-                  "Xfce 4.6" => "task-xfce46-base task-xfce46-extras shadow",
-                  "Matchbox" => "angstrom-gpe-task-base",
-				  "Illume" => " angstrom-gpe-task-base e-wm e-wm-config-illume");
-
-$devel_array = array("Python" => "python-core python-modules",
-					 "Perl" => "perl perl-modules",
-					 "Mono (C#, .NET)" => "mono mono-mcs",
-					 "Toolchain" => "task-native-sdk",
-					 "OProfile" => "oprofile",
-					 "GDB" => "gdb gdbserver",
-					 "Busybox replacements" => "task-proper-tools");
-
-$console_packages_array = array("Aircrack-ng" => "aircrack-ng",
-								"All kernel modules" => "kernel-modules",
-								"Alsa utils" => "alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl",
-								"Beagleboard demo" => "task-beagleboard-demo",
-								"Bluez" => "bluez-utils",
-								"cwiid" => "cwiid",
-								"DVB-utils" => "dvb-azap dvb-tzap dvb-czap dvb-szap dvb-scan wscan dvbstream dvbtune",
-								"Flite" => "flite libflite-cmu-us-kal1",
-								"Gdbserver" => "gdbserver",
-								"Gnuradio" => "gnuradio",
-								"Git" => "git",
-								"GSM0710muxd" => "gsm0710muxd",
-								"Gstreamer" => "gst-plugins-bad-meta gst-plugins-base-meta gst-plugins-good-meta gst-plugins-ugly-meta ",
-								"I2C-tools" => "i2c-tools",
-								"JamVM" => "jamvm",
-								"Julius speech recognizer" => "julius",
-								"Kismet" => "kismet",
-								"LCD4Linux" => "lcd4linux",
-								"LIRC" => "lirc",
-								"Mediatomb" => "mediatomb",
-								"MPlayer" => "mplayer",
-								"Mythtv backend" => "mythtv-backend",
-								"Octave" => "octave",
-								"OpenCV" => "opencv-samples",
-								"Powertop" => "powertop",
-								"QT/e 4" => "qt4-embedded-demos qt4-embedded-plugin-gfxdriver-gfxvnc qt4-embedded",
-								"Screen" => "screen",
-								"Video Disc Recoder" => "vdr");
-
-$x11_packages_array = array("Abiword" => "abiword",
-							"Duke Nukem 3D" => "duke3d",
-							"Doom (prboom)" => "prboom",
-							"E-uae" => "e-uae",
-							"Ekiga" => "ekiga",
-							"Epiphany web browser" => "epiphany",
-							"Evince" => "evince",
-							"Fennec" => "fennec",
-							"Firefox" => "firefox",
-							"FLDigi" => "fldigi",
-							"Gimp" => "gimp",
-							"Gnome Games" => "gnome-games",
-							"Gnumeric" => "gnumeric",
-							"GPE PIM suite" => "task-gpe-pim",
-							"Midori web browser" => "midori",
-							"Moblin connection manager GTK+ applet" => "connman-gnome",
-							"MythTV" => "mythtv mythtv-frontend",
-							"Numptyphysics" => "numptyphysics",
-							"Pidgin IM" => "pidgin",
-							"Pimlico" => "contacts dates tasks",
-							"Quake 1" => "sdlquake",
-							"Quake 2" => "quake2",
-							"Quake 2 (quetoo)" => "quetoo",
-							"Quake 3 (ioq3)" => "ioquake3",
-                            "ScummVM" => "scummvm",
-							"SDR-shell" => "sdrshell",
-							"Stalonetray" => "stalonetray",
-							"Totem media player" => "totem",
-							"Wireshark" => "wireshark",
-							"Zhone" => "zhone frameworkd");
-
-$network_packages_array = array("Apache" => "apache2",
-								"Boa" => "boa",
-								"Cherokee" => "cherokee",
-								"Dropbear SSH server" => "dropbear",
-								"Moblin connection manager" => "connman",
-								"NetworkManager" => "networkmanager networkmanager-openvpn",
-								"NetworkManager GUI applet" => "network-manager-applet",
-								"Nmap" => "nmap",
-								"NTP" => "ntp",
-								"NTPclient" => "ntpclient",
-								"NTPdate" => "ntpdate",	
-								"Rtorrent" => "rtorrent",
-								"Samba" => "samba",
-								"Wireless-tools" => "wireless-tools"
-								);
-
-$platform_omap_packages_array = array("Texas Instruments Gstreamer plugins" => "gstreamer-ti",
-									  "PowerVR SGX drivers for OMAP3" => "libgles-omap3",
-									  "PowerVR SGX demos for framebuffer" => "libgles-omap3-rawdemos",
-									  "PowerVR SGX demos for X11" => "libgles-omap3-x11demos",
-									  "PowerVR SGX gfxdriver plugin for QT/embedded" => "qt4-embedded-plugin-gfxdriver-gfxpvregl",
-									  "PowerVR SGX gfxdriver plugin for QT/X11" => "qt4-plugin-graphicssystems-glgraphicssystem",
-									  "TI texture streaming demo for X11" => "bc-cube-x11",
-									  "TI texture streaming demo for framebuffer" => "bc-cube-fb",
-									  "Quake 3 (GLES)" => "quake3-pandora-gles libgles-omap3",
-									  "Julius demo for Texas Instruments" => "ti-julius-demo");
-
-$platform_davinci_packages_array = array("Texas Instruments Gstreamer plugins" => "gstreamer-ti",
-										  "Julius demo for Texas Instruments" => "ti-julius-demo");
-
-$platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
-
-
-
 ?>
 <div id="summary"></div><form name="entry_form" onsubmit="javascript:configureImage(); toggleVisibility('buildbutton'); return false">
 	<div id="settings">
@@ -230,7 +118,7 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 		<div id="machinedialog" class="nblock">
 			Select the machine you want to build your rootfs image for:<br/><br/>
 			<select name="machine">
-				<? machine_dropdown(); ?>
+<? machine_dropdown(); ?>
 			</select > 
 		<br/>
 		</div>
@@ -293,16 +181,20 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 			<br/><b>User environment selection:</b><br/><br/>
             <div class="nblock">Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a Desktop Environment option below. Opie is a qt/e 2.0 based environment for PDA style devices.<br/><br/>
 			<select name="environment" onChange="environmentChange(this)">
-			<? foreach($env_array as $env => $pkgs) {
-				print ("\t<option value=\"$pkgs\">$env</option>\n");
-			}?>
+				<option value="">Console only</option>
+				<option value="angstrom-x11-base-depends">X11</option>
+				<option value="task-opie-base task-opie-base-applets task-opie-base-inputmethods task-opie-base-apps task-opie-base-settings task-opie-base-decorations task-opie-base-styles task-opie-base-pim task-opie-extra-settings task-opie-bluetooth task-opie-irda">Opie</option>
 			</select>
 			</div>
 			<div id='x11_wm_block'>
 				<br/><b>X11 Desktop Environments:</b><br/><br/>
-				<div  class="nblock"><? foreach ($wm_array as $pkg => $pkgdepends) {
-					print("<input type=\"checkbox\" name=\"wm\" value=\"$pkgdepends\">$pkg<br/>\n");
-				}?></div>
+				<div  class="nblock">
+					<input type="checkbox" name="wm" value="angstrom-gpe-task-base e-wm e-wm-config-standard e-wm-config-default">Enlightenment<br/>
+					<input type="checkbox" name="wm" value="angstrom-task-gnome shadow bash">GNOME<br/>
+					<input type="checkbox" name="wm" value="task-xfce46-base task-xfce46-extras shadow">Xfce 4.6<br/>
+					<input type="checkbox" name="wm" value="angstrom-gpe-task-base">Matchbox<br/>
+					<input type="checkbox" name="wm" value=" angstrom-gpe-task-base e-wm e-wm-config-illume">Illume<br/>
+				</div>
 			</div>
         </div>
         
@@ -313,50 +205,121 @@ $platform_pxa_packages_array = array("PXA register utility" => "pxaregs");
 	<div id='x11_packages_block'>
 	<img src='img/expand.gif' onClick="toggleVisibility('x11_packages');"> Additional X11 packages:<br/>
 		<div id='x11_packages' class="nblock">
-		<?foreach ($x11_packages_array as $pkg => $pkgdepends) {
-			print("<input type=\"checkbox\" name=\"x11_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
-		}?>
+			<input type="checkbox" name="x11_packages" value="abiword">Abiword<br/>
+			<input type="checkbox" name="x11_packages" value="duke3d">Duke Nukem 3D<br/>
+			<input type="checkbox" name="x11_packages" value="prboom">Doom (prboom)<br/>
+			<input type="checkbox" name="x11_packages" value="e-uae">E-uae<br/>
+			<input type="checkbox" name="x11_packages" value="ekiga">Ekiga<br/>
+			<input type="checkbox" name="x11_packages" value="epiphany">Epiphany web browser<br/>
+			<input type="checkbox" name="x11_packages" value="evince">Evince<br/>
+			<input type="checkbox" name="x11_packages" value="fennec">Fennec<br/>
+			<input type="checkbox" name="x11_packages" value="firefox">Firefox<br/>
+			<input type="checkbox" name="x11_packages" value="fldigi">FLDigi<br/>
+			<input type="checkbox" name="x11_packages" value="gimp">Gimp<br/>
+			<input type="checkbox" name="x11_packages" value="gnome-games">Gnome Games<br/>
+			<input type="checkbox" name="x11_packages" value="gnumeric">Gnumeric<br/>
+			<input type="checkbox" name="x11_packages" value="task-gpe-pim">GPE PIM suite<br/>
+			<input type="checkbox" name="x11_packages" value="midori">Midori web browser<br/>
+			<input type="checkbox" name="x11_packages" value="connman-gnome">Moblin connection manager GTK+ applet<br/>
+			<input type="checkbox" name="x11_packages" value="mythtv mythtv-frontend">MythTV<br/>
+			<input type="checkbox" name="x11_packages" value="numptyphysics">Numptyphysics<br/>
+			<input type="checkbox" name="x11_packages" value="pidgin">Pidgin IM<br/>
+			<input type="checkbox" name="x11_packages" value="contacts dates tasks">Pimlico<br/>
+			<input type="checkbox" name="x11_packages" value="sdlquake">Quake 1<br/>
+			<input type="checkbox" name="x11_packages" value="quake2">Quake 2<br/>
+			<input type="checkbox" name="x11_packages" value="quetoo">Quake 2 (quetoo)<br/>
+			<input type="checkbox" name="x11_packages" value="ioquake3">Quake 3 (ioq3)<br/>
+			<input type="checkbox" name="x11_packages" value="scummvm">ScummVM<br/>
+			<input type="checkbox" name="x11_packages" value="sdrshell">SDR-shell<br/>
+			<input type="checkbox" name="x11_packages" value="stalonetray">Stalonetray<br/>
+			<input type="checkbox" name="x11_packages" value="totem">Totem media player<br/>
+			<input type="checkbox" name="x11_packages" value="wireshark">Wireshark<br/>
+			<input type="checkbox" name="x11_packages" value="zhone frameworkd">Zhone<br/>
 		</div>
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('devel');"> Development packages:<br/>
 	<div id='devel' class="nblock">
-	<?foreach ($devel_array as $pkg => $pkgdepends) {
-		print("<input type=\"checkbox\" name=\"devel\" value=\"$pkgdepends\">$pkg<br/>\n");
-	}?>
+		<input type="checkbox" name="devel" value="python-core python-modules">Python<br/>
+		<input type="checkbox" name="devel" value="perl perl-modules">Perl<br/>
+		<input type="checkbox" name="devel" value="mono mono-mcs">Mono (C#, .NET)<br/>
+		<input type="checkbox" name="devel" value="task-native-sdk">Toolchain<br/>
+		<input type="checkbox" name="devel" value="oprofile">OProfile<br/>
+		<input type="checkbox" name="devel" value="gdb gdbserver">GDB<br/>
+		<input type="checkbox" name="devel" value="task-proper-tools">Busybox replacements<br/>
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('console_packages');"> Additional console packages:<br/>
 	<div id='console_packages' class="nblock">
-	<?foreach ($console_packages_array as $pkg => $pkgdepends) {
-		print("<input type=\"checkbox\" name=\"console_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
-	}?>
+		<input type="checkbox" name="console_packages" value="aircrack-ng">Aircrack-ng<br/>
+		<input type="checkbox" name="console_packages" value="kernel-modules">All kernel modules<br/>
+		<input type="checkbox" name="console_packages" value="alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl">Alsa utils<br/>
+		<input type="checkbox" name="console_packages" value="task-beagleboard-demo">Beagleboard demo<br/>
+		<input type="checkbox" name="console_packages" value="bluez-utils">Bluez<br/>
+		<input type="checkbox" name="console_packages" value="cwiid">cwiid<br/>
+		<input type="checkbox" name="console_packages" value="dvb-azap dvb-tzap dvb-czap dvb-szap dvb-scan wscan dvbstream dvbtune">DVB-utils<br/>
+		<input type="checkbox" name="console_packages" value="flite libflite-cmu-us-kal1">Flite<br/>
+		<input type="checkbox" name="console_packages" value="gdbserver">Gdbserver<br/>
+		<input type="checkbox" name="console_packages" value="gnuradio">Gnuradio<br/>
+		<input type="checkbox" name="console_packages" value="git">Git<br/>
+		<input type="checkbox" name="console_packages" value="gsm0710muxd">GSM0710muxd<br/>
+		<input type="checkbox" name="console_packages" value="gst-plugins-bad-meta gst-plugins-base-meta gst-plugins-good-meta gst-plugins-ugly-meta ">Gstreamer<br/>
+		<input type="checkbox" name="console_packages" value="i2c-tools">I2C-tools<br/>
+		<input type="checkbox" name="console_packages" value="jamvm">JamVM<br/>
+		<input type="checkbox" name="console_packages" value="julius">Julius speech recognizer<br/>
+		<input type="checkbox" name="console_packages" value="kismet">Kismet<br/>
+		<input type="checkbox" name="console_packages" value="lcd4linux">LCD4Linux<br/>
+		<input type="checkbox" name="console_packages" value="lirc">LIRC<br/>
+		<input type="checkbox" name="console_packages" value="mediatomb">Mediatomb<br/>
+		<input type="checkbox" name="console_packages" value="mplayer">MPlayer<br/>
+		<input type="checkbox" name="console_packages" value="mythtv-backend">Mythtv backend<br/>
+		<input type="checkbox" name="console_packages" value="octave">Octave<br/>
+		<input type="checkbox" name="console_packages" value="opencv-samples">OpenCV<br/>
+		<input type="checkbox" name="console_packages" value="powertop">Powertop<br/>
+		<input type="checkbox" name="console_packages" value="qt4-embedded-demos qt4-embedded-plugin-gfxdriver-gfxvnc qt4-embedded">QT/e 4<br/>
+		<input type="checkbox" name="console_packages" value="screen">Screen<br/>
+		<input type="checkbox" name="console_packages" value="vdr">Video Disc Recoder<br/>
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('network_packages');"> Network related packages:<br/>
 	<div id='network_packages' class="nblock">
-	<?foreach ($network_packages_array as $pkg => $pkgdepends) {
-		print("<input type=\"checkbox\" name=\"network_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
-	}?>
+		<input type="checkbox" name="network_packages" value="apache2">Apache<br/>
+		<input type="checkbox" name="network_packages" value="boa">Boa<br/>
+		<input type="checkbox" name="network_packages" value="cherokee">Cherokee<br/>
+		<input type="checkbox" name="network_packages" value="dropbear">Dropbear SSH server<br/>
+		<input type="checkbox" name="network_packages" value="connman">Moblin connection manager<br/>
+		<input type="checkbox" name="network_packages" value="networkmanager networkmanager-openvpn">NetworkManager<br/>
+		<input type="checkbox" name="network_packages" value="network-manager-applet">NetworkManager GUI applet<br/>
+		<input type="checkbox" name="network_packages" value="nmap">Nmap<br/>
+		<input type="checkbox" name="network_packages" value="ntp">NTP<br/>
+		<input type="checkbox" name="network_packages" value="ntpclient">NTPclient<br/>
+		<input type="checkbox" name="network_packages" value="ntpdate">NTPdate<br/>
+		<input type="checkbox" name="network_packages" value="rtorrent">Rtorrent<br/>
+		<input type="checkbox" name="network_packages" value="samba">Samba<br/>
+		<input type="checkbox" name="network_packages" value="wireless-tools">Wireless-tools<br/>
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('platform_packages');"> Platform specific packages:<br/>
 	<div id='platform_packages' class="nblock">
 
 	<br/>Texas Instruments OMAP family:<br/>
-	<?foreach ($platform_omap_packages_array as $pkg => $pkgdepends) {
-		print("<input type=\"checkbox\" name=\"platform_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
-	}?>
+		<input type="checkbox" name="platform_packages" value="gstreamer-ti">Texas Instruments Gstreamer plugins<br/>
+		<input type="checkbox" name="platform_packages" value="libgles-omap3">PowerVR SGX drivers for OMAP3<br/>
+		<input type="checkbox" name="platform_packages" value="libgles-omap3-rawdemos">PowerVR SGX demos for framebuffer<br/>
+		<input type="checkbox" name="platform_packages" value="libgles-omap3-x11demos">PowerVR SGX demos for X11<br/>
+		<input type="checkbox" name="platform_packages" value="qt4-embedded-plugin-gfxdriver-gfxpvregl">PowerVR SGX gfxdriver plugin for QT/embedded<br/>
+		<input type="checkbox" name="platform_packages" value="qt4-plugin-graphicssystems-glgraphicssystem">PowerVR SGX gfxdriver plugin for QT/X11<br/>
+		<input type="checkbox" name="platform_packages" value="bc-cube-x11">TI texture streaming demo for X11<br/>
+		<input type="checkbox" name="platform_packages" value="bc-cube-fb">TI texture streaming demo for framebuffer<br/>
+		<input type="checkbox" name="platform_packages" value="quake3-pandora-gles libgles-omap3">Quake 3 (GLES)<br/>
+		<input type="checkbox" name="platform_packages" value="ti-julius-demo">Julius demo for Texas Instruments<br/>
 
 	<br/>Texas Instruments DaVinci family:<br/>
-	<?foreach ($platform_davinci_packages_array as $pkg => $pkgdepends) {
-		print("<input type=\"checkbox\" name=\"platform_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
-	}?>
+		<input type="checkbox" name="platform_packages" value="gstreamer-ti">Texas Instruments Gstreamer plugins<br/>
+		<input type="checkbox" name="platform_packages" value="ti-julius-demo">Julius demo for Texas Instruments<br/>
 
 	<br/>Marvell XScale Family:<br/>
-	<?foreach ($platform_pxa_packages_array as $pkg => $pkgdepends) {
-		print("<input type=\"checkbox\" name=\"platform_packages\" value=\"$pkgdepends\">$pkg<br/>\n");
-	}?>
+		<input type="checkbox" name="platform_packages" value="pxaregs">PXA register utility<br/>
 
 	</div>
 
