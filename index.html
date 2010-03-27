@@ -4,12 +4,17 @@
 <script language="javascript" type="text/javascript" src="scripts/js/MochiKit.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/narcissus.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/jquery-1.4.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="scripts/js/webtoolkit.md5.js"></script>
 
 <script language="javascript" type="text/javascript">
 function initForm() {
 	/* load list of machines using javascript, change the .html to .php to generate the list at runtime */
 	$('#machinedialog').load('machine-list.html #machinelist');
-
+	
+	var currentTime = new Date();
+	var unixTime = "" + currentTime.getTime();
+	document.entry_form.name.value = "random-" + MD5(unixTime);
+	
 	toggleVisibility('packageblock');
 /*	
 	toggleVisibility('machinedialog');
@@ -63,7 +68,7 @@ function guruChange() {
 		</div>
 		<div id='imagename' class="nblock">
 			Choose your image name.<br/><font size="-2">This is used in the filename offered for download, makes it easier to distinguish between rootfs images after downloading.</font><br/><br/>
-			<input type="text" name="name" id="name" value="random-<?print(substr(md5(time()),0,8));?>"/>
+			<input type="text" name="name" id="name"/>
 		</div>
 
 		<div id="guru" class="nblock">
