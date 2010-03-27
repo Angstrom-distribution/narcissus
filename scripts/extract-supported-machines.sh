@@ -14,7 +14,7 @@ echo "			Select the machine you want to build your rootfs image for:<br/><br/>" 
 echo "			<select name='machine'>" >> machine-list.html
 
 for machine in $(find conf/ -name "arch.conf" | awk -F/ '{print $2}' | sort | uniq) ; do
-	echo "				<option value=\$machine\">$machine</option>" >> machine-list.html
+	echo "				<option value=\"$machine\">$machine</option>" >> machine-list.html
 done
 
 echo "			</select><br/>" >> machine-list.html
