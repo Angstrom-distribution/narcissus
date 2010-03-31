@@ -11,7 +11,7 @@ fi
 
 echo "<div id='machinelist'>" > machine-list.html
 echo "			Select the machine you want to build your rootfs image for:<br/><br/>" >> machine-list.html
-echo "			<select name='machine'>" >> machine-list.html
+echo "			<select name='machine' onChange='showValues();'>" >> machine-list.html
 
 for machine in $(find conf/ -name "arch.conf" | awk -F/ '{print $2}' | sort | uniq) ; do
 	echo "				<option value=\"$machine\">$machine</option>" >> machine-list.html

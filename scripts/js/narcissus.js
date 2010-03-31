@@ -18,6 +18,106 @@ var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
 //var workerurl = 'http://amethyst.openembedded.net/~koen/narcissus/backend.php';
 var workerurl = "backend.php";
 
+function initForm() {
+	/* load list of machines using javascript, change the .html to .php to generate the list at runtime */
+	$('#machinedialog').load('machine-list.html #machinelist');
+	
+	var currentTime = new Date();
+	var unixTime = "" + currentTime.getTime();
+	document.entry_form.name.value = "random-" + MD5(unixTime).substr(4,8);
+	
+	toggleVisibility('packageblock');
+/*	
+	toggleVisibility('machinedialog');
+	toggleVisibility('releasedialog');
+	toggleVisibility('basesystemdialog');
+	toggleVisibility('devman');
+	toggleVisibility('imagetypebox');
+	toggleVisibility('imagename');
+	
+	toggleVisibility('buildbutton');
+	toggleVisibility('patchbox');
+*/	
+	toggleVisibility('expert');
+
+	toggleVisibility('devel');
+	toggleVisibility('console_packages');
+	toggleVisibility('platform_packages');
+	toggleVisibility('network_packages');
+
+	toggleVisibility('packageblock');
+	toggleVisibility('x11_packages');
+	
+	environmentChange();
+    showValues();
+}
+
+function environmentChange() {
+	if(document.entry_form.environment.selectedIndex == 1) {
+		showHideElement('x11_packages_block', 1);
+		showHideElement('x11_wm_block', 1);
+	}
+	else {
+		showHideElement('x11_packages_block', 0);
+		showHideElement('x11_wm_block', 0);
+	}
+}
+
+function guruChange() {
+	toggleVisibility('expert');
+}
+
+// Removes redundant elements from the array
+function unique(a)
+{
+   var r = new Array();
+   o:for(var i = 0, n = a.length; i < n; i++) {
+      for(var x = i + 1 ; x < n; x++)
+      {
+         if(a[x]==a[i]) continue o;
+      }
+      r[r.length] = a[i];
+   }
+   return r;
+}
+
+function showValues() {
+    var extratext = "";
+    var fields = $(":input").serializeArray();
+    $("#results").empty();
+    $("#additional_packages").empty();
+    jQuery.each(fields, function(i, field){
+
+        switch(field.name) {
+        case 'machine':
+            $("#results").append("Machine: " + field.value + "<br/>");
+            break;
+        case 'name':
+            $("#results").append("Image name: " + field.value + "<br/>");
+            break;
+        case 'pkg':
+            break;
+        case 'devmanager':
+            break;
+        case 'configs':
+            break;
+        case 'imagetype':
+            $("#results").append("Image type: " + field.value + "<br/> ");
+            break;
+        case 'guru':
+            break;
+        default:
+            extratext = extratext + field.value + " ";
+            break;  
+        }
+    });
+    
+    pkg_array = extratext.split(' ');
+    pkg_array.sort();
+    extratext = unique(pkg_array).join('<br/>');
+    $("#additional_packages").append(extratext);
+}
+
 function showSummary(){
     document.getElementById('summary').innerHTML = '<b>Summary:</b><br/><br/>Machine: ' + document.entry_form.machine.value + '<br/>Release: ' + document.entry_form.configs.value + '<br/>Name: ' + document.entry_form.name.value;
 }
@@ -77,7 +177,7 @@ function configureImage(){
 	progress_text += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id='td-assemble'></td></tr>\n";
 	progress_text += "</table>\n";
 	
-    showSummary();
+    //showSummary();
     
 	document.getElementById('pkg_progress').innerHTML = progress_text;
     var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&release=' + document.entry_form.configs.value + '&name=' + document.entry_form.name.value;

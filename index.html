@@ -1,62 +1,13 @@
 <html>
 <head>
+<link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
+
 <title>Narcissus - Online image builder for the angstrom distribution</title>
 <script language="javascript" type="text/javascript" src="scripts/js/MochiKit.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/narcissus.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/jquery-1.4.2.min.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/webtoolkit.md5.js"></script>
 
-<script language="javascript" type="text/javascript">
-function initForm() {
-	/* load list of machines using javascript, change the .html to .php to generate the list at runtime */
-	$('#machinedialog').load('machine-list.html #machinelist');
-	
-	var currentTime = new Date();
-	var unixTime = "" + currentTime.getTime();
-	document.entry_form.name.value = "random-" + MD5(unixTime);
-	
-	toggleVisibility('packageblock');
-/*	
-	toggleVisibility('machinedialog');
-	toggleVisibility('releasedialog');
-	toggleVisibility('basesystemdialog');
-	toggleVisibility('devman');
-	toggleVisibility('imagetypebox');
-	toggleVisibility('imagename');
-	
-	toggleVisibility('buildbutton');
-	toggleVisibility('patchbox');
-*/	
-	toggleVisibility('expert');
-
-	toggleVisibility('devel');
-	toggleVisibility('console_packages');
-	toggleVisibility('platform_packages');
-	toggleVisibility('network_packages');
-
-	toggleVisibility('packageblock');
-	toggleVisibility('x11_packages');
-	
-	environmentChange();
-}
-
-function environmentChange() {
-	if(document.entry_form.environment.selectedIndex == 1) {
-		showHideElement('x11_packages_block', 1);
-		showHideElement('x11_wm_block', 1);
-	}
-	else {
-		showHideElement('x11_packages_block', 0);
-		showHideElement('x11_wm_block', 0);
-	}
-}
-
-function guruChange() {
-	toggleVisibility('expert');
-}
-</script>
-
-<link rel="stylesheet" type="text/css" title="dominion" href="css/dominion.css" media="screen" />
 </head>
 <body onLoad="initForm();"><div id="summary"></div><form name="entry_form" onsubmit="javascript:configureImage(); toggleVisibility('buildbutton'); return false">
 	<div id="settings">
@@ -68,7 +19,7 @@ function guruChange() {
 		</div>
 		<div id='imagename' class="nblock">
 			Choose your image name.<br/><font size="-2">This is used in the filename offered for download, makes it easier to distinguish between rootfs images after downloading.</font><br/><br/>
-			<input type="text" name="name" id="name"/>
+			<input type="text" name="name" id="name" class="styledinput" onKeyUp="showValues();"/>
 		</div>
 
 		<div id="guru" class="nblock">
@@ -272,6 +223,12 @@ function guruChange() {
 <center><input type="submit" value="Build me!"/></center></form>
 </div>
 
+<div class="summaryblock">
+    <b>Current configuration:</b><br/>
+    <span id="results"></span><br/>
+    <b>Additional Packages:</b><br/><span id="additional_packages"></span>
+</div>
+
 <br clear='all'/>
 <div id="beverage"></div>
 <div id="pkg_progress"></div>
@@ -282,4 +239,11 @@ function guruChange() {
 
 <div id="patchbox"><br/><br/>Patches are welcome for the <a href="http://dominion.thruhere.net/git/cgit.cgi/narcissus/">narcissus sources</a></div>
 </body>
+
+<script>
+$(":checkbox, :radio").click(showValues);
+$("select").change(showValues);
+//showValues();
+</script>
+
 </html>

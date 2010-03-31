@@ -157,19 +157,6 @@ div.spacer {
 	padding: 2px;
 }
 
-div.menubar {
-    margin: 0;
-    text-align: right;
-    position: fixed;
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    overflow: hidden;
-    clip: auto;
-    background: transparent;
-	z-index:10;
-}
-
 table.menuspacer {
 	margin: 0;
 	border-spacing: 0;
@@ -366,7 +353,7 @@ div.nblock {
     margin: 3px;
     padding: 1em;
     background: #eeeeee;
-    width:69%;
+    width: 60%;
     clear: left;
     -moz-border-radius-topleft: 8px;
     -webkit-border-top-left-radius: 8px;
@@ -377,3 +364,35 @@ div.nblock {
     -moz-border-radius-bottomright: 8px;
     -webkit-border-bottom-right-radius: 8px;
 }
+
+.styledinput {
+    border: none 0px transparent;
+    rbackground-color:transparent;
+    width: 100%;
+    _display:inline;
+    opacity: 0.8;
+}
+
+div.summaryblock {
+    position: absolute;
+    right: 1em;
+    top: 10em; 
+    padding: 1em;
+    background: #eeeeff;
+    width: 30%;
+    clear: left;
+    -moz-border-radius-topleft: 8px;
+    -webkit-border-top-left-radius: 8px;
+    -moz-border-radius-topright: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -webkit-border-bottom-right-radius: 8px;
+    opacity: 0.6;
+}
+
+
+
+
+
