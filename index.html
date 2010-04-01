@@ -76,18 +76,18 @@
             <div class="nblock">Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a Desktop Environment option below. Opie is a qt/e 2.0 based environment for PDA style devices.<br/><br/>
 			<select name="environment" onChange="environmentChange(this)">
 				<option value="">Console only</option>
-				<option value="angstrom-x11-base-depends">X11</option>
+				<option value="">X11</option>
 				<option value="task-opie-base task-opie-base-applets task-opie-base-inputmethods task-opie-base-apps task-opie-base-settings task-opie-base-decorations task-opie-base-styles task-opie-base-pim task-opie-extra-settings task-opie-bluetooth task-opie-irda">Opie</option>
 			</select>
 			</div>
 			<div id='x11_wm_block'>
 				<br/><b>X11 Desktop Environments:</b><br/><br/>
 				<div  class="nblock">
-					<input type="checkbox" name="wm" value="angstrom-gpe-task-base e-wm e-wm-config-standard e-wm-config-default">Enlightenment<br/>
+					<input type="checkbox" name="wm" value="angstrom-x11-base-depends angstrom-gpe-task-base e-wm e-wm-config-standard e-wm-config-default">Enlightenment<br/>
 					<input type="checkbox" name="wm" value="angstrom-task-gnome shadow bash">GNOME<br/>
 					<input type="checkbox" name="wm" value="task-xfce46-base task-xfce46-extras shadow">Xfce 4.6<br/>
-					<input type="checkbox" name="wm" value="angstrom-gpe-task-base">Matchbox<br/>
-					<input type="checkbox" name="wm" value=" angstrom-gpe-task-base e-wm e-wm-config-illume">Illume<br/>
+					<input type="checkbox" name="wm" value="angstrom-x11-base-depends angstrom-gpe-task-base">Matchbox<br/>
+					<input type="checkbox" name="wm" value="angstrom-x11-base-depends angstrom-gpe-task-base e-wm e-wm-config-illume">Illume<br/>
 				</div>
 			</div>
         </div>
