@@ -42,6 +42,11 @@ ksort($builds, SORT_STRING);
 
 $timeframe = ( date("Y", $lastdate) - date("Y", $firstdate) ) * 365 +  date("z", $lastdate) - date("z",$firstdate);
 
+if (isset($_GET["machine"])) {
+    $selectedmachine = $_GET["machine"];
+}
+
+
 if (isset($_GET["timeframe"])) {
 	$maxdays = $_GET["timeframe"] + 1;
 	if ($timeframe > $maxdays) $timeframe = $maxdays -1;
@@ -98,6 +103,8 @@ function drawGraph() {
     }
 	
 	<?
+
+	if(!isset($selectedmachine)) {
 	foreach($builds as $machine => $foo) {
 		$machineyvars = $yvars[$machine];
 		print("
@@ -112,6 +119,22 @@ function drawGraph() {
 			  plotter.render();
 			  ");
 	}
+	} else {
+        $machine = $selectedmachine;
+		$machineyvars = $yvars[$machine];
+        print("
+              var layout = new PlotKit.Layout(\"bar\", options);
+              layout.addDataset(\"$machine usage count\", [$machineyvars]);
+              layout.evaluate();
+              var canvas = MochiKit.DOM.getElement(\"graph-$machine\");
+              
+              canvas.setAttribute('width', winW/$hfactor);
+              canvas.setAttribute('height', winH/5);
+              var plotter = new PlotKit.SweetCanvasRenderer(canvas, layout, {});
+              plotter.render();
+              ");
+
+	}
 	?>
 }
 MochiKit.DOM.addLoadEvent(drawGraph);
@@ -121,9 +144,14 @@ MochiKit.DOM.addLoadEvent(drawGraph);
 Statistics for the online image builder, number of builds per day<br>
 <br>
 <?
-foreach ($builds as $machine => $foo) {
-	print("<table align=left><td><br>$machine<br><div><canvas id='graph-$machine'></canvas></div></td></table>\n");
-}
+
+    if(!isset($selectedmachine)) {
+		foreach ($builds as $machine => $foo) {
+			print("<table align=left><td><br>$machine<br><div id='div-$machine'><canvas id='graph-$machine'></canvas></div></td></table>\n");
+		}
+	} else {
+		print("<table align=left><td><br>$selectedmachine<br><div id='div-$machine'><canvas id='graph-$selectedmachine'></canvas></div></td></table>\n");
+	}
 ?>
 
 <br clear=all><br>Total builds for all machines: <? print $total; ?>

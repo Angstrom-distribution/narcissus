@@ -83,6 +83,7 @@ function unique(a)
 
 function showValues() {
     var extratext = "";
+    var machinename = "";
     var fields = $(":input").serializeArray();
     $("#results").empty();
     $("#additional_packages").empty();
@@ -90,6 +91,7 @@ function showValues() {
 
         switch(field.name) {
         case 'machine':
+            machinename = field.value;
             $("#results").append("Machine: " + field.value + "<br/>");
             break;
         case 'name':
