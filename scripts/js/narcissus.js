@@ -183,7 +183,7 @@ function configureImage(){
     
 	document.getElementById('pkg_progress').innerHTML = progress_text;
     var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&release=' + document.entry_form.configs.value + '&name=' + document.entry_form.name.value;
-
+    
     $.ajax({
        type: "POST",
        url: workerurl,
@@ -312,73 +312,3 @@ function concatArray(varArray) {
     }    
     return packageslist   
 }
-
-function unique(a)
-{
-	var r = new Array();
-o:for(var i = 0, n = a.length; i < n; i++) {
-	for(var x = i + 1 ; x < n; x++)
-	{
-		if(a[x]==a[i]) continue o;
-	}
-	r[r.length] = a[i];
-}
-	return r;
-}
-
-function launchWindow(id)
-{
-	//select all the a tag with name equal to modal
-	//	$('a[name=modal]').click(function(e) {
-	//Cancel the link behavior
-	//		e.preventDefault();
-	//Get the A tag
-	//		var id = $(this).attr('href');
-	
-	//Get the screen height and width
-	var maskHeight = $(document).height() * 0.99;
-	var maskWidth = $(window).width() * 0.99;
-	
-	//Set height and width to mask to fill up the whole screen
-	$('#mask').css({'width':maskWidth,'height':maskHeight});
-	$('#mask').css('top',  0);
-	
-	//transition effect		
-	$('#mask').fadeIn(1000);	
-	$('#mask').fadeTo("slow",0.8);	
-	
-	//Get the window height and width
-	var winH = $(window).height();
-	var winW = $(window).width();
-	
-	$(document.getElementById('dialog')).css('width' , winW/2); 
-	$(document.getElementById('dialog')).css('height' , winH*0.7);
-	$(id).height = winH*0.75;
-	if($(id).height > $(document.getElementById('dialog')).height) {
-		$(document.getElementById('dialog')).css('height' , $(id).height);
-	}
-	
-	//Set the popup window to center
-	$(id).css('top',  winH/2-$(id).height()/2);
-	$(id).css('left', winW/2-$(id).width()/2);
-	
-	//transition effect
-	$(id).fadeIn(2000); 
-	
-	//	});
-	
-	//if close button is clicked
-	$('.window .close').click(function (e) {
-							  //Cancel the link behavior
-							  e.preventDefault();
-							  $('#mask, .window').hide();
-							  });		
-	
-	//if mask is clicked
-	$('#mask').click(function () {
-					 $(this).hide();
-					 $('.window').hide();
-					 });
-}
-
-
