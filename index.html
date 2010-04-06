@@ -150,6 +150,7 @@
 		<input type="checkbox" name="console_packages" value="alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl">Alsa utils<br/>
 		<input type="checkbox" name="console_packages" value="task-beagleboard-demo">Beagleboard demo<br/>
 		<input type="checkbox" name="console_packages" value="bluez-utils">Bluez<br/>
+		<input type="checkbox" name="console_packages" value="cpufrequtils">cpufrequtils<br/>
 		<input type="checkbox" name="console_packages" value="cwiid">cwiid<br/>
 		<input type="checkbox" name="console_packages" value="dvb-azap dvb-tzap dvb-czap dvb-szap dvb-scan wscan dvbstream dvbtune">DVB-utils<br/>
 		<input type="checkbox" name="console_packages" value="flite libflite-cmu-us-kal1">Flite<br/>
@@ -158,6 +159,7 @@
 		<input type="checkbox" name="console_packages" value="git">Git<br/>
 		<input type="checkbox" name="console_packages" value="gsm0710muxd">GSM0710muxd<br/>
 		<input type="checkbox" name="console_packages" value="gst-plugins-bad-meta gst-plugins-base-meta gst-plugins-good-meta gst-plugins-ugly-meta ">Gstreamer<br/>
+		<input type="checkbox" name="console_packages" value="htop">htop<br/>
 		<input type="checkbox" name="console_packages" value="i2c-tools">I2C-tools<br/>
 		<input type="checkbox" name="console_packages" value="jamvm">JamVM<br/>
 		<input type="checkbox" name="console_packages" value="julius">Julius speech recognizer<br/>
@@ -196,8 +198,8 @@
 	<img src='img/expand.gif' onClick="toggleVisibility('platform_packages');"> Platform specific packages:<br/>
 	<div id='platform_packages' class="nblock">
 
-	<br/>Texas Instruments OMAP family:<br/>
-		<input type="checkbox" name="platform_packages" value="gstreamer-ti">Texas Instruments Gstreamer plugins<br/>
+	<br/>Texas Instruments OMAP3x/AM3x family:<br/>
+		<input type="checkbox" name="platform_packages" value="omapfbplay">FFmpeg based Media Player with Display Sub-System Support<br/>
 		<input type="checkbox" name="platform_packages" value="libgles-omap3">PowerVR SGX drivers for OMAP3<br/>
 		<input type="checkbox" name="platform_packages" value="libgles-omap3-rawdemos">PowerVR SGX demos for framebuffer<br/>
 		<input type="checkbox" name="platform_packages" value="libgles-omap3-x11demos">PowerVR SGX demos for X11<br/>
@@ -206,9 +208,11 @@
 		<input type="checkbox" name="platform_packages" value="bc-cube-x11">TI texture streaming demo for X11<br/>
 		<input type="checkbox" name="platform_packages" value="bc-cube-fb">TI texture streaming demo for framebuffer<br/>
 		<input type="checkbox" name="platform_packages" value="quake3-pandora-gles libgles-omap3">Quake 3 (GLES)<br/>
-		<input type="checkbox" name="platform_packages" value="ti-julius-demo">Julius demo for Texas Instruments<br/>
 
-	<br/>Texas Instruments DaVinci family:<br/>
+	<br/>Texas Instruments OMAP3x/DaVinci/OMAPL family (using DSP):<br/>
+		<input type="checkbox" name="platform_packages" value="ti-dsplink-examples">TI DSPLINK Example Applications<br/>
+		<input type="checkbox" name="platform_packages" value="ti-codec-engine-examples">TI Codec Engine Example Applications<br/>
+		<input type="checkbox" name="platform_packages" value="ti-dmai-apps ti-dmai-tests">TI DMAI (Davinci/OMAP Multimedia Interface) Examples/Tests<br/>
 		<input type="checkbox" name="platform_packages" value="gstreamer-ti">Texas Instruments Gstreamer plugins<br/>
 		<input type="checkbox" name="platform_packages" value="ti-julius-demo">Julius demo for Texas Instruments<br/>
 
