@@ -31,7 +31,6 @@ export ROOTFS_SIZE="65536"
 export SDK_DIR="${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}"
 export SDK_OUTPUT="${SDK_DIR}/image"
 export SDK_OUTPUT2="${SDK_DIR}/image-extras"
-export SDK_DEPLOY="${DEPLOY_DIR}/sdk"
 export SDK_SUFFIX="toolchain"
 
 export OPKG_HOST="opkg-cl -f ${OPKGCONF_SDK} -o ${SDK_OUTPUT}"

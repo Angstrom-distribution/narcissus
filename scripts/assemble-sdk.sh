@@ -16,9 +16,10 @@ fi
 
 function do_tar() 
 {
-	echo "tarring up filesystem"
-	( cd ${TARGET_DIR}
-	  tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 .
+	echo "tarring up SDK"
+	( fakeroot tar cfj ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 .
+	  cd ${SDK_OUTPUT}
+	  fakeroot tar cfj ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
 	  RETVAL=$? )
 }
 
@@ -157,11 +158,7 @@ function do_assemble_sdk()
 	modify_opkg_conf
 
 	# Package it up
-	mkdir -p ${SDK_DEPLOY}
-	cd ${SDK_OUTPUT}
-	fakeroot tar cfj ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
-	cd ${SDK_OUTPUT2}
-	fakeroot tar cfj ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 .
+	do_tar
 }
 
 exit ${RETVAL}
