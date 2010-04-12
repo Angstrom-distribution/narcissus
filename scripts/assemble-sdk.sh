@@ -34,6 +34,8 @@ export TOOLCHAIN_TARGET_EXCLUDE=""
 export IPKGCONF_TARGET="${TARGET_DIR}/etc/opkg.conf"
 export IPKGCONF_SDK="${TARGET_DIR}/etc/opkg-sdk.conf"
 
+TOOLCHAIN_FEED_URI="${ANGSTROM_FEED_URI}"
+
 function do_assemble_sdk()
 {
 	rm -rf ${SDK_OUTPUT}
