@@ -141,5 +141,17 @@ div.summaryblock {
   background:#efefef;
   padding: 10px;
   margin-bottom: -16px;
+  height: 4em;
 }
 
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -4em; /* the bottom margin is the negative value of the footer's height */
+	padding-left: 1em;
+}
+
+.push {
+  height: 4em;
+}

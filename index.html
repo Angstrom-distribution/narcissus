@@ -11,6 +11,7 @@
 </head>
 <body onLoad="initForm();"><div id="summary"></div><form name="entry_form" onsubmit="javascript:configureImage(); toggleVisibility('buildbutton'); return false">
 	<div id="header"><h1>Narcissus</h1></div>
+	<div class="wrapper">
 	<div id="settings">
 		<div id="welcomedialog">
 			Welcome!<br/><br/>This is an online tool to create so called 'rootfs' images for your favourite device. This page will guide through the basic options and will close to let you select the additional packages you want.<br/><br/>
@@ -242,7 +243,8 @@
 <div id="configure_progress"></div>
 <div id="image_progress"></div>
 <div id="imgstatus"></div>
-
+<div class="push"></div>
+</div>
 <div id="footer"><br/><br/>Patches are welcome for the <a href="http://gitorious.org/angstrom/narcissus">narcissus sources</a><br/></div>
 </body>
 
