@@ -158,9 +158,9 @@ for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_instal
 	if [ $METADATACACHE = "1"  ] ; then
 		LICENSE="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $2}')"
 		VERSION="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $3}')"
-		echo -n "<td>$VERSION</td><td>$LICENSE</td><td>$FILENAME</td>"
+		echo -n "<td>$VERSION</td><td>$LICENSE</td><td>$FILENAME</td><td>Binary</td><td></td><td></td>"
 	else
-		echo -n "<td></td><td></td><td>$FILENAME</td>"		
+		echo -n "<td></td><td></td><td>$FILENAME</td><td>Binary</td><td></td><td></td>"		
 	fi
 	echo "</tr>"
 done > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt
@@ -186,15 +186,7 @@ echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 echo "Write out manifest"
 
 cat conf/manifest-header.html > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "<b>Machine:</b> ${MACHINE}<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "<b>Image name:</b> ${IMAGENAME}<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "<b>Image type:</b> ${IMAGETYPE}<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-
-echo -n "<b>Image size:</b> " >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-du ${TARGET_DIR} -hs | awk '{print $1 "<br/>"}' >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-
-echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "Narcissus package list:<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+echo "Narcissus package list: " >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 
 echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
