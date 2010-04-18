@@ -1,5 +1,8 @@
-body {
-  background-color: white;
+html, body
+{
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
   font-family: verdana, helvetica, sans-serif;
   color: #333333;
 }
@@ -17,122 +20,6 @@ div.code {
 	width:99%;
 	clear: both;
 }
-
-div.kadertje {
-	border: 2px solid #7893a9;
-	width: 150px;
-	margin-top: 5px;
-	padding: 2px;
-	background: transparent;
-}
-
-
-div.kadertje_spacing {
-	width: 150px;
-	height: 100%;
-	border: 2px solid #7893a9;
-}
-	
-div.kadertje_vol {
-	border: 0px solid #7893a9;
-	width: 150px;
-	margin-top: 5px;
-	padding: 2px;
-	 background: transparent; 
-	 bla:url(/images/logobg.png) transparent repeat;
-}
-
-table.linkjes {
-	margin: 0px;
-	clear: none;
-	width: 160px;
-	float: left;
-}
-
-div.kader {
-    border: 3px solid #7893a9;
-    background: transparent;
-    margin: 5px 2px;
-	padding: 2px;
-	float: left;
-}
-
-div.kaderh {
-	border: 1px solid #7893a9;
-	background: transparent;
-	font-size: 10px;
-	margin: 5px 2px;
-	padding: 2px;
-	float: left;
-	height: 230px;
-	clip: auto;
-	overflow: auto;
-	width:306px
-}
-div.kaderhb {
-    border: 1px solid #7893a9;
-    background: transparent;
-    font-size: 10px;
-    margin: 5px 2px;
-    padding: 2px;
-    float: left;
-    height: 420px;
-    clip: auto;
-    overflow: auto;
-    width:310px
-}
-div.kaderhbb {
-    border: 1px solid #7893a9;
-    background: transparent;
-    font-size: 10px;
-    margin: 5px 2px;
-    padding: 2px;
-    float: left;
-    clip: auto;
-    overflow: auto;
-}
-
-
-div.kader a, div.rechts a {
- 	 text-decoration: none;
-  	color: black;
-	text-align: right;
-}
-
-div.forum {
-	width: 95%;
-    border: 3px solid #284359;
-    background-color: #7893a9;
-    margin: 5px 2px;
-    padding: 2px;
-}
-
-
-div.kader a:hover {
-  text-decoration: underline;
-}
-
-div.titel {
-	float: right;
-  padding: 2px 5px;
-  font-size: 20px;
-  text-align: right;
-}
-
-div.titel2 {
-  padding: 2px 2px;
-  font-size: 16px;
-  text-align: right;
-}
-
-div.footer {
-  	float: right;
-	padding: 2px 5px;
-  border-top: 1px dashed #585a5e;
-  font-size: 10px;
-  text-align: right;
-}
-
 
 h3 {
   	font-size: 14px;
@@ -155,172 +42,6 @@ span.last {
 div.spacer {
 	clear: both;
 	padding: 2px;
-}
-
-table.menuspacer {
-	margin: 0;
-	border-spacing: 0;
-	padding: 0;
-	width: 100%;
-	height:160px;
-	border: 0;
-	background:transparent;
-	z-index:0;
-}
-
-div.menulow {
-	margin: 0;
-	position: relative;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
-	overflow: hidden;
-	clip: auto;
-	background: transparent;
-	z-index:0;
-	clear:both;
-}
-
-
-div.menulow table {
-	margin: 0;
-	border-spacing: 0;
-	padding: 0;
-	width: 100%;
-	border: none;
-}
-div.menulow tr { height: 25px; }
-
-td.blue {
-	background: url(/images/logobg.png) transparent repeat-x;
-	 white-space: nowrap;
-}
-
-td.grey {
-	background: url(/images/menubar.png) transparent repeat-x;
-	white-space: nowrap;
-}
-
-td.wimg {
-	width: 120px;
-	height: 160px;
-	vertical-align: top;
-	text-align: right;
-}
-
-div.menulow td {
-	margin: 0;
-	height: 25px;
-	white-space: nowrap;
-	padding: 2px;
-	font-size: 8px;
-	text-align: right;
-	background: url(/images/logobg.png) transparent repeat-x;
-	vertical-align: bottom;
-} 
-
-div.menulow td.empty {
-    height: 25px;
-	width: 4px;
-	margin: 0;
-	padding: 0;
-	background: transparent;
-	border: none;
-}
-					
-
-div.menubar table {
-    margin: 0;
-    border-spacing: 0;
-    padding: 0;
-    width: 100%;
-    height: 25px;
-    background: transparent;
-    border-width: 0px;
-    z-index: 10;
-}
-
-div.menubar tr { height: 25px; }
-
-
-div.menubar td {
-    margin: 0;
-    height: 25px;
-    text-align: center;
-    vertical-align: middle;
-    font-weight: bold;
-    font-size: 12px;
-    white-space: nowrap;
-    color: #b0c0c9;                                                                                                                                            
-    padding: 2px;                                                                                                                                                           
-    background: url(/images/menubar.png) transparent repeat-x;
-    border: #1b5ea2 solid 0px;
-}
-
-div.menubar td.unterbar {
-	text-align: right;
-	background: url(/images/logobg.png) transparent repeat-x; 
-	height: 23px;
-}
-
-div.menubar td.link {
-	text-align: right;
-	}
-
-div.menubar td.logo {
-	margin: 0;
-	height: 70px;
-	background: url(/images/logobg.png) transparent repeat-x;
-	font-size: 40px;
-}
-
-div.menubar td.logoklein {
-    margin: 0;
-    height: 100px;
-    background: url(/images/logobg.png) transparent repeat-x;
-    font-size: 50px;
-}
-
-
-div.menubar td.empty {
-    height: 25px;
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    border: none;
-}
-
-div.menubar a {
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 12px;
-    color: #ffffff;
-    display: inline;
-}
-
-div.menubar a:hover { color: #b0c0c9; }
-
-div.menubar a.actief {
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 12px;
-    color: #b0c0c9;
-    display: inline;
-}
-
-div.menubar a.actief:hover { color: #aaaaaa; }
-
-
-div.menubar img {
-    margin: 0;
-    padding: 0;
-    height: 25px;
-    float: none;
-    vertical-align: middle;
-}
-
-div.menubar img.logo {
-	height:0px;
 }
 
 /* Z-index of #mask must lower than #boxes .window */
@@ -352,7 +73,7 @@ div.menubar img.logo {
 div.nblock {
     margin: 3px;
     padding: 1em;
-    background: #eeeeee;
+    background: #eeeef0;
     width: 60%;
     clear: left;
     -moz-border-radius-topleft: 8px;
@@ -392,7 +113,33 @@ div.summaryblock {
     opacity: 0.6;
 }
 
+#header
+{
+  background-image: url("images/top-bg.png");
+  background-repeat: repeat-x;
+  margin: 0;
+  padding: 0;
+  height: 96px;
+  overflow: hidden;
+}
 
+#header h1
+{
+  text-align: right;
+  margin: 0;
+  color: #fdfdff;
+  text-shadow: #000 2px 2px -5px;
+  padding-right: 1em;
+}
 
-
+#footer
+{
+  text-align: center;
+  font-size: 0.8em;
+  clear: both;
+  color: grey;
+  background:#efefef;
+  padding: 10px;
+  margin-bottom: -16px;
+}
 
