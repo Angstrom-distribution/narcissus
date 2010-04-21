@@ -23,6 +23,32 @@ function do_tar()
 	  RETVAL=$? )
 }
 
+modify_opkg_conf () {
+	OUTPUT_OPKGCONF_TARGET="${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}/${sysconfdir}/opkg.conf"
+	OUTPUT_OPKGCONF_HOST="${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}/${sysconfdir}/opkg-sdk.conf"
+	OUTPUT_OPKGCONF_SDK="${SDK_OUTPUT}/${sysconfdir}/opkg-sdk.conf"
+	rm -f ${OUTPUT_OPKGCONF_TARGET}
+	rm -f ${OUTPUT_OPKGCONF_HOST}
+	rm -f ${OUTPUT_OPKGCONF_SDK}
+
+	if [ -e ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}/${sysconfdir}/opkg/arch.conf ] ; then
+		echo "Creating empty opkg.conf since arch.conf is already present"
+		echo > ${OUTPUT_OPKGCONF_TARGET}
+	else
+		opkgarchs="${PACKAGE_ARCHS}"
+		priority=1
+		for arch in ${opkgarchs}; do
+				echo "arch ${arch} ${priority}" >> ${OUTPUT_OPKGCONF_TARGET};
+				if [ -n "${TOOLCHAIN_FEED_URI}" ] ; then
+					echo "src/gz ${arch} ${TOOLCHAIN_FEED_URI}/${arch}" >> ${OUTPUT_OPKGCONF_TARGET};
+				fi
+				priority=$(expr ${priority} + 5);
+		done
+	fi
+}
+
+
+
 if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
 	echo "Initial filesystem not found, something went wrong in the configure step!"
 	exit 0
