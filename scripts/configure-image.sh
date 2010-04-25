@@ -36,13 +36,7 @@ fi
 if [ -e conf/${MACHINE}/configs/${RELEASE}/ ] ; then
 	echo "Distro configs for ${RELEASE} found"
 else
-	if [ -e conf/${MACHINE}/configs/stable ] ; then
-		echo "Distro configs for ${RELEASE} NOT found, defaulting to stable"
-		RELEASE="stable"
-	else 
-		echo "Distro configs for ${RELEASE} NOT found, defaulting to unstable"
-		RELEASE="unstable"
-	fi
+	echo "Distro configs for ${RELEASE} NOT found, defaulting to stable"
 fi
 
 echo "dest root /" > ${TARGET_DIR}/etc/opkg.conf 
@@ -54,9 +48,4 @@ echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf 
 bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
 echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf upgrade"
 bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf upgrade
-if [ ${RELEASE} = "unstable" ] ; then
-	bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install opkg-nogpg-nocurl
-else
-	bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install opkg-nogpg
-fi
 echo "Configure done"
