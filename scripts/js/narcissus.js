@@ -21,6 +21,7 @@ var workerurl = "backend.php";
 function initForm() {
 	/* load list of machines using javascript, change the .html to .php to generate the list at runtime */
 	$('#machinedialog').load('machine-list.html #machinelist');
+	//$('#releaseconfig').load('conf/' + machinename + '/config-list.html #configlist');
 	
 	var currentTime = new Date();
 	var unixTime = "" + currentTime.getTime();
@@ -93,6 +94,7 @@ function showValues() {
 		case 'machine':
 			machinename = field.value;
 			$("#results").append("Machine: " + field.value + "<br/>");
+			$('#releaseconfig').load('conf/' + machinename + '/config-list.html #configlist');
 			break;
 		case 'name':
 			$("#results").append("Image name: " + field.value + "<br/>");

@@ -37,10 +37,7 @@
 
 			<div id="releasedialog" class="nblock">
 				Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then.</font><br/><br/>
-				<select name="configs">
-					<option value="unstable">unstable</option>
-					<option value="stable">stable</option>
-				</select>
+				<div id="releaseconfig"></div>
 			</div>
 			<div id="basesystemdialog" class="nblock">
 				Base system<br/> <font size="-2">Each entry down is a superset of the one above it. Busybox will give you only busybox, usefull for e.g. small ramdisks. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
