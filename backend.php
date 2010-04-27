@@ -84,48 +84,48 @@ switch($action) {
 
 
 function show_image_link($machine, $name, $imagesuffix, $manifest) {
-    $foundimage = 0;
-    $foundsdimage = 0;
-    $printedcacheinfo = 0;
-    $printstring = "";
+	$foundimage = 0;
+	$foundsdimage = 0;
+	$printedcacheinfo = 0;
+	$printstring = "";
 	
-    $randomname = substr(md5(time()), 0, 6);
-    $deploydir = "deploy/$machine/$randomname";
+	$randomname = substr(md5(time()), 0, 6);
+	$deploydir = "deploy/$machine/$randomname";
 	mkdir($deploydir);
 	
-    $imagefiles = scandir("deploy/$machine");
-    foreach($imagefiles as $value) {
-        $location = "deploy/$machine/$value";
-        // The !== operator must be used.  Using != would not work as expected
-        // because the position of 'a' is 0. The statement (0 != false) evaluates 
-        // to false.
-        if(strpos($value, "$name-image-$machine-sd") !== false) {
-            rename($location, "$deploydir/$value");
-            $imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
-            $printstring .= "<a href='$deploydir/$value'>$value</a> [$imgsize MiB]<br/> "; 
-            $foundsdimage = 1;
+	$imagefiles = scandir("deploy/$machine");
+	foreach($imagefiles as $value) {
+		$location = "deploy/$machine/$value";
+		// The !== operator must be used.  Using != would not work as expected
+		// because the position of 'a' is 0. The statement (0 != false) evaluates 
+		// to false.
+		if(strpos($value, "$name-image-$machine-sd") !== false) {
+			rename($location, "$deploydir/$value");
+			$imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
+			$printstring .= "<a href='$deploydir/$value'>$value</a> [$imgsize MiB]<br/> "; 
+			$foundsdimage = 1;
 			continue;
-        }
-        if(strpos($value, "$name-image-$machine.$imagesuffix") !== false) {
-            rename($location, "$deploydir/$value");
-            $imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
-            $imagestring = "<br/><br/><a href='$deploydir/$value'>$value</a> [$imgsize MiB]: This is the rootfs '$name' for $machine you just built. This will get automatically deleted after 3 days.<br/>";
-            if($manifest == "yes") {
+		}
+		if(strpos($value, "$name-image-$machine.$imagesuffix") !== false) {
+			rename($location, "$deploydir/$value");
+			$imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
+			$imagestring = "<br/><br/><a href='$deploydir/$value'>$value</a> [$imgsize MiB]: This is the rootfs '$name' for $machine you just built. This will get automatically deleted after 3 days.<br/>";
+			if($manifest == "yes") {
 				$imagestring .= "You can also have a look at the software <a href='deploy/$machine/$name-image-manifest.html' target='manifest'>manifest</a> for this rootfs<br/>";
-            }
+			}
 			$foundimage = 1;
-        }
-    }    
+		}
+	}	
 	
 	if ($foundimage == 0) {
 		print "Image not found, something went wrong :/";
 	} else {
-        print("$imagestring");
-    }
+		print("$imagestring");
+	}
 	
 	if($foundsdimage == 1) {
 		print(" <br/><br/> The raw SD card image(s) below have a vfat partition populated with the bootloader and kernel, but an <b>empty</b> ext3 partition. You can extract the tarball to that partition to make it ready to boot.<br>The intended size for the SD card is encoded in the file name, e.g. 1GiB for a one gigabyte card.<br/><br/> $printstring");
-    }
+	}
 	
 }
 
