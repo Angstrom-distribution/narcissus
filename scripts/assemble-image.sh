@@ -113,6 +113,37 @@ function do_ext2()
 	genext2fs -b ${ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ext2 ${EXTRA_IMAGECMD_ext2}
 }
 
+function do_manifest()
+{
+	# Write out manifest
+	echo "Write out manifest"
+
+	cat conf/manifest-header.html > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	echo "Narcissus package list: " >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+
+	echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	echo "Sample OE image recipe: <a href='${IMAGENAME}.bb'>${IMAGENAME}.bb</a>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+
+	echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	echo "Complete package list:<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	echo "<p/><table border='1' style='border-collapse: collapse;'><tr><td>Package Name</td><td>Version</td><td>License</td><td>Location</td><td>Delivered as</td><td>modified</td><td>Obtained from</td></tr>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	echo "</table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+
+	echo "</body></html>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+}
+
+function do_oeimage()
+{
+	# Write sample OE image
+	echo "Write sample OE image"
+
+	echo "export IMAGE_BASENAME = \"${IMAGENAME}\"" > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
+	echo "IMAGE_INSTALL = \" $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt) \"" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
+	echo "inherit image" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
+}
+
 if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
 	echo "Initial filesystem not found, something went wrong in the configure step!"
 	exit 0
@@ -182,30 +213,9 @@ echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> $
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 
-# Write out manifest
-echo "Write out manifest"
+do_manifest
 
-cat conf/manifest-header.html > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "Narcissus package list: " >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-
-echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "Sample OE image recipe: <a href='${IMAGENAME}.bb'>${IMAGENAME}.bb</a>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-
-echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "Complete package list:<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "<p/><table border='1' style='border-collapse: collapse;'><tr><td>Package Name</td><td>Version</td><td>License</td><td>Location</td><td>Delivered as</td><td>modified</td><td>Obtained from</td></tr>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-echo "</table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-
-echo "</body></html>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-
-# Write sample OE image
-echo "Write sample OE image"
-
-echo "export IMAGE_BASENAME = \"${IMAGENAME}\"" > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
-echo "IMAGE_INSTALL = \" $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt) \"" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
-echo "inherit image" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
+do_oeimage
 
 case ${IMAGETYPE} in
 	jffs2)
