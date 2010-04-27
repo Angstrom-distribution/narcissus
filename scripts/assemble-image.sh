@@ -5,6 +5,7 @@
 MACHINE=$1
 IMAGENAME=$2
 IMAGETYPE=$3
+MANIFEST=$4
 
 if [ -e ${PWD}/conf/host-config ] ; then
 	. ${PWD}/conf/host-config
@@ -213,7 +214,9 @@ echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> $
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 
-do_manifest
+if [ "$MANIFEST" = "yes" ] ; then
+	do_manifest
+fi
 
 do_oeimage
 
