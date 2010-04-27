@@ -46,6 +46,13 @@ if (isset($_POST["imagetype"]) && $_POST["imagetype"] != "") {
 	$imagesuffix = "tar.bz2";
 }
 
+if (isset($_POST["manifest"]) && $_POST["manifest"] != "") {
+	$manifest = $_POST["manifest"];
+} else {
+	$manifest = "no";
+}
+
+
 switch($imagetype) {
 	case "tbz2":
 		$imagesuffix = "tar.bz2";
@@ -60,7 +67,7 @@ switch($imagetype) {
 switch($action) {
 	case "assemble_image":
 		print "assembling\n";
-		assemble_image($machine, $name, $imagetype);
+		assemble_image($machine, $name, $imagetype, $manifest);
 		break;
 	case "configure_image":
 		print "configuring\n";
@@ -131,9 +138,9 @@ function install_package($machine, $name, $pkg) {
 	print "<div id=\"retval\">$installretval</div>";
 }
 
-function assemble_image($machine, $name, $imagetype) {
+function assemble_image($machine, $name, $imagetype, $manifest) {
 	print "Machine: $machine, name: $name, type: $imagetype\n";
-	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image $imagetype && exit", $installretval);
+	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image $imagetype $manifest && exit", $installretval);
 	print "<div id=\"retval-image\">$installretval</div>";
 }
 
