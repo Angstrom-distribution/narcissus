@@ -64,7 +64,15 @@
 				<input name="imagetype" type="radio" value="jffs2">jffs2
 				<br/>
 			</div>
-		
+
+			<div id="manifestchoice" class="nblock">
+			Software manifest.<br/><font size="-2"><i>yes</i> will generate a software manifest with e.g. versions and licenses of the installed packages <i>no</i> will not generate such a manifest.</font><br/><br/>
+			<select name="manifest">
+				<option value="no">no</option>
+				<option value="yes">yes</option>
+			</select>
+			</div>
+			
 		</div>
 
 	</div>
@@ -72,7 +80,7 @@
 <div id="packageblock">
 		<div id='environment'>
 			<br/><b>User environment selection:</b><br/><br/>
-            <div class="nblock">Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a Desktop Environment option below. Opie is a qt/e 2.0 based environment for PDA style devices.<br/><br/>
+			<div class="nblock">Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a Desktop Environment option below. Opie is a qt/e 2.0 based environment for PDA style devices.<br/><br/>
 			<select name="environment" onChange="environmentChange(this)">
 				<option value="">Console only</option>
 				<option value="">X11</option>
@@ -89,8 +97,8 @@
 					<input type="checkbox" name="wm" value="angstrom-x11-base-depends angstrom-gpe-task-base e-wm e-wm-config-illume">Illume<br/>
 				</div>
 			</div>
-        </div>
-        
+		</div>
+		
 <br/><b>Additional packages selection:</b><br/><br/>
 	Select additional packages below, click the <img src='img/expand.gif'> icon to expand or collaps a section. When you're done, click the 'build me!' button.<br/>
 
@@ -230,9 +238,9 @@
 </div>
 
 <div class="summaryblock">
-    <b>Current configuration:</b><br/>
-    <span id="results"></span><br/>
-    <b>Additional Packages:</b><br/><span id="additional_packages"></span>
+	<b>Current configuration:</b><br/>
+	<span id="results"></span><br/>
+	<b>Additional Packages:</b><br/><span id="additional_packages"></span>
 </div>
 
 <br clear='all'/>

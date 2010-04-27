@@ -28,17 +28,6 @@ function initForm() {
 	document.entry_form.name.value = "random-" + MD5(unixTime).substr(4,8);
 	
 	toggleVisibility('packageblock');
-/*	
-	toggleVisibility('machinedialog');
-	toggleVisibility('releasedialog');
-	toggleVisibility('basesystemdialog');
-	toggleVisibility('devman');
-	toggleVisibility('imagetypebox');
-	toggleVisibility('imagename');
-	
-	toggleVisibility('buildbutton');
-	toggleVisibility('patchbox');
-*/	
 	toggleVisibility('expert');
 
 	toggleVisibility('devel');
@@ -180,9 +169,7 @@ function configureImage(){
 	
 	progress_text += "<tr><td colspan=\"2\">Assembling image</td><td></td><td id='td-assemble'></td></tr>\n";
 	progress_text += "</table>\n";
-	
-	//showSummary();
-	
+		
 	document.getElementById('pkg_progress').innerHTML = progress_text;
 	var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&release=' + document.entry_form.configs.value + '&name=' + document.entry_form.name.value;
 	
@@ -207,8 +194,8 @@ function assembleImage(){
 			imagetype = document.entry_form.imagetype[i].value
 		}
 	}
-	
-	var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype;
+		
+	var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype + '&manifest=' + document.entry_form.manifest.value;
 	$.ajax({
 		   type: "POST",
 		   url: workerurl,
@@ -267,7 +254,7 @@ function showImagelink(){
 		}
 	}
 	
-	var params = 'action=show_image_link&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype;
+	var params = 'action=show_image_link&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype + '&manifest=' + document.entry_form.manifest.value;
 	$.ajax({
 	   type: "POST",
 	   url: workerurl,
