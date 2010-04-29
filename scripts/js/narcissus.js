@@ -99,6 +99,8 @@ function showValues() {
 			break;
 		case 'guru':
 			break;
+		case 'manifest':
+			break;
 		default:
 			extratext = extratext + field.value + " ";
 			break;  
