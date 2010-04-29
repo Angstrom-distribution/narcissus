@@ -12,8 +12,9 @@ To install this:
 To add a new machine:
 
 * mkdir conf/<machine>
-* put the angstrom-feed-configs ipkg in conf/<machine>/
+* put the angstrom-feed-configs ipkg in conf/<machine>/configs/<releasename>/
 * create conf/<machine>/arch.conf listing the architectures your machine supports
+* run 'sh scripts/extract-supported-machines.sh' to generate the supported configs html files
 
 If you have a feed with the machine config packages present:
 
