@@ -64,10 +64,12 @@ bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list | awk 
 
 cat ${TARGET_DIR}/tmp/wanted-locale-packages ${TARGET_DIR}/tmp/available-locale-packages | sort | uniq -d > ${TARGET_DIR}/tmp/pending-locale-packages
 
-for i in $(cat ${TARGET_DIR}/tmp/pending-locale-packages) ; do
-	echo "running: bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install $i"
-	bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install $i
-done
+if [ -s ${TARGET_DIR}/tmp/pending-locale-packages ] ; then
+	for i in $(cat ${TARGET_DIR}/tmp/pending-locale-packages) ; do
+		echo "running: bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install $i"
+		bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install $i
+	done
+fi
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>"
 
