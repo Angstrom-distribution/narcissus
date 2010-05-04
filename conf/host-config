@@ -28,10 +28,19 @@ export ROOTFS_SIZE="65536"
 
 # SDK stuff
 
+export datadir="/usr/share"
+export includedir="/usr/include"
+export libdir="/usr/lib"
+export bindir="/usr/bin"
+export sysconfdir="/etc"
+
 export SDK_DIR="${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}"
 export SDK_OUTPUT="${SDK_DIR}/image"
 export SDK_OUTPUT2="${SDK_DIR}/image-extras"
 export SDK_SUFFIX="toolchain"
+
+export OPKGCONF_TARGET="${TARGET_DIR}/etc/opkg.conf"
+export OPKGCONF_SDK="${TARGET_DIR}/etc/opkg-sdk.conf"
 
 export OPKG_HOST="opkg-cl -f ${OPKGCONF_SDK} -o ${SDK_OUTPUT}"
 export OPKG_TARGET="opkg-cl -f ${OPKGCONF_TARGET} -o ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}"
