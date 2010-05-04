@@ -14,6 +14,8 @@ if [ -e ${PWD}/conf/${MACHINE}/machine-config ] ; then
 	. ${PWD}/conf/${MACHINE}/machine-config
 fi
 
+PACKAGE_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk '{print $2}' | xargs echo)"
+
 function do_tar() 
 {
 	echo "tarring up SDK"
@@ -47,22 +49,6 @@ modify_opkg_conf () {
 	fi
 }
 
-
-
-if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
-	echo "Initial filesystem not found, something went wrong in the configure step!"
-	exit 0
-fi
-
-export TOOLCHAIN_HOST_TASK="task-sdk-host"
-export TOOLCHAIN_TARGET_TASK="task-sdk-bare"
-export TOOLCHAIN_TARGET_EXCLUDE=""
-
-export IPKGCONF_TARGET="${TARGET_DIR}/etc/opkg.conf"
-export IPKGCONF_SDK="${TARGET_DIR}/etc/opkg-sdk.conf"
-
-TOOLCHAIN_FEED_URI="${ANGSTROM_FEED_URI}"
-
 function do_assemble_sdk()
 {
 	rm -rf ${SDK_OUTPUT}
@@ -76,9 +62,11 @@ function do_assemble_sdk()
 		revipkgarchs="$arch $revipkgarchs"
 	done
 
+	echo "${OPKG_HOST} update"
 	${OPKG_HOST} update
 	${OPKG_HOST} -force-depends install ${TOOLCHAIN_HOST_TASK}
 
+	echo "${OPKG_TARGET} update"
 	${OPKG_TARGET} update
 	${OPKG_TARGET} install ${TOOLCHAIN_TARGET_TASK}
 
@@ -186,6 +174,19 @@ function do_assemble_sdk()
 	# Package it up
 	do_tar
 }
+
+if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
+	echo "Initial filesystem not found, something went wrong in the configure step!"
+	exit 0
+fi
+
+export TOOLCHAIN_HOST_TASK="task-sdk-host"
+export TOOLCHAIN_TARGET_TASK="task-sdk-bare"
+export TOOLCHAIN_TARGET_EXCLUDE=""
+
+TOOLCHAIN_FEED_URI="${ANGSTROM_FEED_URI}"
+
+do_assemble_sdk
 
 exit ${RETVAL}
 
