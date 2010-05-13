@@ -116,6 +116,27 @@ function do_ext2()
 
 function do_manifest()
 {
+	# Print list of installed packages and their filenames
+	echo "Print list of installed packages and their filenames to deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt"
+
+	if [ -e conf/metadata.txt ] ; then
+		METADATACACHE="1"
+	fi
+
+	for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
+		FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
+		echo -n "<tr><td><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
+
+		if [ $METADATACACHE = "1"  ] ; then
+			LICENSE="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $2}')"
+			VERSION="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $3}')"
+			echo -n "<td>$VERSION</td><td>$LICENSE</td><td>$FILENAME</td><td>Binary</td><td></td><td></td>"
+		else
+			echo -n "<td></td><td></td><td>$FILENAME</td><td>Binary</td><td></td><td></td>"		
+		fi
+		echo "</tr>"
+	done > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt
+
 	# Write out manifest
 	echo "Write out manifest"
 
@@ -176,26 +197,9 @@ for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
 	fi
 done 
 
-# Print list of installed packages and their filenames
-echo "Print list of installed packages and their filenames to deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt"
-
-if [ -e conf/metadata.txt ] ; then
-	METADATACACHE="1"
+if [ "$MANIFEST" = "yes" ] ; then
+	do_manifest
 fi
-
-for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
-	FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
-	echo -n "<tr><td><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
-
-	if [ $METADATACACHE = "1"  ] ; then
-		LICENSE="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $2}')"
-		VERSION="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $3}')"
-		echo -n "<td>$VERSION</td><td>$LICENSE</td><td>$FILENAME</td><td>Binary</td><td></td><td></td>"
-	else
-		echo -n "<td></td><td></td><td>$FILENAME</td><td>Binary</td><td></td><td></td>"		
-	fi
-	echo "</tr>"
-done > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt
 
 echo "removing opkg index files"
 rm ${TARGET_DIR}/var/lib/opkg/* || true
@@ -213,10 +217,6 @@ echo "nameserver 208.67.220.220" >> ${TARGET_DIR}/etc/resolv.conf
 echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> ${WORKDIR}/deploy/stats.txt || true
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
-
-if [ "$MANIFEST" = "yes" ] ; then
-	do_manifest
-fi
 
 do_oeimage
 
