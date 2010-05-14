@@ -14,7 +14,11 @@ if [ -e ${PWD}/conf/${MACHINE}/machine-config ] ; then
 	. ${PWD}/conf/${MACHINE}/machine-config
 fi
 
+# Hardcode x86_64 for now, needs a GUI selector in the future
+HOST_SDK_ARCH="$(uname -m)"
+
 PACKAGE_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk '{print $2}' | xargs echo)"
+PACKAGE_SDK_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk "{print \"${HOST_SDK_ARCH}-\" \$2 \"-sdk\"}" | xargs echo)"
 
 if [ -e  ${TARGET_DIR}/etc/angstrom-version ] ; then
 	TARGET_SYS="$(cat ${TARGET_DIR}/etc/angstrom-version | grep Target | awk -F": " '{print $2}')"
