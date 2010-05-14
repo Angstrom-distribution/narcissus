@@ -197,8 +197,8 @@ function do_assemble_sdk()
 	# Create environment setup script
 	script=${SDK_OUTPUT}/${SDKPATH}/environment-setup
 	touch $script
-	echo 'export SDK_PATH=${SDKPATH}' >> $script
-	echo 'export TARGET_SYS=${TARGET_SYS}' >> $script
+	echo "export SDK_PATH=${SDKPATH}" >> $script
+	echo "export TARGET_SYS=${TARGET_SYS}" >> $script
 	echo 'export PATH=$SDK_PATH/bin:$PATH' >> $script
 	echo 'export CPATH=$SDK_PATH/$TARGET_SYS/usr/include:$CPATH' >> $script
 	echo 'export LIBTOOL_SYSROOT_PATH=$SDK_PATH/$TARGET_SYS' >> $script
@@ -211,10 +211,10 @@ function do_assemble_sdk()
 	# Add version information
 	versionfile=${SDK_OUTPUT}/${SDKPATH}/version
 	touch $versionfile
-	echo 'Distro: ${DISTRO}' >> $versionfile
-	echo 'Distro Version: ${DISTRO_VERSION}' >> $versionfile
-	#echo 'Metadata Revision: ${METADATA_REVISION}' >> $versionfile
-	echo 'Timestamp: $(date -u --rfc-3339=seconds)' >> $versionfile
+	echo "Distro: ${DISTRO}" >> $versionfile
+	echo "Distro Version: ${DISTRO_VERSION}" >> $versionfile
+	#echo "Metadata Revision: ${METADATA_REVISION}" >> $versionfile
+	echo "Timestamp: $(date -u --rfc-3339=seconds)" >> $versionfile
 
 	modify_opkg_conf
 
