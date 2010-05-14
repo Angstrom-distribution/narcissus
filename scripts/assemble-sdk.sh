@@ -74,7 +74,6 @@ function do_assemble_sdk()
 	rm -rf ${SDK_OUTPUT}
 	mkdir -p ${SDK_OUTPUT}
 	mkdir -p ${SDK_OUTPUT}${libdir}/opkg/
-	mkdir -p ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}${libdir}/opkg/
 	mkdir -p ${TARGET_DIR}/etc
 
 	package_generate_ipkg_conf
@@ -105,6 +104,9 @@ function do_assemble_sdk()
 	echo "${OPKG_HOST} update"
 	${OPKG_HOST} update
 	${OPKG_HOST} -force-depends install ${TOOLCHAIN_HOST_TASK}
+
+	export SDKPATH="${SDKPATH}/$(ls ${SDK_OUTPUT}/usr/local/angstrom/ | xargs basename)"
+	mkdir -p ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}${libdir}/opkg/
 
 	echo "${OPKG_TARGET} update"
 	${OPKG_TARGET} update
