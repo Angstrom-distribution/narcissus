@@ -37,7 +37,7 @@ export sysconfdir="/etc"
 export SDK_DIR="${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}"
 export SDK_OUTPUT="${SDK_DIR}/image"
 export SDK_OUTPUT2="${SDK_DIR}/image-extras"
-export SDK_SUFFIX="toolchain"
+export SDK_SUFFIX="${IMAGENAME}-sdk"
 export SDKPATH="/usr/local/angstrom"
 
 export OPKGCONF_TARGET="${TARGET_DIR}/etc/opkg.conf"
