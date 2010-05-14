@@ -117,6 +117,16 @@ function do_assemble_sdk()
 	${OPKG_TARGET} update
 	${OPKG_TARGET} install angstrom-feed-configs ${TOOLCHAIN_TARGET_TASK}
 
+	# Task-base introduces tons of spurious deps, so it gets blacklised
+	for i in $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt) ; do
+		echo ${i}-dev | grep -v task-base >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sdk.txt
+	done
+
+	# This is dirty, we try to guess the -dev names and install them without checking
+	for sdkpackage in $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sdk.txt) ; do
+		${OPKG_TARGET} install ${sdkpackage}
+	done
+
 	# Remove packages in the exclude list which were installed by dependencies
 	if [ ! -z "${TOOLCHAIN_TARGET_EXCLUDE}" ]; then
 		${OPKG_TARGET} remove -force-depends ${TOOLCHAIN_TARGET_EXCLUDE}
