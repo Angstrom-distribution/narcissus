@@ -43,7 +43,6 @@ export OPKGCONF_TARGET="${TARGET_DIR}/etc/opkg.conf"
 export OPKGCONF_SDK="${TARGET_DIR}/etc/opkg-sdk.conf"
 
 export OPKG_HOST="opkg-cl -f ${OPKGCONF_SDK} -o ${SDK_OUTPUT}"
-export OPKG_TARGET="opkg-cl -f ${OPKGCONF_TARGET} -o ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}"
 
 export TOOLCHAIN_OUTPUTNAME="${DISTRO}-${DISTRO_VERSION}-${MACHINE}-${SDK_SUFFIX}"
 

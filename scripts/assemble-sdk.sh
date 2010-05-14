@@ -16,6 +16,15 @@ fi
 
 PACKAGE_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk '{print $2}' | xargs echo)"
 
+if [ -e  ${TARGET_DIR}/etc/angstrom-version ] ; then
+	TARGET_SYS="$(cat ${TARGET_DIR}/etc/angstrom-version | grep Target | awk -F": " '{print $2}')"
+else
+	TARGET_SYS="unknown-angstrom-linux"
+fi
+
+export OPKG_TARGET="opkg-cl -f ${OPKGCONF_TARGET} -o ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}"
+
+
 function do_tar() 
 {
 	echo "tarring up SDK"
