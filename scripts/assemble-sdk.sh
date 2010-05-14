@@ -26,8 +26,6 @@ else
 	TARGET_SYS="unknown-angstrom-linux"
 fi
 
-export OPKG_TARGET="opkg-cl ${CACHE} -f ${OPKGCONF_TARGET} -o ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}"
-
 function do_tar() 
 {
 	( # tar cfj ${TARGET_DIR}/../${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 .
@@ -46,8 +44,8 @@ modify_opkg_conf () {
 	rm -f ${OUTPUT_OPKGCONF_SDK}
 
 	if [ -e ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}/${sysconfdir}/opkg/arch.conf ] ; then
-		echo "Creating empty opkg.conf since arch.conf is already present"
-		echo > ${OUTPUT_OPKGCONF_TARGET}
+		echo "Deleting opkg.conf since arch.conf is already present"
+		rm -f ${OUTPUT_OPKGCONF_TARGET}
 	else
 		priority=1
 		for arch in ${PACKAGE_ARCHS}; do
@@ -107,10 +105,17 @@ function do_assemble_sdk()
 
 	export SDKPATH="${SDKPATH}/$(ls ${SDK_OUTPUT}/usr/local/angstrom/ | xargs basename)"
 	mkdir -p ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}${libdir}/opkg/
+	mkdir -p ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}/etc
+
+	if [ -e ${TARGET_DIR}/etc/opkg/arch.conf ] ; then
+		cp -a ${TARGET_DIR}/etc/opkg* ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}/etc/
+	fi
+	
+	export OPKG_TARGET="opkg-cl ${CACHE} -o ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}"
 
 	echo "${OPKG_TARGET} update"
 	${OPKG_TARGET} update
-	${OPKG_TARGET} install ${TOOLCHAIN_TARGET_TASK}
+	${OPKG_TARGET} install angstrom-feed-configs ${TOOLCHAIN_TARGET_TASK}
 
 	# Remove packages in the exclude list which were installed by dependencies
 	if [ ! -z "${TOOLCHAIN_TARGET_EXCLUDE}" ]; then
@@ -201,7 +206,7 @@ function do_assemble_sdk()
 	echo 'export PKG_CONFIG_PATH=$SDK_PATH/$TARGET_SYS${libdir}/pkgconfig' >> $script
 	echo 'export CONFIG_SITE=$SDK_PATH/site-config' >> $script
 	echo 'alias opkg="LD_LIBRARY_PATH=$SDK_PATH/lib $SDK_PATH/bin/opkg-cl -f $SDK_PATH/${sysconfdir}/opkg-sdk.conf -o $SDK_PATH"' >> $script
-	echo 'alias opkg-target="LD_LIBRARY_PATH=$SDK_PATH/lib $SDK_PATH/bin/opkg-cl -f $SDK_PATH/$TARGET_SYS${sysconfdir}/opkg.conf -o $SDK_PATH/$TARGET_SYS"' >> $script
+	echo 'alias opkg-target="LD_LIBRARY_PATH=$SDK_PATH/lib $SDK_PATH/bin/opkg-cl -o $SDK_PATH/$TARGET_SYS"' >> $script
 
 	# Add version information
 	versionfile=${SDK_OUTPUT}/${SDKPATH}/version
