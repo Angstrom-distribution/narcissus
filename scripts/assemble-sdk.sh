@@ -26,7 +26,7 @@ else
 	TARGET_SYS="unknown-angstrom-linux"
 fi
 
-export OPKG_TARGET="opkg-cl -f ${OPKGCONF_TARGET} -o ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}"
+export OPKG_TARGET="opkg-cl ${CACHE} -f ${OPKGCONF_TARGET} -o ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}"
 
 function do_tar() 
 {
