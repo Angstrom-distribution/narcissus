@@ -30,10 +30,9 @@ export OPKG_TARGET="opkg-cl -f ${OPKGCONF_TARGET} -o ${SDK_OUTPUT}/${SDKPATH}/${
 
 function do_tar() 
 {
-	echo "tarring up SDK: ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2"
-	( fakeroot tar cfj ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 .
+	( # tar cfj ${TARGET_DIR}/../${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 .
 	  cd ${SDK_OUTPUT}
-	  fakeroot tar cfj ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
+	  tar cfj ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
 	  RETVAL=$? )
 	mv ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 ${TARGET_DIR}/../
 }
