@@ -28,14 +28,14 @@ fi
 
 export OPKG_TARGET="opkg-cl -f ${OPKGCONF_TARGET} -o ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}"
 
-
 function do_tar() 
 {
-	echo "tarring up SDK"
+	echo "tarring up SDK: ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2"
 	( fakeroot tar cfj ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 .
 	  cd ${SDK_OUTPUT}
 	  fakeroot tar cfj ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
 	  RETVAL=$? )
+	mv ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 ${TARGET_DIR}/../
 }
 
 modify_opkg_conf () {
@@ -93,7 +93,7 @@ function do_assemble_sdk()
 				fi
 				priority=$(expr ${priority} + 5);
 
-				if [ -z "${TOOLCHAIN_FEED_URI}" ] ; hen
+				if [ -z "${TOOLCHAIN_FEED_URI}" ] ; then
 					cat ${TARGETDIR}/etc/opkg/sdk-feed.conf | sed 's:#::' >> ${OPKGCONF_SDK} 
 				fi
 		done
