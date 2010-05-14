@@ -91,11 +91,11 @@ function do_assemble_sdk()
 					echo "src/gz ${arch} ${TOOLCHAIN_FEED_URI}/${arch}" >> ${OPKGCONF_SDK};
 				fi
 				priority=$(expr ${priority} + 5);
-
-				if [ -z "${TOOLCHAIN_FEED_URI}" ] ; then
-					cat ${TARGETDIR}/etc/opkg/sdk-feed.conf | sed 's:#::' >> ${OPKGCONF_SDK} 
-				fi
 		done
+				if [ -z ${TOOLCHAIN_FEED_URI} ] ; then
+					echo "falling back to sdk config found in rootfs: $(cat ${TARGET_DIR}/etc/opkg/sdk-feed.conf | sed 's:#::')"
+					cat ${TARGET_DIR}/etc/opkg/sdk-feed.conf | sed 's:#::' >> ${OPKGCONF_SDK}
+				fi
 	fi
 
 	for arch in ${PACKAGE_ARCHS}; do
