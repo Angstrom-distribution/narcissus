@@ -15,10 +15,10 @@ if [ -e ${PWD}/conf/${MACHINE}/machine-config ] ; then
 fi
 
 # Hardcode x86_64 for now, needs a GUI selector in the future
-HOST_SDK_ARCH="$(uname -m)"
+export HOST_SDK_ARCH="$(uname -m)"
 
-PACKAGE_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk '{print $2}' | xargs echo)"
-PACKAGE_SDK_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk "{print \"${HOST_SDK_ARCH}-\" \$2 \"-sdk\"}" | xargs echo)"
+export PACKAGE_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk '{print $2}' | xargs echo)"
+export PACKAGE_SDK_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk "{print \"${HOST_SDK_ARCH}-\" \$2 \"-sdk\"}" | xargs echo)"
 
 if [ -e  ${TARGET_DIR}/etc/angstrom-version ] ; then
 	TARGET_SYS="$(cat ${TARGET_DIR}/etc/angstrom-version | grep Target | awk -F": " '{print $2}')"
@@ -50,9 +50,8 @@ modify_opkg_conf () {
 		echo "Creating empty opkg.conf since arch.conf is already present"
 		echo > ${OUTPUT_OPKGCONF_TARGET}
 	else
-		opkgarchs="${PACKAGE_ARCHS}"
 		priority=1
-		for arch in ${opkgarchs}; do
+		for arch in ${PACKAGE_ARCHS}; do
 				echo "arch ${arch} ${priority}" >> ${OUTPUT_OPKGCONF_TARGET};
 				if [ -n "${TOOLCHAIN_FEED_URI}" ] ; then
 					echo "src/gz ${arch} ${TOOLCHAIN_FEED_URI}/${arch}" >> ${OUTPUT_OPKGCONF_TARGET};
@@ -60,6 +59,15 @@ modify_opkg_conf () {
 				priority=$(expr ${priority} + 5);
 		done
 	fi
+
+	priority=1
+	for arch in ${PACKAGE_SDK_ARCHS} ; do
+			echo "arch ${arch} ${priority}" >> ${OUTPUT_OPKGCONF_SDK};
+			if [ -n "${TOOLCHAIN_FEED_URI}" ] ; then
+				echo "src/gz ${arch} ${TOOLCHAIN_FEED_URI}/${arch}" >> ${OUTPUT_OPKGCONF_SDK};
+			fi
+			priority=$(expr ${priority} + 5);
+	done
 }
 
 function do_assemble_sdk()
@@ -68,8 +76,24 @@ function do_assemble_sdk()
 	mkdir -p ${SDK_OUTPUT}
 	mkdir -p ${SDK_OUTPUT}${libdir}/opkg/
 	mkdir -p ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}${libdir}/opkg/
+	mkdir -p ${TARGET_DIR}/etc
 
 	package_generate_ipkg_conf
+
+	echo "checking for ${OPKGCONF_SDK}"
+	if [ ! -e ${OPKGCONF_SDK} ] ; then
+
+		echo "${OPKGCONF_SDK} not found, generating it"
+
+		priority=1
+		for arch in ${PACKAGE_SDK_ARCHS}; do
+				echo "arch ${arch} ${priority}" >> ${OPKGCONF_SDK};
+				if [ -n "${TOOLCHAIN_FEED_URI}" ] ; then
+					echo "src/gz ${arch} ${TOOLCHAIN_FEED_URI}/${arch}" >> ${OPKGCONF_SDK};
+				fi
+				priority=$(expr ${priority} + 5);
+		done
+	fi
 
 	for arch in ${PACKAGE_ARCHS}; do
 		revipkgarchs="$arch $revipkgarchs"
@@ -197,7 +221,7 @@ export TOOLCHAIN_HOST_TASK="task-sdk-host"
 export TOOLCHAIN_TARGET_TASK="task-sdk-bare"
 export TOOLCHAIN_TARGET_EXCLUDE=""
 
-TOOLCHAIN_FEED_URI="${ANGSTROM_FEED_URI}"
+export TOOLCHAIN_FEED_URI="${ANGSTROM_FEED_URI}"
 
 do_assemble_sdk
 
