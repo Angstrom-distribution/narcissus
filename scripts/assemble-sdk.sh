@@ -5,6 +5,7 @@
 MACHINE=$1
 IMAGENAME=$2
 IMAGETYPE=$3
+SDK=$4
 
 if [ -e ${PWD}/conf/host-config ] ; then
 	. ${PWD}/conf/host-config
@@ -116,16 +117,18 @@ function do_assemble_sdk()
 	echo "${OPKG_TARGET} update"
 	${OPKG_TARGET} update
 	${OPKG_TARGET} install angstrom-feed-configs ${TOOLCHAIN_TARGET_TASK}
+	
+	if [ "${SDK}" = "sdk" ] ; then
+		# Task-base introduces tons of spurious deps, so it gets blacklised
+		for i in $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt) ; do
+			echo ${i}-dev | grep -v task-base >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sdk.txt
+		done
 
-	# Task-base introduces tons of spurious deps, so it gets blacklised
-	for i in $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt) ; do
-		echo ${i}-dev | grep -v task-base >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sdk.txt
-	done
-
-	# This is dirty, we try to guess the -dev names and install them without checking
-	for sdkpackage in $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sdk.txt) ; do
-		${OPKG_TARGET} install ${sdkpackage}
-	done
+		# This is dirty, we try to guess the -dev names and install them without checking
+		for sdkpackage in $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sdk.txt) ; do
+			${OPKG_TARGET} install ${sdkpackage}
+		done
+	fi
 
 	# Remove packages in the exclude list which were installed by dependencies
 	if [ ! -z "${TOOLCHAIN_TARGET_EXCLUDE}" ]; then

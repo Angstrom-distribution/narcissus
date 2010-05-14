@@ -41,11 +41,11 @@
 			</div>
 			<div id="basesystemdialog" class="nblock">
 				Base system<br/> <font size="-2">Each entry down is a superset of the one above it. Busybox will give you only busybox, usefull for e.g. small ramdisks. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
-					<input type="radio" name="pkg" value="busybox">bare bones (<a href='http://www.angstrom-distribution.org/repo/?pkgname=busybox' target='foo'>busybox</a>)<br/>
-					<input type="radio" name="pkg" value="task-boot">small (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-boot' target='foo'>task-boot</a>)<br/>
-					<input type="radio" name="pkg" value="task-base" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base' target='foo'>task-base</a>)<br/>
-					<input type="radio" name="pkg" value="task-base-extended">extended (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base-extended' target='foo'>task-base-extended</a>)<br/>
-					<br/>
+                <input type="radio" name="pkg" value="busybox">bare bones (<a href='http://www.angstrom-distribution.org/repo/?pkgname=busybox' target='foo'>busybox</a>)<br/>
+                <input type="radio" name="pkg" value="task-boot">small (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-boot' target='foo'>task-boot</a>)<br/>
+                <input type="radio" name="pkg" value="task-base" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base' target='foo'>task-base</a>)<br/>
+                <input type="radio" name="pkg" value="task-base-extended">extended (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base-extended' target='foo'>task-base-extended</a>)<br/>
+                <br/>
 			</div>
 
 			<div id='devman' class="nblock">
@@ -57,7 +57,7 @@
 			</div>
 
 			<div id='imagetypebox' class="nblock">
-	Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is the most versatile choice since it can be easily converted to other formats later on. The practicality of the other formats depends too much on the device in question to give meaningfull advice here, so we leave that up to you :)</font><br/><br/>
+                Select the type of image you want.<br/><font size="-2">The 'tar.bz2' option is the most versatile choice since it can be easily converted to other formats later on. The practicality of the other formats depends too much on the device in question to give meaningfull advice here, so we leave that up to you :)</font><br/><br/>
 				<input name="imagetype" type="radio" checked="checked" value="tbz2">tar.bz2
 				<input name="imagetype" type="radio" value="ext2">ext2
 				<input name="imagetype" type="radio" value="ubifs">ubifs2
@@ -72,6 +72,20 @@
 				<option value="yes">yes</option>
 			</select>
 			</div>
+            
+            <div id="sdk" class="nblock">
+            SDK type<br/>
+            <font size="-2">Select the kind of SDK you want. The options are:
+                <ul><li><i>none</i> for no SDK</li>
+                    <li><i>toolchain</i> for simple toolchain with compiler, C library, binutils and not much else</li>
+                    <li><i>full SDK for generated filesystem</i>, which as the name implies, gives you an SDK that contains all the libraries and headers for the things you selected to be put in the filesystem narcissus will generate.</li>
+                </ul><br/></font>
+            <select name="SDK">
+				<option value="no">none</option>
+				<option value="toolchain">simple toolchain</option>
+                <option value="sdk">full SDK for generated filesystem</option>
+			</select>
+            </div>
 			
 		</div>
 

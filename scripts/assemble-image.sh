@@ -6,6 +6,7 @@ MACHINE=$1
 IMAGENAME=$2
 IMAGETYPE=$3
 MANIFEST=$4
+SDK=$5
 
 if [ -e ${PWD}/conf/host-config ] ; then
 	. ${PWD}/conf/host-config
@@ -232,6 +233,19 @@ case ${IMAGETYPE} in
 	*)
 		do_tar;;
 esac
+
+case ${SDK} in
+	toolchain)
+		echo "Generating toolchain"
+		sh scripts/assemble-sdk.sh $1 $2 $3 $5;;
+	sdk)
+		echo "Generating SDK"
+		sh scripts/assemble-sdk.sh $1 $2 $3 $5;;
+	*)
+		echo "Not generating toolchain or SDK";;
+esac
+
+
 
 echo "removing target dir"
 rm -rf ${TARGET_DIR}

@@ -101,6 +101,8 @@ function showValues() {
 			break;
 		case 'manifest':
 			break;
+        case 'SDK':
+            break;
 		default:
 			extratext = extratext + field.value + " ";
 			break;  
@@ -197,7 +199,7 @@ function assembleImage(){
 		}
 	}
 		
-	var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype + '&manifest=' + document.entry_form.manifest.value;
+	var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype + '&manifest=' + document.entry_form.manifest.value + '&sdk=' + document.entry_form.SDK.value ;
 	$.ajax({
 		   type: "POST",
 		   url: workerurl,
