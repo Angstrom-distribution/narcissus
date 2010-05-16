@@ -61,7 +61,7 @@ if (isset($_POST["sdk"]) && $_POST["sdk"] != "") {
 if (isset($_POST["sdkarch"]) && $_POST["sdkarch"] != "") {
 	$sdkarch = $_POST["sdkarch"];
 } else {
-	$sdkarch = "no";
+	$sdkarch = "none";
 }
 
 switch($imagetype) {
@@ -85,7 +85,7 @@ switch($action) {
 		configure_image($machine, $name, $release);
 		break;
 	case "show_image_link":
-		show_image_link($machine, $name, $imagesuffix, $manifest);
+		show_image_link($machine, $name, $imagesuffix, $manifest, $sdk, $sdkarch);
 		break;
 	case "install_package":
 		print "installing $pkg\n";
@@ -93,18 +93,31 @@ switch($action) {
 		break;
 }
 
-
-function show_image_link($machine, $name, $imagesuffix, $manifest) {
+function show_image_link($machine, $name, $imagesuffix, $manifest, $sdk, $sdkarch) {
 	$foundimage = 0;
 	$foundsdimage = 0;
+	$foundsdk = 0;
 	$printedcacheinfo = 0;
 	$printstring = "";
+
+	switch($sdkarch) {
+			case "intel32":
+				$sdkarchname = "i686";
+				break;
+			case "intel64":
+				$sdkarchname = "x86_64";
+				break;
+			default:
+				$sdkarchname = "i686";
+				break;
+	}
 	
 	$randomname = substr(md5(time()), 0, 6);
 	$deploydir = "deploy/$machine/$randomname";
 	mkdir($deploydir);
 	
 	$imagefiles = scandir("deploy/$machine");
+	print "<br/>";
 	foreach($imagefiles as $value) {
 		$location = "deploy/$machine/$value";
 		// The !== operator must be used.  Using != would not work as expected
@@ -120,13 +133,20 @@ function show_image_link($machine, $name, $imagesuffix, $manifest) {
 		if(strpos($value, "$name-image-$machine.$imagesuffix") !== false) {
 			rename($location, "$deploydir/$value");
 			$imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
-			$imagestring = "<br/><br/><a href='$deploydir/$value'>$value</a> [$imgsize MiB]: This is the rootfs '$name' for $machine you just built. This will get automatically deleted after 3 days.<br/>";
+			$imagestring .= "<br/><a href='$deploydir/$value'>$value</a> [$imgsize MiB]: This is the rootfs '$name' for $machine you just built. This will get automatically deleted after 3 days.<br/>";
 			if($manifest == "yes") {
 				$imagestring .= "You can also have a look at the software <a href='deploy/$machine/$name-image-manifest.html' target='manifest'>manifest</a> for this rootfs<br/>";
 			}
 			$foundimage = 1;
 		}
-	}	
+		//Angstrom-2010.05-narcissus-hawkboard-i686-random-d4ddcec6-image-toolchain.tar.bz2
+		if(strpos($value, "narcissus-$machine-$sdkarchname-$name-image-$sdk") !== false) {
+			rename($location, "$deploydir/$value");
+			$sdksize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
+			$imagestring .= "<br/><a href='$deploydir/$value'>$value</a> [$sdksize MiB]: $sdk for the generated rootfs.<br/>";
+			$foundsdk = 1;
+		}
+}	
 	
 	if ($foundimage == 0) {
 		print "Image not found, something went wrong :/";
