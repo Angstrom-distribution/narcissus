@@ -58,6 +58,11 @@ if (isset($_POST["sdk"]) && $_POST["sdk"] != "") {
 	$sdk = "no";
 }
 
+if (isset($_POST["sdkarch"]) && $_POST["sdkarch"] != "") {
+	$sdkarch = $_POST["sdkarch"];
+} else {
+	$sdkarch = "no";
+}
 
 switch($imagetype) {
 	case "tbz2":
@@ -73,7 +78,7 @@ switch($imagetype) {
 switch($action) {
 	case "assemble_image":
 		print "assembling\n";
-		assemble_image($machine, $name, $imagetype, $manifest, $sdk);
+		assemble_image($machine, $name, $imagetype, $manifest, $sdk, $sdkarch);
 		break;
 	case "configure_image":
 		print "configuring\n";
@@ -146,9 +151,9 @@ function install_package($machine, $name, $pkg) {
 	print "<div id=\"retval\">$installretval</div>";
 }
 
-function assemble_image($machine, $name, $imagetype, $manifest, $sdk) {
+function assemble_image($machine, $name, $imagetype, $manifest, $sdk, $sdkarch) {
 	print "Machine: $machine, name: $name, type: $imagetype\n";
-	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image $imagetype $manifest $sdk && exit", $installretval);
+	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image $imagetype $manifest $sdk $sdkarch && exit", $installretval);
 	print "<div id=\"retval-image\">$installretval</div>";
 }
 

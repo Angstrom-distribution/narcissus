@@ -4,8 +4,18 @@
 
 MACHINE=$1
 IMAGENAME=$2
-IMAGETYPE=$3
-SDK=$4
+SDK=$3
+SDKARCH=$4
+
+# Host system for the SDK, only i686 and x84_64 are currently supported
+case ${SDKARCH} in
+    intel32)
+        export HOST_SDK_ARCH="i686";;
+    intel64)
+        export HOST_SDK_ARCH="x86_64";;
+    *)
+        export HOST_SDK_ARCH="i686";;
+esac
 
 if [ -e ${PWD}/conf/host-config ] ; then
 	. ${PWD}/conf/host-config
@@ -15,9 +25,11 @@ if [ -e ${PWD}/conf/${MACHINE}/machine-config ] ; then
 	. ${PWD}/conf/${MACHINE}/machine-config
 fi
 
-# Hardcode x86_64 for now, needs a GUI selector in the future
-export HOST_SDK_ARCH="$(uname -m)"
+# Name the output 'toolchain' or 'sdk' depending on the option selected
+export SDK_SUFFIX="${IMAGENAME}-${SDK}"
+export TOOLCHAIN_OUTPUTNAME="${DISTRO}-${DISTRO_VERSION}-${MACHINE}-${HOST_SDK_ARCH}-${SDK_SUFFIX}"
 
+# Extract architecture support for the generated filesystem
 export PACKAGE_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk '{print $2}' | xargs echo)"
 export PACKAGE_SDK_ARCHS="$(cat ${TARGET_DIR}/etc/opkg/arch.conf | awk "{print \"${HOST_SDK_ARCH}-\" \$2 \"-sdk\"}" | xargs echo)"
 

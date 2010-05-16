@@ -53,6 +53,15 @@ function environmentChange() {
 	}
 }
 
+function sdkChange() {
+	if(document.entry_form.SDK.selectedIndex == 0) {
+		showHideElement('sdkhost', 0);
+	}
+	else {
+		showHideElement('sdkhost', 1);
+	}
+}
+
 function guruChange() {
 	toggleVisibility('expert');
 }
@@ -102,6 +111,8 @@ function showValues() {
 		case 'manifest':
 			break;
         case 'SDK':
+            break;
+        case 'sdkarch':
             break;
 		default:
 			extratext = extratext + field.value + " ";
@@ -199,7 +210,7 @@ function assembleImage(){
 		}
 	}
 		
-	var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype + '&manifest=' + document.entry_form.manifest.value + '&sdk=' + document.entry_form.SDK.value ;
+	var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype + '&manifest=' + document.entry_form.manifest.value + '&sdk=' + document.entry_form.SDK.value + '&sdkarch=' + document.entry_form.sdkarch.value;
 	$.ajax({
 		   type: "POST",
 		   url: workerurl,

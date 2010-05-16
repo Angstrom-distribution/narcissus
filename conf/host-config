@@ -37,7 +37,6 @@ export sysconfdir="/etc"
 export SDK_DIR="${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}"
 export SDK_OUTPUT="${SDK_DIR}/image"
 export SDK_OUTPUT2="${SDK_DIR}/image-extras"
-export SDK_SUFFIX="${IMAGENAME}-sdk"
 export SDKPATH="/usr/local/angstrom"
 
 export OPKGCONF_TARGET="${TARGET_DIR}/etc/opkg.conf"
@@ -48,8 +47,6 @@ if [ -e ${CACHEDIR} ] ; then
 fi
 
 export OPKG_HOST="opkg-cl ${CACHE} -f ${OPKGCONF_SDK} -o ${SDK_OUTPUT}"
-
-export TOOLCHAIN_OUTPUTNAME="${DISTRO}-${DISTRO_VERSION}-${MACHINE}-${SDK_SUFFIX}"
 
 # Proxy config
 #export http_proxy=http://proxy.foo.com:80

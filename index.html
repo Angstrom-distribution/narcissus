@@ -79,12 +79,19 @@
                 <ul><li><i>none</i> for no SDK</li>
                     <li><i>toolchain</i> for simple toolchain with compiler, C library, binutils and not much else</li>
                     <li><i>full SDK for generated filesystem</i>, which as the name implies, gives you an SDK that contains all the libraries and headers for the things you selected to be put in the filesystem narcissus will generate.</li>
-                </ul><br/></font>
-            <select name="SDK">
+                </ul>Note that these are for <b>linux</b> hosts, so you need a linux computer or virtual machine to use these.<br/><br/></font>
+            <select name="SDK" onChange="sdkChange(this)">
 				<option value="no">none</option>
 				<option value="toolchain">simple toolchain</option>
                 <option value="sdk">full SDK for generated filesystem</option>
-			</select>
+			</select><br/><br/>
+            <div id="sdkhost" style="display:none">
+                SDK hostsystem<br/><font size="-2">Select the host system the SDK is going to run on, currenly only Intel (and AMD, VIA, etc) architectures are supported. If you are unsure, choose the 32bit option.</font><br/><br/>
+                <select name="sdkarch">
+                    <option value="intel32">32bit Intel</option>
+                    <option value="intel64">64bit Intel</option>
+                </select>
+            </div>
             </div>
 			
 		</div>
