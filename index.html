@@ -137,12 +137,15 @@
 			<input type="checkbox" name="x11_packages" value="evince">Evince<br/>
 			<input type="checkbox" name="x11_packages" value="fennec">Fennec<br/>
 			<input type="checkbox" name="x11_packages" value="firefox">Firefox<br/>
+			<input type="checkbox" name="x11_packages" value="gecko-mediaplayer-firefox-hack">Firefox mediaplayer plugin<br/>
 			<input type="checkbox" name="x11_packages" value="fldigi">FLDigi<br/>
 			<input type="checkbox" name="x11_packages" value="gimp">Gimp<br/>
-			<input type="checkbox" name="x11_packages" value="task-gnome-apps">basic GNOME applications<br/>
-			<input type="checkbox" name="x11_packages" value="gnome-games">Gnome Games<br/>
+			<input type="checkbox" name="x11_packages" value="task-gnome-apps">GNOME Applications<br/>
+			<input type="checkbox" name="x11_packages" value="gnome-games">GNOME Games<br/>
+			<input type="checkbox" name="x11_packages" value="gnome-mplayer">GNOME MPlayer<br/>	
 			<input type="checkbox" name="x11_packages" value="gnumeric">Gnumeric<br/>
 			<input type="checkbox" name="x11_packages" value="task-gpe-pim">GPE PIM suite<br/>
+			<input type="checkbox" name="x11_packages" value="gpe-scap">GPE Screen Capture<br/>
 			<input type="checkbox" name="x11_packages" value="midori">Midori web browser<br/>
 			<input type="checkbox" name="x11_packages" value="connman-gnome">Moblin connection manager GTK+ applet<br/>
 			<input type="checkbox" name="x11_packages" value="mythtv mythtv-frontend">MythTV<br/>
@@ -150,6 +153,7 @@
 			<input type="checkbox" name="x11_packages" value="pidgin">Pidgin IM<br/>
 			<input type="checkbox" name="x11_packages" value="contacts dates tasks">Pimlico<br/>
 			<input type="checkbox" name="x11_packages" value="qt4-demos qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-svg">QT/X11 4<br/>
+			<input type="checkbox" name="x11_packages" value="arora">QT4/X11 4 Arora Browser<br/>
 			<input type="checkbox" name="x11_packages" value="sdlquake">Quake 1<br/>
 			<input type="checkbox" name="x11_packages" value="quake2">Quake 2<br/>
 			<input type="checkbox" name="x11_packages" value="quetoo">Quake 2 (quetoo)<br/>
@@ -178,8 +182,8 @@
 	<div id='console_packages' class="nblock">
 		<input type="checkbox" name="console_packages" value="aircrack-ng">Aircrack-ng<br/>
 		<input type="checkbox" name="console_packages" value="kernel-modules">All kernel modules<br/>
+		<input type="checkbox" name="console_packages" value="psplash-angstrom">Angstrom PSplash Screen<br/>
 		<input type="checkbox" name="console_packages" value="alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl">Alsa utils<br/>
-		<input type="checkbox" name="console_packages" value="task-beagleboard-demo">Beagleboard demo<br/>
 		<input type="checkbox" name="console_packages" value="bluez-utils">Bluez<br/>
 		<input type="checkbox" name="console_packages" value="cpufrequtils">cpufrequtils<br/>
 		<input type="checkbox" name="console_packages" value="cwiid">cwiid<br/>
@@ -190,6 +194,7 @@
 		<input type="checkbox" name="console_packages" value="git">Git<br/>
 		<input type="checkbox" name="console_packages" value="gsm0710muxd">GSM0710muxd<br/>
 		<input type="checkbox" name="console_packages" value="gst-plugins-bad-meta gst-plugins-base-meta gst-plugins-good-meta gst-plugins-ugly-meta ">Gstreamer<br/>
+		<input type="checkbox" name="console_packages" value="gst-plugin-gles">Gstreamer GLES Plugin<br/>
 		<input type="checkbox" name="console_packages" value="htop">htop<br/>
 		<input type="checkbox" name="console_packages" value="i2c-tools">I2C-tools<br/>
 		<input type="checkbox" name="console_packages" value="jamvm">JamVM<br/>
@@ -205,6 +210,7 @@
 		<input type="checkbox" name="console_packages" value="opencv-samples">OpenCV<br/>
 		<input type="checkbox" name="console_packages" value="powertop">Powertop<br/>
 		<input type="checkbox" name="console_packages" value="qt4-embedded-demos qt4-embedded-plugin-gfxdriver-gfxvnc qt4-embedded-plugin-gfxdriver-gfxtransformed qt4-embedded qt4-embedded-fonts qt4-embedded-plugin-imageformat-svg qt4-embedded-plugin-imageformat-jpeg">QT/e 4<br/>
+		<input type="checkbox" name="console_packages" value="arora-e">QT/e 4 Arora Browser<br/>
 		<input type="checkbox" name="console_packages" value="screen">Screen<br/>
 		<input type="checkbox" name="console_packages" value="vdr">Video Disc Recoder<br/>
 	</div>
@@ -233,7 +239,7 @@
 	<div id='platform_packages' class="nblock">
 
 	<br/>Texas Instruments OMAP3x/AM3x family:<br/>
-		<input type="checkbox" name="platform_packages" value="omapfbplay">FFmpeg based Media Player with Display Sub-System Support<br/>
+		<input type="checkbox" name="platform_packages" value="omapfbplay">FFmpeg based Media Player (omapfbplay) with Display Sub-System Support<br/>
 		<input type="checkbox" name="platform_packages" value="libgles-omap3">PowerVR SGX drivers for OMAP3<br/>
 		<input type="checkbox" name="platform_packages" value="libgles-omap3-rawdemos">PowerVR SGX demos for framebuffer<br/>
 		<input type="checkbox" name="platform_packages" value="libgles-omap3-x11demos">PowerVR SGX demos for X11<br/>
