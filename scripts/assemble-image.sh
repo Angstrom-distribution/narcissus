@@ -226,10 +226,10 @@ function do_manifest()
 			else
 				SOURCE="<a href=\"$SOURCE\">$SOURCE</a>"
 			fi
-			echo -n "<td rowspan=2>$VERSION</td><td rowspan=2>$LICENSE</td><td rowspan=2>Binary</td rowspan=2><td></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"
+			echo -n "<td rowspan=2>$VERSION</td><td rowspan=2>$LICENSE</td><td rowspan=2>Binary</td rowspan=2><td></td rowspan=2><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"
 		else
 			FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
-			echo -n "<td rowspan=2></td><td rowspan=2></td><td rowspan=2>Binary</td rowspan=2><td></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"		
+			echo -n "<td rowspan=2></td><td rowspan=2></td><td rowspan=2>Binary</td rowspan=2><td rowspan=2></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"		
 		fi
 		echo "</tr>"
 	done > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt
