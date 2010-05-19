@@ -1,6 +1,20 @@
 #!/bin/sh
 # Narcissus - Online image builder for the angstrom distribution
-# Koen Kooi (c) 2008-2010 - all rights reserved 
+# Copyright (C) 2008 - 2010 Koen Kooi
+# Copyright (C) 2010        Denys Dmytriyenko
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 MACHINE=$1
 IMAGENAME=$2
@@ -74,7 +88,7 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		echo "cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz"
 		cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz
 	fi
-    done
+	done
 fi
 }
 
@@ -116,6 +130,78 @@ function do_ext2()
 	genext2fs -b ${ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ext2 ${EXTRA_IMAGECMD_ext2}
 }
 
+function print_header()
+{
+	cat > ${DEPLOY_DIR_IMAGE}/${MACHINE}/${IMAGENAME}-manifest.html << EOF
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<head>
+  <title>${DISTRO} Filesystem Software Manifest</title>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+</head>
+<body lang="EN-US">
+<b>${DISTRO} Filesystem Software Manifest</b><br/>
+<br/>
+<b>Legend</b>
+<table border="1" style="border-collapse: collapse;">
+  <tbody>
+	<tr style="">
+	  <td style="width: 100pt;" >Package Name</td>
+	  <td>The name of the application or files</td>
+	</tr>
+	<tr style="">
+	  <td>Version</td>
+	  <td>Version of the application or files</td>
+	</tr>
+	<tr style="">
+	  <td>License</td>
+	  <td>Name of the license or licenses that apply to the Package.</td>
+	</tr>
+	<tr style="">
+	  <td>Location </td>
+	  <td>The directory name and path on the media (or in an archive) where the Package is located.</td>
+	</tr>
+	<tr style="">
+	  <td>Delivered As</td>
+	  <td>This field will either be
+&ldquo;Source&rdquo;, &ldquo;Binary&rdquo; or
+&ldquo;Source and Binary&rdquo; and is the form the content of
+the Package is delivered in.&nbsp; If the Package is delivered in
+an archive format, this field applies to the contents of the archive.
+If the word Limited is used with Source, as in &ldquo;Limited
+Source&rdquo; or &ldquo;Limited Source and Binary&rdquo;
+then only portions of the Source for the application are provided.</td>
+	</tr>
+	<tr style="">
+	  <td>Modified </td>
+	  <td>This field will either be &ldquo;Yes&rdquo;, &ldquo;No&rdquo;
+or &ldquo;OE&rdquo;. A &ldquo;Yes&rdquo; means ${COMPANY} had made changes to the
+Package. A &ldquo;No&rdquo; means ${COMPANY} has not made any changes. An
+&ldquo;OE&rdquo; means the Package has been modified by OpenEmbedded.
+</td>
+	</tr>
+	<tr style="">
+	  <td><a name="_ftnref1">Obtained from</a><a title="" href="#_ftn1">[1]</a>
+	  </td>
+	  <td>
+This field specifies where ${COMPANY} obtained the Package from. It may be a URL to an Open Source site, a 3<sup>rd</sup> party company name or ${COMPANY}.
+If this field contains a link to an Open Source package, the date it was downloaded is also recorded.</td>
+	</tr>
+  </tbody>
+</table>
+
+<br/>
+<b>Manifest</b><br/>
+EOF
+}
+
+function print_footer()
+{
+	cat >> ${DEPLOY_DIR_IMAGE}/${MACHINE}/${IMAGENAME}-manifest.html << EOF
+<p><a name='_ftn1'></a><b><a href='#_ftn1' title=''>[1]</a> Any links appearing on this manifest were verified
+at the time it was created. ${COMPANY} makes no guarantee that they will remain active in the future.</b></p></body></html>
+EOF
+}
+
 function do_manifest()
 {
 	# Print list of installed packages and their filenames
@@ -126,15 +212,23 @@ function do_manifest()
 	fi
 
 	for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
-		FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
-		echo -n "<tr><td><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
+		echo -n "<tr><td rowspan=2><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
 
 		if [ $METADATACACHE = "1"  ] ; then
-			LICENSE="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $2}')"
-			VERSION="$(grep $FILENAME conf/metadata.txt | awk -F, '{print $3}')"
-			echo -n "<td>$VERSION</td><td>$LICENSE</td><td>$FILENAME</td><td>Binary</td><td></td><td></td>"
+			PATTERN="^${pkg},"
+			FILENAME="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $2}')"
+			LICENSE="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $3}')"
+			VERSION="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $4}')"
+			SOURCE="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $6}')"
+			if [ -z "${SOURCE}" ]; then
+				SOURCE="${DISTRO}/OE metadata"
+			else
+				SOURCE="<a href=\"$SOURCE\">$SOURCE</a>"
+			fi
+			echo -n "<td rowspan=2>$VERSION</td><td rowspan=2>$LICENSE</td><td rowspan=2>Binary</td rowspan=2><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"
 		else
-			echo -n "<td></td><td></td><td>$FILENAME</td><td>Binary</td><td></td><td></td>"		
+			FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
+			echo -n "<td rowspan=2></td><td rowspan=2></td><td rowspan=2>Binary</td rowspan=2><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"		
 		fi
 		echo "</tr>"
 	done > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt
@@ -142,7 +236,7 @@ function do_manifest()
 	# Write out manifest
 	echo "Write out manifest"
 
-	cat conf/manifest-header.html > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	print_header > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 	echo "Narcissus package list: " >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 	cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 
@@ -151,11 +245,11 @@ function do_manifest()
 
 	echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 	echo "Complete package list:<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-	echo "<p/><table border='1' style='border-collapse: collapse;'><tr><td>Package Name</td><td>Version</td><td>License</td><td>Location</td><td>Delivered as</td><td>modified</td><td>Obtained from</td></tr>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	echo "<p/><table border='1' style='border-collapse: collapse;'><tr><td>Package Name</td><td>Version</td><td>License</td><td>Delivered as</td><td>Modified</td><td></td><td></td></tr>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 	cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 	echo "</table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 
-	echo "</body></html>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	print_footer >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 }
 
 function do_oeimage()

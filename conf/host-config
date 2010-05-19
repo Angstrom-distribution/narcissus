@@ -4,6 +4,8 @@ export DISTRO="Angstrom"
 export DISTRO_VERSION="$(date '+%Y.%m')-narcissus"
 export TARGET_VENDOR="angstrom"
 
+export COMPANY="Angstrom"
+
 export WORKDIR="${PWD}"
 
 export PATH=${WORKDIR}/bin:${PATH}
