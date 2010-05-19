@@ -213,9 +213,10 @@ function do_manifest()
 
 	for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
 		echo -n "<tr><td rowspan=2><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
+		PKGNAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
 
 		if [ $METADATACACHE = "1"  ] ; then
-			PATTERN="^${pkg},"
+			PATTERN="^${PKGNAME},"
 			FILENAME="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $2}')"
 			LICENSE="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $3}')"
 			VERSION="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $4}')"
