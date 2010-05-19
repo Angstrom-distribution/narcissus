@@ -196,7 +196,7 @@ EOF
 
 function print_footer()
 {
-	cat >> ${DEPLOY_DIR_IMAGE}/${MACHINE}/${IMAGENAME}-manifest.html << EOF
+	cat >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html << EOF
 <p><a name='_ftn1'></a><b><a href='#_ftn1' title=''>[1]</a> Any links appearing on this manifest were verified
 at the time it was created. ${COMPANY} makes no guarantee that they will remain active in the future.</b></p></body></html>
 EOF
@@ -250,7 +250,7 @@ function do_manifest()
 	cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 	echo "</table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 
-	print_footer >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	print_footer
 }
 
 function do_oeimage()
