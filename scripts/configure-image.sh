@@ -3,7 +3,9 @@
 # Narcissus - Online image builder for the angstrom distribution
 # Koen Kooi (c) 2008, 2009 - all rights reserved 
 
-find /tmp -name "opkg*" -mtime +3 -exec rm -r {} \;
+echo "cleaning up stale files"
+find /tmp -name "opkg*" -mtime +2 -exec rm -r {} \;
+find deploy -depth -mindepth 2 -mtime +4 -delete
 
 MACHINE=$1
 IMAGENAME=$2
