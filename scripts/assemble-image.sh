@@ -216,7 +216,7 @@ function do_manifest()
 		PKGNAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
 
 		if [ $METADATACACHE = "1"  ] ; then
-			PATTERN="^${PKGNAME},"
+			PATTERN="${PKGNAME}"
 			FILENAME="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $2}')"
 			LICENSE="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $3}')"
 			VERSION="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $4}')"
