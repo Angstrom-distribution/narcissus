@@ -9,12 +9,12 @@ SDKARCH=$4
 
 # Host system for the SDK, only i686 and x84_64 are currently supported
 case ${SDKARCH} in
-    intel32)
-        export HOST_SDK_ARCH="i686";;
-    intel64)
-        export HOST_SDK_ARCH="x86_64";;
-    *)
-        export HOST_SDK_ARCH="i686";;
+	intel32)
+		export HOST_SDK_ARCH="i686";;
+	intel64)
+		export HOST_SDK_ARCH="x86_64";;
+	*)
+		export HOST_SDK_ARCH="i686";;
 esac
 
 if [ -e ${PWD}/conf/host-config ] ; then

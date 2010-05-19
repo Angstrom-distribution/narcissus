@@ -49,10 +49,10 @@ echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf 
 bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}' |sort | uniq > ${TARGET_DIR}/tmp/installed-packages
 for i in $(cat ${TARGET_DIR}/tmp/installed-packages | grep -v locale) ; do
 	for translation in $(cat ${TARGET_DIR}/tmp/installed-translations | awk -F- '{print $3 ; print $3"-"$4}') en-us ; do
-            translation_split=$(echo ${translation} | awk -F '-' '{print $1}')
+			translation_split=$(echo ${translation} | awk -F '-' '{print $1}')
 			echo locale-base-${translation}
-            echo ${i}-locale-${translation}
-            echo ${i}-locale-${translation_split}
+			echo ${i}-locale-${translation}
+			echo ${i}-locale-${translation_split}
 	done
 done | sort | uniq > ${TARGET_DIR}/tmp/wanted-locale-packages
 
