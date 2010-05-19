@@ -132,7 +132,7 @@ function do_ext2()
 
 function print_header()
 {
-	cat > ${DEPLOY_DIR_IMAGE}/${MACHINE}/${IMAGENAME}-manifest.html << EOF
+	cat > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html << EOF
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <head>
   <title>${DISTRO} Filesystem Software Manifest</title>
@@ -237,7 +237,7 @@ function do_manifest()
 	# Write out manifest
 	echo "Write out manifest"
 
-	print_header > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	print_header
 	echo "Narcissus package list: " >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 	cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
 
