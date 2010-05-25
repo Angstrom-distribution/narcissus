@@ -142,6 +142,7 @@
 			<input type="checkbox" name="x11_packages" value="gimp">Gimp<br/>
 			<input type="checkbox" name="x11_packages" value="task-gnome-apps">GNOME Applications<br/>
 			<input type="checkbox" name="x11_packages" value="gnome-games">GNOME Games<br/>
+			<input type="checkbox" name="x11_packages" value="gedit">GNOME gedit<br/>
 			<input type="checkbox" name="x11_packages" value="gnome-mplayer">GNOME MPlayer<br/>	
 			<input type="checkbox" name="x11_packages" value="gnumeric">Gnumeric<br/>
 			<input type="checkbox" name="x11_packages" value="task-gpe-pim">GPE PIM suite<br/>
@@ -152,7 +153,7 @@
 			<input type="checkbox" name="x11_packages" value="numptyphysics">Numptyphysics<br/>
 			<input type="checkbox" name="x11_packages" value="pidgin">Pidgin IM<br/>
 			<input type="checkbox" name="x11_packages" value="contacts dates tasks">Pimlico<br/>
-			<input type="checkbox" name="x11_packages" value="qt4-demos qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-svg">QT/X11 4<br/>
+			<input type="checkbox" name="x11_packages" value="qt4-demos qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-svg qt-x11-qvfb">QT/X11 4<br/>
 			<input type="checkbox" name="x11_packages" value="arora">QT4/X11 4 Arora Browser<br/>
 			<input type="checkbox" name="x11_packages" value="sdlquake">Quake 1<br/>
 			<input type="checkbox" name="x11_packages" value="quake2">Quake 2<br/>
@@ -177,6 +178,8 @@
 		<input type="checkbox" name="devel" value="oprofile">OProfile<br/>
 		<input type="checkbox" name="devel" value="gdb gdbserver">GDB<br/>
 		<input type="checkbox" name="devel" value="task-proper-tools">Busybox replacements<br/>
+		<input type="checkbox" name="devel" value="task-native-sdk">Native (on-target) SDK <br/>
+		<input type="checkbox" name="devel" value="task-qte-toolchain-target">Native (on-target) Qt Embedded SDK <br/>
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('console_packages');"> Additional console packages:<br/>
@@ -184,11 +187,13 @@
 		<input type="checkbox" name="console_packages" value="aircrack-ng">Aircrack-ng<br/>
 		<input type="checkbox" name="console_packages" value="kernel-modules">All kernel modules<br/>
 		<input type="checkbox" name="console_packages" value="psplash-angstrom">Angstrom PSplash Screen<br/>
-		<input type="checkbox" name="console_packages" value="alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl">Alsa utils<br/>
+		<input type="checkbox" name="console_packages" value="alsa-utils alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl">Alsa utils<br/>
 		<input type="checkbox" name="console_packages" value="bluez-utils">Bluez<br/>
 		<input type="checkbox" name="console_packages" value="cpufrequtils">cpufrequtils<br/>
 		<input type="checkbox" name="console_packages" value="cwiid">cwiid<br/>
+		<input type="checkbox" name="console_packages" value="dosfstools">DOS FAT Filesystem Utils<br/>
 		<input type="checkbox" name="console_packages" value="dvb-azap dvb-tzap dvb-czap dvb-szap dvb-scan wscan dvbstream dvbtune">DVB-utils<br/>
+		<input type="checkbox" name="console_packages" value="e2fsprogs e2fsprogs-mke2fs">EXT2 Filesystem Utils<br/>
 		<input type="checkbox" name="console_packages" value="flite libflite-cmu-us-kal1">Flite<br/>
 		<input type="checkbox" name="console_packages" value="gdbserver">Gdbserver<br/>
 		<input type="checkbox" name="console_packages" value="gnuradio">Gnuradio<br/>
@@ -203,10 +208,12 @@
 		<input type="checkbox" name="console_packages" value="kismet">Kismet<br/>
 		<input type="checkbox" name="console_packages" value="lcd4linux">LCD4Linux<br/>
 		<input type="checkbox" name="console_packages" value="lirc">LIRC<br/>
+		<input type="checkbox" name="console_packages" value="lsof">lsof<br/>
 		<input type="checkbox" name="console_packages" value="mediatomb">Mediatomb<br/>
 		<input type="checkbox" name="console_packages" value="memtester">memtester<br/>
 		<input type="checkbox" name="console_packages" value="mplayer">MPlayer<br/>
 		<input type="checkbox" name="console_packages" value="mythtv-backend">Mythtv backend<br/>
+		<input type="checkbox" name="console_packages" value="nano">Nano Editor<br/>
 		<input type="checkbox" name="console_packages" value="octave">Octave<br/>
 		<input type="checkbox" name="console_packages" value="opencv-samples">OpenCV<br/>
 		<input type="checkbox" name="console_packages" value="powertop">Powertop<br/>
@@ -214,6 +221,7 @@
 		<input type="checkbox" name="console_packages" value="arora-e">QT/e 4 Arora Browser<br/>
 		<input type="checkbox" name="console_packages" value="screen">Screen<br/>
 		<input type="checkbox" name="console_packages" value="vdr">Video Disc Recoder<br/>
+		<input type="checkbox" name="console_packages" value="vim">VIM<br/>
 	</div>
 
 	<img src='img/expand.gif' onClick="toggleVisibility('network_packages');"> Network related packages:<br/>
@@ -228,6 +236,7 @@
 		<input type="checkbox" name="network_packages" value="networkmanager networkmanager-openvpn">NetworkManager<br/>
 		<input type="checkbox" name="network_packages" value="network-manager-applet">NetworkManager GUI applet<br/>
 		<input type="checkbox" name="network_packages" value="nmap">Nmap<br/>
+		<input type="checkbox" name="network_packages" value="nodejs">Node Js Evented I/O<br/>
 		<input type="checkbox" name="network_packages" value="ntp">NTP<br/>
 		<input type="checkbox" name="network_packages" value="ntpclient">NTPclient<br/>
 		<input type="checkbox" name="network_packages" value="ntpdate">NTPdate<br/>
@@ -240,6 +249,10 @@
 	<div id='platform_packages' class="nblock">
 
 	<br/>Texas Instruments OMAP3x/AM3x family:<br/>
+		<input type="checkbox" name="platform_packages" value="am-benchmarks am-sysinfo">AM/OMAP benchmarks / system info<br/>
+		<input type="checkbox" name="platform_packages" value="matrix-gui">Matrix GUI<br/>
+		<input type="checkbox" name="platform_packages" value="matrix-tui">Matrix TUI<br/>
+		<input type="checkbox" name="platform_packages" value="omap-dss-doc">OMAP Display Sub System (DSS) Documentation<br/>
 		<input type="checkbox" name="platform_packages" value="omapfbplay">FFmpeg based Media Player (omapfbplay) with Display Sub-System Support<br/>
 		<input type="checkbox" name="platform_packages" value="ti-msp430-chronos-apps">MSP430 eZChronos Watch Development Kit Support Applications<br/>
 		<input type="checkbox" name="platform_packages" value="libgles-omap3">PowerVR SGX drivers for OMAP3<br/>
@@ -260,7 +273,7 @@
 
 	<br/>Various demonstration configs:<br/>
 		<input type="checkbox" name="platform_packages" value="task-beagleboard-demo psplash-angstrom">Original beagleboard demo<br/>
-		<input type="checkbox" name="platform_packages" value="shadow bash psplash-angstrom task-base-extended angstrom-task-gnome gstreamer-ti libgles-omap3-x11wsegl bc-cube-x11 mplayer omapfbplay cpufrequtils htop powertop ntpdate libgles-omap3-x11demos abiword gnumeric epiphany memtester kernel-modules epiphany midori firefox gnome-mplayer gecko-mediaplayer-firefox-hack gpe-scap gst-plugin-gles alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl ti-msp430-chronos-apps">Linuxtag 2010 beagleboard demo<br/>
+		<input type="checkbox" name="platform_packages" value="shadow bash psplash-angstrom task-base-extended angstrom-task-gnome gstreamer-ti libgles-omap3-x11wsegl bc-cube-x11 mplayer omapfbplay cpufrequtils htop powertop ntpdate libgles-omap3-x11demos abiword gnumeric epiphany memtester kernel-modules epiphany midori firefox gnome-mplayer gecko-mediaplayer-firefox-hack gpe-scap gst-plugin-gles alsa-utils alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl ti-msp430-chronos-apps git vim screen dosfstools omap-dss-doc gedit lsof matrix-gui matrix-tui am-benchmarks am-sysinfo e2fsprogs e2fsprogs-mke2fs nano nodejs qt4-demos qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-svg qt-x11-qvfb qt4-embedded-demos qt4-embedded-plugin-gfxdriver-gfxvnc qt4-embedded-plugin-gfxdriver-gfxtransformed qt4-embedded qt4-embedded-fonts qt4-embedded-plugin-imageformat-svg qt4-embedded-plugin-imageformat-jpeg arora arora-e task-native-sdk task-qte-toolchain-target">Linuxtag 2010 beagleboard demo<br/>
 
 	<br/>Marvell XScale Family:<br/>
 		<input type="checkbox" name="platform_packages" value="pxaregs">PXA register utility<br/>
