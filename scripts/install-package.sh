@@ -32,21 +32,21 @@ echo $packagelist > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt
 
 echo "installing $packagelist"
 for pkg in $packagelist ; do
-	echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $pkg"
-	yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install $pkg | tee ${TARGET_DIR}/log.txt
+	echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} install $pkg"
+	yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} install $pkg | tee ${TARGET_DIR}/log.txt
 	grep -e "rror oc" -e "ollected er" ${TARGET_DIR}/log.txt
 	echo "<div id=\"${pkg}-returncode\">$?</div><br/>"
 done
 
 mkdir -p ${TARGET_DIR}/tmp/
-echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | grep locale-base | awk '{print $1}'"
-bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | grep locale-base | awk '{print $1}' > ${TARGET_DIR}/tmp/installed-translations
+echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} list_installed | grep locale-base | awk '{print $1}'"
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed -t ${OPKG_TMP_DIR} | grep locale-base | awk '{print $1}' > ${TARGET_DIR}/tmp/installed-translations
 for translation in $(cat ${TARGET_DIR}/tmp/installed-translations | awk -F- '{print $3}') en; do
 	echo angstrom-locale-${translation}-feed-config 
-done | xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf install
+done | xargs bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} install
 
-echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}' |sort | uniq"
-bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}' |sort | uniq > ${TARGET_DIR}/tmp/installed-packages
+echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} list_installed | awk '{print $1}' |sort | uniq"
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} list_installed | awk '{print $1}' |sort | uniq > ${TARGET_DIR}/tmp/installed-packages
 for i in $(cat ${TARGET_DIR}/tmp/installed-packages | grep -v locale) ; do
 	for translation in $(cat ${TARGET_DIR}/tmp/installed-translations | awk -F- '{print $3 ; print $3"-"$4}') en-us ; do
 			translation_split=$(echo ${translation} | awk -F '-' '{print $1}')
@@ -56,18 +56,18 @@ for i in $(cat ${TARGET_DIR}/tmp/installed-packages | grep -v locale) ; do
 	done
 done | sort | uniq > ${TARGET_DIR}/tmp/wanted-locale-packages
 
-echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update"
-bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf update
+echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} update"
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} update
 
-echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list | awk '{print $1}' |grep locale |sort | uniq"
-bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list | awk '{print $1}' |grep locale |sort | uniq > ${TARGET_DIR}/tmp/available-locale-packages
+echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} list | awk '{print $1}' |grep locale |sort | uniq"
+bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} list | awk '{print $1}' |grep locale |sort | uniq > ${TARGET_DIR}/tmp/available-locale-packages
 
 cat ${TARGET_DIR}/tmp/wanted-locale-packages ${TARGET_DIR}/tmp/available-locale-packages | sort | uniq -d > ${TARGET_DIR}/tmp/pending-locale-packages
 
 if [ -s ${TARGET_DIR}/tmp/pending-locale-packages ] ; then
 	for i in $(cat ${TARGET_DIR}/tmp/pending-locale-packages) ; do
-		echo "running: bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install $i"
-		bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -nodeps install $i
+		echo "running: bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} -nodeps install $i"
+		bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} -nodeps install $i
 	done
 fi
 

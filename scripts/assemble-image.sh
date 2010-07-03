@@ -222,9 +222,9 @@ function do_manifest()
 	echo 'Options +Indexes' > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources/.htaccess
 	echo 'Options +FollowSymLinks' >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources/.htaccess
 
-	for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
+	for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} list_installed | awk '{print $1}') ; do 
 		echo -n "<tr><td rowspan=2><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
-		PKGNAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
+		PKGNAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} info $pkg | grep Filename | head -n1 | awk '{print $2}')"
 
 		if [ $METADATACACHE = "1"  ] ; then
 			PATTERN="${PKGNAME}"
@@ -245,7 +245,7 @@ function do_manifest()
 			fi
 			echo -n "<td rowspan=2>$VERSION</td><td rowspan=2>$LICENSE</td><td rowspan=2>Binary</td rowspan=2><td rowspan=2></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"
 		else
-			FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
+			FILENAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} info $pkg | grep Filename | head -n1 | awk '{print $2}')"
 			echo -n "<td rowspan=2></td><td rowspan=2></td><td rowspan=2>Binary</td rowspan=2><td rowspan=2></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"		
 		fi
 		echo "</tr>"
@@ -297,8 +297,8 @@ echo "Running preinsts"
 
 for i in ${TARGET_DIR}/usr/lib/opkg/info/*.preinst; do
 	if [ -f $i ] && ! sh $i; then
-		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf flag unpacked `basename $i .preinst`"
-		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf flag unpacked `basename $i .preinst`
+		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`"
+		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`
 	fi
 done 
 
@@ -306,8 +306,8 @@ echo "Running postinsts"
 
 for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
 	if [ -f $i ] && ! sh $i configure; then
-		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf flag unpacked `basename $i .postinst`"
-		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf flag unpacked `basename $i .postinst`
+		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`"
+		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`
 	fi
 done 
 
@@ -361,7 +361,7 @@ esac
 
 
 echo "removing target dir"
-rm -rf ${TARGET_DIR}
+rm -rf ${OPKG_TMP_DIR} ${TARGET_DIR}
 
 exit ${RETVAL}
 
