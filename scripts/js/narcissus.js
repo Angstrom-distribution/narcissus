@@ -11,7 +11,7 @@ var packagestring = "";
 var opackage = "";
 var progress_text = ""
 var FAIL_image = "<img src='img/X_mark.png'>";
-var succes_image = "<img src='img/Green_tick'>";
+var succes_image = "<img src='img/Green_tick.png'>";
 var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
 
 //var workerurl = 'http://dominion.thruhere.net/koen/narcissus/backend.php';
