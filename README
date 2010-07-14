@@ -21,6 +21,11 @@ If you have a feed with the machine config packages present:
 for i in $(find ~/website/feeds/2008/ipk/glibc  -name "angstrom-feed-configs_*ipk" | grep -v morgue) ; do cp $i . ; done
 for f in $(for i in angst*ipk ; do echo $i | awk -F_ '{print $3}' |sed s:\.ipk::g ; done) ; do dpkg-deb -X ang*${f}.ipk $f ; mv ang*${f}.ipk $f ; mv $f/etc/opkg/arch.conf $f ; rm -rf $f/etc; done
 
+Add the following to /etc/fstab:
+# This is for the image buildservice, it needs to loop mount 2 partitions:
+/dev/loop0 /mnt/narcissus/sd_image1 msdos user 0 0
+/dev/loop1 /mnt/narcissus/sd_image2 ext3 user,dev,suid 0 0
+
 
 That's it!
 
