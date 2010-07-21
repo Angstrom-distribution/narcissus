@@ -37,6 +37,7 @@ function initForm() {
 
 	toggleVisibility('packageblock');
 	toggleVisibility('x11_packages');
+	toggleVisibility('java_packages');
 	
 	environmentChange();
 	showValues();

@@ -250,6 +250,18 @@
 		<input type="checkbox" name="network_packages" value="wireless-tools">Wireless-tools<br/>
 	</div>
 
+	<img src='img/expand.gif' onClick="toggleVisibility('java_packages');"> Java packages:<br/>
+	<div id='java_packages' class="nblock">
+		<input type="checkbox" name="console_packages" value="openjdk-6-vm-cacao openjdk-6-jre">CacaoVM with openjdk as classpath<br/>
+		<input type="checkbox" name="console_packages" value="openjdk-6-vm-shark openjdk-6-jre">SharkVM with openjdk as classpath<br/>
+		<input type="checkbox" name="console_packages" value="openjdk-6-vm-zero openjdk-6-jre">ZeroVM with openjdk as classpath<br/>
+		<input type="checkbox" name="console_packages" value="openjdk-6-jdk">Openjdk development kit (e.g. javac)<br/>
+		<input type="checkbox" name="console_packages" value="jamvm">JamVM without classpath<br/>
+		<input type="checkbox" name="console_packages" value="cacao">CacaoVM without classpath<br/>
+		<input type="checkbox" name="console_packages" value="classpath">GNU Classpath<br/>
+		<input type="checkbox" name="console_packages" value="classpath-gtk">GNU Classpath with GTK+<br/>	
+	</div>
+
 	<img src='img/expand.gif' onClick="toggleVisibility('platform_packages');"> Platform specific packages:<br/>
 	<div id='platform_packages' class="nblock">
 
