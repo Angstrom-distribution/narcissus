@@ -10,7 +10,7 @@ export WORKDIR="${PWD}"
 
 export PATH=${WORKDIR}/bin:${PATH}
 
-export CACHEDIR="${PWD}/deploy/cache"
+export CACHEDIR="$(readlink -f ${PWD}/deploy/cache)"
 
 export TARGET_DIR="${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}"
 
