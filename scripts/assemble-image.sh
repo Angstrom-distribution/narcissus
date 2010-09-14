@@ -67,10 +67,16 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		else
 			rm -f /mnt/narcissus/sd_image1/MLO		
 		fi
-		cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
+		if [ -e ${TARGET_DIR}/boot/u-boot-*.bin ] ;then
+			cp -v ${TARGET_DIR}/boot/u-boot-*.bin /mnt/narcissus/sd_image1/u-boot.bin
+			echo "Copied u-boot from /boot"
+		else
+			cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
+			echo "Using u-boot from narcissus, no u-boot.bin found in rootfs"
+		fi
 		if [ -e ${TARGET_DIR}/boot/uImage-2.6* ] ;then 
 			cp -v ${TARGET_DIR}/boot/uImage-2.6* /mnt/narcissus/sd_image1/uImage
-			echo "Copied from /boot"
+			echo "Copied uImage from /boot"
 		else
 			cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage
 			echo "Using uImage from narcissus, no uImage found in rootfs"
