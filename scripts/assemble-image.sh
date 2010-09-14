@@ -219,6 +219,8 @@ function do_manifest()
 
 	# Create a directory to bundle up the sources for the image
 	mkdir -p ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources
+	echo 'Options +Indexes' > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources/.htaccess
+	echo 'Options +FollowSymLinks' >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources/.htaccess
 
 	for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
 		echo -n "<tr><td rowspan=2><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"

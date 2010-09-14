@@ -97,6 +97,7 @@ function show_image_link($machine, $name, $imagesuffix, $manifest, $sdk, $sdkarc
 	$foundimage = 0;
 	$foundsdimage = 0;
 	$foundsdk = 0;
+	$foundsources = 0;
 	$printedcacheinfo = 0;
 	$printstring = "";
 
@@ -145,6 +146,11 @@ function show_image_link($machine, $name, $imagesuffix, $manifest, $sdk, $sdkarc
 			$sdksize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
 			$imagestring .= "<br/><a href='$deploydir/$value'>$value</a> [$sdksize MiB]: $sdk for the generated rootfs.<br/>";
 			$foundsdk = 1;
+		}
+		//random-ed560fe9-image-sources/
+		if(strpos($value, "$name-image-sources") !== false) {
+			rename($location, "$deploydir/sources");
+			$foundsources = 1;
 		}
 }	
 	
