@@ -217,12 +217,16 @@ function do_manifest()
 		METADATACACHE="1"
 	fi
 
+	# Create a directory to bundle up the sources for the image
+	mkdir -p ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources
+
 	for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf list_installed | awk '{print $1}') ; do 
 		echo -n "<tr><td rowspan=2><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
 		PKGNAME="$(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf info $pkg | grep Filename | head -n1 | awk '{print $2}')"
 
 		if [ $METADATACACHE = "1"  ] ; then
 			PATTERN="${PKGNAME}"
+			OENAME="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $1}')"
 			FILENAME="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $2}')"
 			LICENSE="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $3}')"
 			VERSION="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $4}')"
@@ -231,6 +235,8 @@ function do_manifest()
 				SOURCE="${DISTRO}/OE metadata"
 			else
 				SOURCE="<a href=\"$SOURCE\">$SOURCE</a>"
+				# hack hack hack! This hardcodes the location of the sources, which sucks
+				cp -a ${WORKDIR}/../sources/${LICENSE}/${OENAME} ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources
 			fi
 			echo -n "<td rowspan=2>$VERSION</td><td rowspan=2>$LICENSE</td><td rowspan=2>Binary</td rowspan=2><td rowspan=2></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"
 		else
