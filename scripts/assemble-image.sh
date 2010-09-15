@@ -228,7 +228,7 @@ function do_manifest()
 
 		if [ $METADATACACHE = "1"  ] ; then
 			PATTERN="${PKGNAME}"
-			OENAME="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $1}')"
+			OENAME="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $5}')"
 			FILENAME="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $2}')"
 			LICENSE="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $3}')"
 			VERSION="$(grep $PATTERN conf/metadata.txt | awk -F, '{print $4}')"
@@ -238,8 +238,9 @@ function do_manifest()
 			else
 				SOURCE="<a href=\"$SOURCE\">$SOURCE</a>"
 				# hack hack hack! This hardcodes the location of the sources, which sucks
-				if [ -d ${WORKDIR}/../sources/${LICENSE}/${OENAME} ] ; then
-					cp -a ${WORKDIR}/../sources/${LICENSE}/${OENAME} ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources
+				SHORTLICENSE="$(echo ${LICENSE} | awk '{print $1}' | awk -F/ '{print $1}')"
+				if [ -d ${WORKDIR}/../sources/${SHORTLICENSE}/${OENAME} ] ; then
+					cp -a ${WORKDIR}/../sources/${SHORTLICENSE}/${OENAME} ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources
 				fi
 			fi
 			echo -n "<td rowspan=2>$VERSION</td><td rowspan=2>$LICENSE</td><td rowspan=2>Binary</td rowspan=2><td rowspan=2></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"
