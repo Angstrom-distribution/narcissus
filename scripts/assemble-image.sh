@@ -238,7 +238,9 @@ function do_manifest()
 			else
 				SOURCE="<a href=\"$SOURCE\">$SOURCE</a>"
 				# hack hack hack! This hardcodes the location of the sources, which sucks
-				cp -a ${WORKDIR}/../sources/${LICENSE}/${OENAME} ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources
+				if [ -d ${WORKDIR}/../sources/${LICENSE}/${OENAME} ] ; then
+					cp -a ${WORKDIR}/../sources/${LICENSE}/${OENAME} ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources
+				fi
 			fi
 			echo -n "<td rowspan=2>$VERSION</td><td rowspan=2>$LICENSE</td><td rowspan=2>Binary</td rowspan=2><td rowspan=2></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"
 		else
