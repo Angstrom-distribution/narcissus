@@ -18,6 +18,12 @@
 		</div>
 		<br/><b>Base settings:</b><br/><br/>
 		<div id="machinedialog" class="nblock">
+			<div id='machinelist'>
+				Select the machine you want to build your rootfs image for:<br/><br/>
+				<select name='machine' onChange='showValues();'>
+					<option value="invalid">invalid</option>
+				</select><br/>
+			</div>
 		</div>
 		<div id='imagename' class="nblock">
 			Choose your image name.<br/><font size="-2">This is used in the filename offered for download, makes it easier to distinguish between rootfs images after downloading.</font><br/><br/>
@@ -37,7 +43,13 @@
 
 			<div id="releasedialog" class="nblock">
 				Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then. The 'next' option will give you the bleeding edge, but it's incomplete and only intended for angstrom developers</font><br/><br/>
-				<div id="releaseconfig"></div>
+				<div id="releaseconfig">
+					<div id='configlist'>
+						<select name="configs" onChange='showValues();'>
+							<option value="invalid">invalid</option>
+						</select>
+					</div>
+				</div>
 			</div>
 			<div id="basesystemdialog" class="nblock">
 				Base system<br/> <font size="-2">Each entry down is a superset of the one above it. Busybox will give you only busybox, usefull for e.g. small ramdisks. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>

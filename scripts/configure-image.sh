@@ -5,7 +5,7 @@
 
 echo "cleaning up stale files"
 find /tmp -name "opkg*" -mtime +2 -exec rm -r {} \;
-find deploy -depth -mindepth 2 -mtime +4 -delete
+#find deploy -depth -mindepth 2 -mtime +4 -delete
 
 MACHINE=$1
 IMAGENAME=$2

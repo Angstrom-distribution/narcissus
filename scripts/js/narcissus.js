@@ -14,6 +14,8 @@ var FAIL_image = "<img src='img/X_mark.png'>";
 var succes_image = "<img src='img/Green_tick.png'>";
 var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
 
+var machinename = "";
+
 //var workerurl = 'http://dominion.thruhere.net/koen/narcissus/backend.php';
 //var workerurl = 'http://amethyst.openembedded.net/~koen/narcissus/backend.php';
 var workerurl = "backend.php";
@@ -83,7 +85,6 @@ function unique(a)
 
 function showValues() {
 	var extratext = "";
-	var machinename = "";
 	var fields = $(":input").serializeArray();
 	$("#results").empty();
 	$("#additional_packages").empty();
@@ -91,9 +92,13 @@ function showValues() {
 
 		switch(field.name) {
 		case 'machine':
-			machinename = field.value;
-			$("#results").append("Machine: " + field.value + "<br/>");
-			$('#releaseconfig').load('conf/' + machinename + '/config-list.html #configlist');
+			if(field.value != "invalid") {
+				if(machinename != field.value) {
+					machinename = field.value;
+					$('#releaseconfig').load('conf/' + machinename + '/config-list.html #configlist');
+				}
+				$("#results").append("Machine: " + field.value + "<br/>");
+			}
 			break;
 		case 'name':
 			$("#results").append("Image name: " + field.value + "<br/>");
@@ -103,6 +108,7 @@ function showValues() {
 		case 'devmanager':
 			break;
 		case 'configs':
+			//if(field.value != "invalid") $("#results").append("Configs:" + field.value + "<br/> ");
 			break;
 		case 'imagetype':
 			$("#results").append("Image type: " + field.value + "<br/> ");
