@@ -20,6 +20,8 @@ export OFFLINE_ROOT="${TARGET_DIR}"
 export IPKG_OFFLINE_ROOT="${TARGET_DIR}"
 export OPKG_OFFLINE_ROOT="${TARGET_DIR}"
 
+export OPKG_TMP_DIR="${TARGET_DIR}-tmp"
+
 export OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
 export PACKAGELISTFILE="${PWD}/deploy/${MACHINE}/${IMAGENAME}-packages.txt"
 
