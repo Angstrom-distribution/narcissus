@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Narcissus - Online image builder for the angstrom distribution
 # Copyright (C) 2008 - 2010 Koen Kooi
 # Copyright (C) 2010        Denys Dmytriyenko
