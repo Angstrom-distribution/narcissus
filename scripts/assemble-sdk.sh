@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Narcissus - Online image builder for the angstrom distribution
 # Koen Kooi (c) 2010 - MIT licensed 
 
@@ -232,6 +232,27 @@ function do_assemble_sdk()
 	echo 'export CONFIG_SITE=$SDK_PATH/site-config' >> $script
 	echo 'alias opkg="LD_LIBRARY_PATH=$SDK_PATH/lib $SDK_PATH/bin/opkg-cl -f $SDK_PATH/${sysconfdir}/opkg-sdk.conf -o $SDK_PATH"' >> $script
 	echo 'alias opkg-target="LD_LIBRARY_PATH=$SDK_PATH/lib $SDK_PATH/bin/opkg-cl -o $SDK_PATH/$TARGET_SYS"' >> $script
+
+# Fix!
+#QT_DIR_NAME = "qtopia"
+#echo 'export OE_QMAKE_INCDIR_QT=${SDKPATH}/${TARGET_SYS}/${includedir}/${QT_DIR_NAME}' >> $script
+#echo 'export OE_QMAKE_QT_CONFIG=${SDKPATH}/${TARGET_SYS}/${datadir}/${QT_DIR_NAME}/mkspecs/qconfig.pri' >> $script
+#echo 'export QMAKESPEC=${SDKPATH}/${TARGET_SYS}/${datadir}/${QT_DIR_NAME}/mkspecs/linux-g++' >> $script
+
+#Check for QT stuff before adding this
+# Maybe reuse the scripts inside qt-tools?
+	echo 'export OE_QMAKE_CC=${TARGET_SYS}-gcc' >> $script
+	echo 'export OE_QMAKE_CXX=${TARGET_SYS}-g++' >> $script
+	echo 'export OE_QMAKE_LINK=${TARGET_SYS}-g++' >> $script
+	echo 'export OE_QMAKE_AR=${TARGET_SYS}-ar' >> $script
+	echo 'export OE_QMAKE_LIBDIR_QT=${SDKPATH}/${TARGET_SYS}/${libdir}' >> $script
+	echo 'export OE_QMAKE_MOC=${SDKPATH}/bin/moc4' >> $script
+	echo 'export OE_QMAKE_UIC=${SDKPATH}/bin/uic4' >> $script
+	echo 'export OE_QMAKE_UIC3=${SDKPATH}/bin/uic34' >> $script
+	echo 'export OE_QMAKE_RCC=${SDKPATH}/bin/rcc4' >> $script
+	echo 'export OE_QMAKE_QDBUSCPP2XML=${SDKPATH}/bin/qdbuscpp2xml4' >> $script
+	echo 'export OE_QMAKE_QDBUSXML2CPP=${SDKPATH}/bin/qdbusxml2cpp4' >> $script
+
 
 	# Add version information
 	versionfile=${SDK_OUTPUT}/${SDKPATH}/version
