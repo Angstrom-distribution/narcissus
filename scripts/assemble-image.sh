@@ -350,10 +350,10 @@ esac
 case ${SDK} in
 	toolchain)
 		echo "Generating toolchain"
-		sh scripts/assemble-sdk.sh $MACHINE $IMAGENAME $SDK $SDKARCH;;
+		bash scripts/assemble-sdk.sh $MACHINE $IMAGENAME $SDK $SDKARCH;;
 	sdk)
 		echo "Generating SDK"
-		sh scripts/assemble-sdk.sh $MACHINE $IMAGENAME $SDK $SDKARCH;;
+		bash scripts/assemble-sdk.sh $MACHINE $IMAGENAME $SDK $SDKARCH;;
 	*)
 		echo "Not generating toolchain or SDK";;
 esac
