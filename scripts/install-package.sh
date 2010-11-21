@@ -56,8 +56,9 @@ for i in $(cat ${TARGET_DIR}/tmp/installed-packages | grep -v locale) ; do
 	done
 done | sort | uniq > ${TARGET_DIR}/tmp/wanted-locale-packages
 
-echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} update"
-bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} update
+# REVISIT: check if it really isn't needed to update again
+#echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} update"
+#bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} update
 
 echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} list | awk '{print $1}' |grep locale |sort | uniq"
 bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} list | awk '{print $1}' |grep locale |sort | uniq > ${TARGET_DIR}/tmp/available-locale-packages
