@@ -22,10 +22,30 @@ for i in $(find ~/website/feeds/2008/ipk/glibc  -name "angstrom-feed-configs_*ip
 for f in $(for i in angst*ipk ; do echo $i | awk -F_ '{print $3}' |sed s:\.ipk::g ; done) ; do dpkg-deb -X ang*${f}.ipk $f ; mv ang*${f}.ipk $f ; mv $f/etc/opkg/arch.conf $f ; rm -rf $f/etc; done
 
 Add the following to /etc/fstab:
+
+----------------------------------------
 # This is for the image buildservice, it needs to loop mount 2 partitions:
 /dev/loop0 /mnt/narcissus/sd_image1 msdos user 0 0
 /dev/loop1 /mnt/narcissus/sd_image2 ext3 user,dev,suid 0 0
+----------------------------------------
 
+Add the following to /etc/apache2/conf.d/narcissu:
+
+----------------------------------------
+<Directory /var/www/narcissus>
+    Options +ExecCGI +FollowSymLinks -Indexes
+</Directory>
+
+<VirtualHost *:80>
+    ServerAdmin angstrom-distro-devel@linuxtogo.org
+    DocumentRoot /var/www/narcissus/
+    ServerName narcissus.angstrom-distribution.org
+    CustomLog /var/log/apache2/angstrom-narcissus.log combined
+<Directory /var/www/narcissus/>
+        AllowOverride All
+</Directory>
+</VirtualHost>
+----------------------------------------
 
 That's it!
 
