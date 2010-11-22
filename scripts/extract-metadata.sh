@@ -21,7 +21,7 @@ if [ -e ${CACHEDIRIPK} ] ; then
 		VERSION="$(grep 'Version:' control | head -n1 | awk -F': ' '{print $2}' | awk -F':' '{print $NF}')"
 		RECIPE="$(grep 'OE:' control | awk -F': ' '{print $2}')"
 		RAWSRC="$(grep 'Source:' control | awk '{print $2}')"
-		if [ "$RAWSRC" == "file://SUPPORTED" ]; then
+		if [ "$RAWSRC" = "file://SUPPORTED" ]; then
 			SOURCE="http://www.codesourcery.com/gnu_toolchains/arm/portal/release858"
 		else
 			SOURCE="$(echo $RAWSRC | grep -v 'file://' | sed 's/;.*//')"
