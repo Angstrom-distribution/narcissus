@@ -16,8 +16,8 @@ if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
 	exit 0
 fi
 
-if [ -e ${CACHEDIR} ] ; then
-	CACHE="--cache ${CACHEDIR}"
+if [ -e ${CACHEDIRIPK} ] ; then
+	CACHE="--cache ${CACHEDIRIPK}"
 fi
 
 if [ -e ${TARGET_DIR}/log.txt ] ; then
@@ -28,7 +28,7 @@ OPKGARGS="${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf"
 
 packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sed s:,:\ :g | sort | uniq)"
 
-echo $packagelist > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt
+echo $packagelist > ${TARGET_DIR}.txt
 
 echo "installing $packagelist"
 for pkg in $packagelist ; do

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Narcissus - Online image builder for the angstrom distribution
 # Koen Kooi (c) 2010- all rights reserved 
@@ -10,8 +10,8 @@ if [ -e ${PWD}/conf/host-config ] ; then
 	echo "Loaded host config"
 fi
 
-if [ -e ${CACHEDIR} ] ; then
-	( cd ${CACHEDIR}
+if [ -e ${CACHEDIRIPK} ] ; then
+	( cd ${CACHEDIRIPK}
 	rm -f  metadata.txt
 	for i in *ipk ; do
 		dpkg-deb -I $i > control
@@ -31,6 +31,6 @@ if [ -e ${CACHEDIR} ] ; then
 	done )
 
 	touch conf/metadata.txt
-	cat conf/metadata.txt >> ${CACHEDIR}/metadata.txt
-	cat ${CACHEDIR}/metadata.txt | sort | uniq > conf/metadata.txt
+	cat conf/metadata.txt >> ${CACHEDIRIPK}/metadata.txt
+	cat ${CACHEDIRIPK}/metadata.txt | sort | uniq > conf/metadata.txt
 fi

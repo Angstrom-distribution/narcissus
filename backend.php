@@ -115,12 +115,12 @@ function show_image_link($machine, $name, $imagesuffix, $manifest, $sdk, $sdkarc
 	
 	$randomname = substr(md5(time()), 0, 6);
 	$deploydir = "deploy/$machine/$randomname";
-	mkdir($deploydir);
+	mkdir($deploydir,0777,TRUE);
 	
-	$imagefiles = scandir("deploy/$machine");
+	$imagefiles = scandir("work/$machine");
 	print "<br/>";
 	foreach($imagefiles as $value) {
-		$location = "deploy/$machine/$value";
+		$location = "work/$machine/$value";
 		// The !== operator must be used.  Using != would not work as expected
 		// because the position of 'a' is 0. The statement (0 != false) evaluates 
 		// to false.
@@ -136,7 +136,9 @@ function show_image_link($machine, $name, $imagesuffix, $manifest, $sdk, $sdkarc
 			$imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
 			$imagestring .= "<br/><a href='$deploydir/$value'>$value</a> [$imgsize MiB]: This is the rootfs '$name' for $machine you just built. This will get automatically deleted after 3 days.<br/>";
 			if($manifest == "yes") {
-				$imagestring .= "You can also have a look at the software <a href='deploy/$machine/$name-image-manifest.html' target='manifest'>manifest</a> for this rootfs<br/>";
+				rename("work/$machine/$name-image-manifest.html", "$deploydir/$name-image-manifest.html");
+				rename("work/$machine/$name-image.bb", "$deploydir/$name-image.bb");
+				$imagestring .= "You can also have a look at the software <a href='$deploydir/$name-image-manifest.html' target='manifest'>manifest</a> for this rootfs<br/>";
 			}
 			$foundimage = 1;
 		}

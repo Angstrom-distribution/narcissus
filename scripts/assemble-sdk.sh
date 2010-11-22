@@ -132,12 +132,12 @@ function do_assemble_sdk()
 	
 	if [ "${SDK}" = "sdk" ] ; then
 		# Task-base introduces tons of spurious deps, so it gets blacklised
-		for i in $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt) ; do
-			echo ${i}-dev | grep -v task-base >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sdk.txt
+		for i in $(cat ${TARGET_DIR}.txt) ; do
+			echo ${i}-dev | grep -v task-base >> ${TARGET_DIR}-sdk.txt
 		done
 
 		# This is dirty, we try to guess the -dev names and install them without checking
-		for sdkpackage in $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sdk.txt) ; do
+		for sdkpackage in $(cat ${TARGET_DIR}-sdk.txt) ; do
 			${OPKG_TARGET} install ${sdkpackage}
 		done
 	fi

@@ -10,9 +10,10 @@ export WORKDIR="${PWD}"
 
 export PATH=${WORKDIR}/bin:${PATH}
 
-export CACHEDIR="$(readlink -f ${PWD}/deploy/cache)"
+export CACHEDIR="$(readlink -f ${PWD}/cache)"
+export CACHEDIRIPK="${CACHEDIR}/ipk"
 
-export TARGET_DIR="${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}"
+export TARGET_DIR="${WORKDIR}/work/${MACHINE}/${IMAGENAME}"
 
 export D="${TARGET_DIR}"
 
@@ -23,7 +24,7 @@ export OPKG_OFFLINE_ROOT="${TARGET_DIR}"
 export OPKG_TMP_DIR="${TARGET_DIR}-tmp"
 
 export OPKG_CONFDIR_TARGET="${TARGET_DIR}/etc/opkg"
-export PACKAGELISTFILE="${PWD}/deploy/${MACHINE}/${IMAGENAME}-packages.txt"
+export PACKAGELISTFILE="${PWD}/work/${MACHINE}/${IMAGENAME}-packages.txt"
 
 export IMAGE_ROOTFS="${TARGET_DIR}"
 
@@ -38,7 +39,7 @@ export libdir="/usr/lib"
 export bindir="/usr/bin"
 export sysconfdir="/etc"
 
-export SDK_DIR="${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}"
+export SDK_DIR="${WORKDIR}/work/${MACHINE}/${IMAGENAME}"
 export SDK_OUTPUT="${SDK_DIR}/image"
 export SDK_OUTPUT2="${SDK_DIR}/image-extras"
 export SDKPATH="/usr/local/angstrom"
@@ -46,8 +47,8 @@ export SDKPATH="/usr/local/angstrom"
 export OPKGCONF_TARGET="${TARGET_DIR}/etc/opkg.conf"
 export OPKGCONF_SDK="${TARGET_DIR}/etc/opkg-sdk.conf"
 
-if [ -e ${CACHEDIR} ] ; then
-    CACHE="--cache ${CACHEDIR}"
+if [ -e ${CACHEDIRIPK} ] ; then
+    CACHE="--cache ${CACHEDIRIPK}"
 fi
 
 export OPKG_HOST="opkg-cl ${CACHE} -f ${OPKGCONF_SDK} -o ${SDK_OUTPUT}"

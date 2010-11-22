@@ -138,7 +138,7 @@ function do_ext2()
 
 function print_header()
 {
-	cat > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html << EOF
+	cat > ${TARGET_DIR}-manifest.html << EOF
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <head>
   <title>${DISTRO} Filesystem Software Manifest</title>
@@ -202,7 +202,7 @@ EOF
 
 function print_footer()
 {
-	cat >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html << EOF
+	cat >> ${TARGET_DIR}-manifest.html << EOF
 <p><a name='_ftn1'></a><b><a href='#_ftn1' title=''>[1]</a> Any links appearing on this manifest were verified
 at the time it was created. ${COMPANY} makes no guarantee that they will remain active in the future.</b></p></body></html>
 EOF
@@ -211,16 +211,16 @@ EOF
 function do_manifest()
 {
 	# Print list of installed packages and their filenames
-	echo "Print list of installed packages and their filenames to deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt"
+	echo "Print list of installed packages and their filenames to work/${MACHINE}/${IMAGENAME}-installed-packages.txt"
 
 	if [ -e conf/metadata.txt ] ; then
 		METADATACACHE="1"
 	fi
 
 	# Create a directory to bundle up the sources for the image
-	mkdir -p ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources
-	echo 'Options +Indexes' > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources/.htaccess
-	echo 'Options +FollowSymLinks' >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources/.htaccess
+	mkdir -p ${TARGET_DIR}-sources
+	echo 'Options +Indexes' > ${TARGET_DIR}-sources/.htaccess
+	echo 'Options +FollowSymLinks' >> ${TARGET_DIR}-sources/.htaccess
 
 	for pkg in $(opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} list_installed | awk '{print $1}') ; do 
 		echo -n "<tr><td rowspan=2><a href='http://www.angstrom-distribution.org/repo/?pkgname=${pkg}' target='npkg'>$pkg</a></td>"
@@ -240,7 +240,7 @@ function do_manifest()
 				# hack hack hack! This hardcodes the location of the sources, which sucks
 				SHORTLICENSE="$(echo ${LICENSE} | awk '{print $1}' | awk -F/ '{print $1}')"
 				if [ -d ${WORKDIR}/../sources/${SHORTLICENSE}/${OENAME} ] ; then
-					cp -a ${WORKDIR}/../sources/${SHORTLICENSE}/${OENAME} ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-sources
+					cp -a ${WORKDIR}/../sources/${SHORTLICENSE}/${OENAME} ${TARGET_DIR}-sources
 				fi
 			fi
 			echo -n "<td rowspan=2>$VERSION</td><td rowspan=2>$LICENSE</td><td rowspan=2>Binary</td rowspan=2><td rowspan=2></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"
@@ -249,23 +249,23 @@ function do_manifest()
 			echo -n "<td rowspan=2></td><td rowspan=2></td><td rowspan=2>Binary</td rowspan=2><td rowspan=2></td><td>Location</td><td>$FILENAME</td></tr><tr><td>Obtained from</td><td>$SOURCE</td></tr>"		
 		fi
 		echo "</tr>"
-	done > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt
+	done > ${TARGET_DIR}-installed-packages.txt
 
 	# Write out manifest
 	echo "Write out manifest"
 
 	print_header
-	echo "Narcissus package list: " >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-	cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	echo "Narcissus package list: " >> ${TARGET_DIR}-manifest.html
+	cat ${TARGET_DIR}.txt >> ${TARGET_DIR}-manifest.html
 
-	echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-	echo "Sample OE image recipe: <a href='${IMAGENAME}.bb'>${IMAGENAME}.bb</a>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	echo "<p/>" >> ${TARGET_DIR}-manifest.html
+	echo "Sample OE image recipe: <a href='${IMAGENAME}.bb'>${IMAGENAME}.bb</a>" >> ${TARGET_DIR}-manifest.html
 
-	echo "<p/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-	echo "Complete package list:<br/>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-	echo "<p/><table border='1' style='border-collapse: collapse;'><tr><td>Package Name</td><td>Version</td><td>License</td><td>Delivered as</td><td>Modified</td><td></td><td></td></tr>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-	cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-installed-packages.txt >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
-	echo "</table>" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}-manifest.html
+	echo "<p/>" >> ${TARGET_DIR}-manifest.html
+	echo "Complete package list:<br/>" >> ${TARGET_DIR}-manifest.html
+	echo "<p/><table border='1' style='border-collapse: collapse;'><tr><td>Package Name</td><td>Version</td><td>License</td><td>Delivered as</td><td>Modified</td><td></td><td></td></tr>" >> ${TARGET_DIR}-manifest.html
+	cat ${TARGET_DIR}-installed-packages.txt >> ${TARGET_DIR}-manifest.html
+	echo "</table>" >> ${TARGET_DIR}-manifest.html
 
 	print_footer
 }
@@ -275,9 +275,9 @@ function do_oeimage()
 	# Write sample OE image
 	echo "Write sample OE image"
 
-	echo "export IMAGE_BASENAME = \"${IMAGENAME}\"" > ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
-	echo "IMAGE_INSTALL = \" $(cat ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.txt) \"" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
-	echo "inherit image" >> ${WORKDIR}/deploy/${MACHINE}/${IMAGENAME}.bb
+	echo "export IMAGE_BASENAME = \"${IMAGENAME}\"" > ${TARGET_DIR}.bb
+	echo "IMAGE_INSTALL = \" $(cat ${TARGET_DIR}.txt) \"" >> ${TARGET_DIR}.bb
+	echo "inherit image" >> ${TARGET_DIR}.bb
 }
 
 if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then

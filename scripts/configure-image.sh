@@ -17,12 +17,18 @@ if [ -e ${PWD}/conf/host-config ] ; then
 fi
 
 if [ -e ${TARGET_DIR} ] ; then
-	echo "Stale directory found, removing  it"
+	echo "Stale directory found, removing it"
 	rm ${TARGET_DIR} -rf
 fi
 
-if [ -e ${CACHEDIR} ] ; then
-	CACHE="--cache ${CACHEDIR}"
+if [ -e ${CACHEDIRIPK} ] ; then
+	echo "cache directory found, using that"
+	CACHE="--cache ${CACHEDIRIPK}"
+else
+	echo "cache directory not found, creating it"
+	mkdir -p ${CACHEDIRIPK}
+	chmod a+rw ${CACHEDIRIPK} || true
+	CACHE="--cache ${CACHEDIRIPK}"
 fi
 
 mkdir -p ${OPKG_TMP_DIR}
