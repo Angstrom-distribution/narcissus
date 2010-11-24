@@ -41,11 +41,11 @@ fi
 
 function do_tar() 
 {
-	( # tar cfj ${TARGET_DIR}/../${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 .
+	( # tar cfz ${TARGET_DIR}/../${TOOLCHAIN_OUTPUTNAME}-extras.tar.gz .
 	  cd ${SDK_OUTPUT}
-	  tar cfj ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
+	  tar cfz ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.gz .
 	  RETVAL=$? )
-	mv ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.bz2 ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 ${TARGET_DIR}/../
+	mv ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}-extras.tar.gz ${TARGET_DIR}/${TOOLCHAIN_OUTPUTNAME}.tar.gz ${TARGET_DIR}/../
 }
 
 modify_opkg_conf () {

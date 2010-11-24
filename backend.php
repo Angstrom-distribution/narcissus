@@ -42,8 +42,8 @@ if (isset($_POST["release"]) && $_POST["release"] != "") {
 if (isset($_POST["imagetype"]) && $_POST["imagetype"] != "") {
 	$imagetype = $_POST["imagetype"];
 } else {
-	$imagetype = "tbz2";
-	$imagesuffix = "tar.bz2";
+	$imagetype = "tgz";
+	$imagesuffix = "tar.gz";
 }
 
 if (isset($_POST["manifest"]) && $_POST["manifest"] != "") {
@@ -65,8 +65,8 @@ if (isset($_POST["sdkarch"]) && $_POST["sdkarch"] != "") {
 }
 
 switch($imagetype) {
-	case "tbz2":
-		$imagesuffix = "tar.bz2";
+	case "tgz":
+		$imagesuffix = "tar.gz";
 		break;
 	case "ubifs":
 		$imagesuffix = "ubi";
@@ -142,7 +142,7 @@ function show_image_link($machine, $name, $imagesuffix, $manifest, $sdk, $sdkarc
 			}
 			$foundimage = 1;
 		}
-		//Angstrom-2010.05-narcissus-hawkboard-i686-random-d4ddcec6-image-toolchain.tar.bz2
+		//Angstrom-2010.05-narcissus-hawkboard-i686-random-d4ddcec6-image-toolchain.tar.gz
 		if(strpos($value, "narcissus-$machine-$sdkarchname-$name-image-$sdk") !== false) {
 			rename($location, "$deploydir/$value");
 			$sdksize = round(filesize("$deploydir/$value") / (1024 * 1024),2);

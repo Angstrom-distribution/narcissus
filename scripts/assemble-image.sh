@@ -102,7 +102,7 @@ function do_tar()
 {
 	echo "tarring up filesystem"
 	( cd ${TARGET_DIR}
-	  tar cjf ../${IMAGENAME}-${MACHINE}.tar.bz2 .
+	  tar cfz ../${IMAGENAME}-${MACHINE}.tar.gz .
 	  RETVAL=$?
 	  make_sdimg )
 }
@@ -339,7 +339,7 @@ case ${IMAGETYPE} in
 		do_jffs2;;
 	ubifs)
 		do_ubifs;;
-	tbz2)
+	tgz)
 		do_tar;;
 	ext2)
 		do_ext2;;
