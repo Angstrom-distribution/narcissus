@@ -39,7 +39,7 @@ while ($stats = fscanf($handle, "%s %s\n")) {
 fclose ($handle);
 
 $interval = $startdate->diff($enddate);
-$intervaldays = $interval->format('%d');
+$intervaldays = $interval->format('%a');
 
 arsort($buildcount);
 
@@ -89,8 +89,8 @@ $total = 0;
 foreach($buildcount as $value) { 
 	$total = $total + $value;
 }
-$buildrate = $total/$intervaldays;
-print("Total: $total in $intervaldays days<br/>");
+$buildrate = round($total/$intervaldays);
+print("Total: $total builds in $intervaldays days<br/>");
 print("Average: $buildrate builds per day<br/>");
 
 ?>
