@@ -22,7 +22,13 @@ $buildcount = array();
 $handle = fopen ("./deploy/stats.txt", "a+");
 while ($stats = fscanf($handle, "%s %s\n")) {
     list ($timestamp, $machine) = $stats;
-    $builddate = date("Ymd", $timestamp);
+    if(isset($startdate)) {
+        $enddate = date_create();
+        date_timestamp_set($enddate, $timestamp);
+    } else {
+        $startdate = $date = date_create();
+        date_timestamp_set($startdate, $timestamp);
+    }
     if (isset($buildcount[$machine])) {
         $buildcount[$machine] = $buildcount[$machine] +1 ;
     } else {
@@ -31,6 +37,9 @@ while ($stats = fscanf($handle, "%s %s\n")) {
     $total++;
 }
 fclose ($handle);
+
+$interval = $startdate->diff($enddate);
+$intervaldays = $interval->format('%d');
 
 arsort($buildcount);
 
@@ -80,7 +89,10 @@ $total = 0;
 foreach($buildcount as $value) { 
 	$total = $total + $value;
 }
-print("Total builds: $total");
+$buildrate = $total/$intervaldays;
+print("Total: $total in $intervaldays days<br/>");
+print("Average: $buildrate builds per day<br/>");
+
 ?>
 </body>
 </html>
