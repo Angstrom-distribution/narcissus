@@ -23,11 +23,9 @@ $handle = fopen ("./deploy/stats.txt", "a+");
 while ($stats = fscanf($handle, "%s %s\n")) {
     list ($timestamp, $machine) = $stats;
     if(isset($startdate)) {
-        $enddate = date_create();
-        date_timestamp_set($enddate, $timestamp);
+        $enddate = $timestamp;
     } else {
-        $startdate = $date = date_create();
-        date_timestamp_set($startdate, $timestamp);
+        $startdate = $timestamp;
     }
     if (isset($buildcount[$machine])) {
         $buildcount[$machine] = $buildcount[$machine] +1 ;
@@ -38,8 +36,7 @@ while ($stats = fscanf($handle, "%s %s\n")) {
 }
 fclose ($handle);
 
-$interval = $startdate->diff($enddate);
-$intervaldays = $interval->format('%a');
+$intervaldays = round(($enddate - $startdate) / (60 * 60 * 24),1);
 
 arsort($buildcount);
 
