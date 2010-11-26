@@ -129,7 +129,7 @@ function do_assemble_sdk()
 	echo "${OPKG_TARGET} update"
 	${OPKG_TARGET} update
 	${OPKG_TARGET} install angstrom-feed-configs ${TOOLCHAIN_TARGET_TASK}
-	
+		
 	if [ "${SDK}" = "sdk" ] ; then
 		# Task-base introduces tons of spurious deps, so it gets blacklised
 		for i in $(cat ${TARGET_DIR}.txt) ; do
@@ -140,6 +140,13 @@ function do_assemble_sdk()
 		for sdkpackage in $(cat ${TARGET_DIR}-sdk.txt) ; do
 			${OPKG_TARGET} install ${sdkpackage}
 		done
+	fi
+	
+	# Check for Qt/E libs and manually add the Qt/E toolchain task
+	# Without this you don't get qmake and friends.
+	if [ -e ${SDK_OUTPUT}/${SDKPATH}/${TARGET_SYS}/usr/lib/opkg/info/libqtcoree-dev.list ] ; then 
+		echo "Detected Qt/E inside rootfs, adding Qt/E toolchain task"
+		${OPKG_HOST} install task-qte-toolchain-host
 	fi
 
 	# Remove packages in the exclude list which were installed by dependencies
