@@ -4,8 +4,9 @@
 # Koen Kooi (c) 2008, 2009 - all rights reserved 
 
 echo "cleaning up stale files"
-find /tmp -name "opkg*" -mtime +2 -exec rm -r {} \;
-#find deploy -depth -mindepth 2 -mtime +4 -delete
+find /tmp -name 'opkg*' -mtime +2 -exec rm -rv {} \;
+find deploy -depth -mindepth 2 -maxdepth 2 -mtime +3 -exec rm -rv {} \;
+find work -depth -mindepth 1 -maxdepth 2 -mtime +1 -exec rm -rfv {} \;
 
 MACHINE=$1
 IMAGENAME=$2
