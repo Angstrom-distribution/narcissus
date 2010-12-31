@@ -134,7 +134,7 @@ function show_image_link($machine, $name, $imagesuffix, $manifest, $sdk, $sdkarc
 		if(strpos($value, "$name-image-$machine.$imagesuffix") !== false) {
 			rename($location, "$deploydir/$value");
 			$imgsize = round(filesize("$deploydir/$value") / (1024 * 1024),2);
-			$imagestring .= "<br/><a href='$deploydir/$value'>$value</a> [$imgsize MiB]: This is the rootfs '$name' for $machine you just built. This will get automatically deleted after 3 days.<br/>";
+			$imagestring .= "<br/><a href='$deploydir/$value'>$value</a> [$imgsize MiB]: This is the rootfs '$name' for $machine you just built. This will get automatically deleted after 2 days.<br/>";
 			if($manifest == "yes") {
 				rename("work/$machine/$name-image-manifest.html", "$deploydir/$name-image-manifest.html");
 				rename("work/$machine/$name-image.bb", "$deploydir/$name-image.bb");
