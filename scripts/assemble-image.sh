@@ -61,6 +61,7 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 	
 		echo "mount ${LOOP_DEV}"
 		mount ${LOOP_DEV}
+		mount | grep loop
 		"echo copying files to vfat"
 		if [ -e ${WORKDIR}/conf/${MACHINE}/sd/MLO ] ; then
 			cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
@@ -82,7 +83,11 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 			echo "Using uImage from narcissus, no uImage found in rootfs"
 		fi
 
-		echo "files in sd image:" $(ls /mnt/narcissus/sd_image1/)
+		echo "Remounting ${LOOP_DEV}"
+		umount ${LOOP_DEV}
+		mount ${LOOP_DEV}
+
+		echo "files in sd image:" $(du -hs /mnt/narcissus/sd_image1/*)
 		export MD5SUM_SD="$(md5sum /mnt/narcissus/sd_image1/uImage | awk '{print $1}')"
 		echo "MD5 of file in vfat partition: ${MD5SUM_SD}"
 		
@@ -296,6 +301,7 @@ fi
 echo "Running preinsts"
 
 for i in ${TARGET_DIR}/usr/lib/opkg/info/*.preinst; do
+	sh ${PWD}/scripts/sleep.sh
 	if [ -f $i ] && ! sh $i; then
 		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`"
 		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`
@@ -305,6 +311,7 @@ done
 echo "Running postinsts"
 
 for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
+	sh ${PWD}/scripts/sleep.sh
 	if [ -f $i ] && ! sh $i configure; then
 		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`"
 		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`
