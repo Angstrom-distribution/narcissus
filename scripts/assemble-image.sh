@@ -301,7 +301,7 @@ fi
 echo "Running preinsts"
 
 for i in ${TARGET_DIR}/usr/lib/opkg/info/*.preinst; do
-	sh ${PWD}/scripts/sleep.sh
+	#sh ${PWD}/scripts/sleep.sh
 	if [ -f $i ] && ! sh $i; then
 		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`"
 		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`
@@ -311,7 +311,7 @@ done
 echo "Running postinsts"
 
 for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
-	sh ${PWD}/scripts/sleep.sh
+	#sh ${PWD}/scripts/sleep.sh
 	if [ -f $i ] && ! sh $i configure; then
 		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`"
 		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`
