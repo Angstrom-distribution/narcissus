@@ -4,6 +4,8 @@
 
 <meta http-equiv="refresh" content="600">
 
+<script language="javascript" type="text/javascript" src="scripts/js/jquery-1.4.4.min.js"></script>
+<script language="javascript" type="text/javascript" src="scripts/js/jquery.isotope.min.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/MochiKit.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/plotkit/Base.js"></script>
 <script language="javascript" type="text/javascript" src="scripts/js/plotkit/Layout.js"></script>
@@ -138,22 +140,31 @@ function drawGraph() {
 	?>
 }
 MochiKit.DOM.addLoadEvent(drawGraph);
+
 </script>
 </head>
 <body>
 Statistics for the online image builder, number of builds per day<br>
 <br>
+<div id="container">
 <?
 
     if(!isset($selectedmachine)) {
 		foreach ($builds as $machine => $foo) {
-			print("<table align=left><td><br>$machine<br><div id='div-$machine'><canvas id='graph-$machine'></canvas></div></td></table>\n");
+			print("<div class='item'><table align=left><td><br>$machine<br><div id='div-$machine'><canvas id='graph-$machine'></canvas></div></td></table></div>\n");
 		}
 	} else {
-		print("<table align=left><td><br>$selectedmachine<br><div id='div-$machine'><canvas id='graph-$selectedmachine'></canvas></div></td></table>\n");
+		print("<div class='item'><table align=left><td><br>$selectedmachine<br><div id='div-$machine'><canvas id='graph-$selectedmachine'></canvas></div></td></table></div>\n");
 	}
 ?>
-
+</div>
 <br clear=all><br>Total builds for all machines: <? print $total; ?>
 </body>
+ <script>
+$('#container').isotope({
+  // options
+  itemSelector : '.item',
+  //layoutMode : 'fitRows'
+});
+</script>
 </html>
