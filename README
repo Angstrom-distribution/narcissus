@@ -6,6 +6,7 @@ To install this:
 * put on webserver
 * put opkg-cl in bin/
 * put makedevs in bin/
+* put pseudo and libpseudo in bin/
 * mkdir deploy/
 * Optional: allow 'www-data' user to write to conf/beagleboard/sd/ to cache sd images
 
