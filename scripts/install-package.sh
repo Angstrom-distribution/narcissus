@@ -24,6 +24,8 @@ if [ -e ${TARGET_DIR}/log.txt ] ; then
 	rm ${TARGET_DIR}/log.txt
 fi
 
+export PSEUDO_DISABLED=0
+
 OPKGARGS="${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf"
 
 packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sed s:,:\ :g | sort | uniq)"
@@ -35,8 +37,8 @@ for pkg in $packagelist ; do
 	# Sleep N seconds when the load on the buildserver is too high
 	#sh ${PWD}/scripts/sleep.sh
 
-	echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} install $pkg"
-	yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} install $pkg | tee ${TARGET_DIR}/log.txt
+	echo "running: ${FAKEROOT} opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} install $pkg"
+	yes | ${FAKEROOT} bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} install $pkg | tee ${TARGET_DIR}/log.txt
 	grep -e "rror oc" -e "ollected er" ${TARGET_DIR}/log.txt
 	echo "<div id=\"${pkg}-returncode\">$?</div><br/>"
 done
