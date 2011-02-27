@@ -33,10 +33,12 @@ fi
 
 echo "Fakeroot config: ${FAKEROOT}"
 
-function make_sdimg() 
+function do_sdimg() 
 {
 
 #sd-master-1GiB.img.gz
+
+export PSEUDO_DISABLED=1
 
 if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 	MD5SUM_SD="$(md5sum ${TARGET_DIR}/boot/uImage | awk '{print $1}')"	
@@ -45,11 +47,7 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 
 	echo "SD size: $sdsize"
 
-	if [ -e ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz ] ; then
-		echo "Cached SD image found, using that"	
-		echo "cp ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz"
-		cp ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz
-	else
+	if true ; then
 		echo "No cached SD image found, generating new one"
 		zcat ${WORKDIR}/conf/${MACHINE}/sd/sd-master-$sdsize.img.gz > sd.img
 		/sbin/fdisk -l -u sd.img
@@ -74,6 +72,8 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		LOOP_DEV="/dev/loop1"
 		LOOP_DEV_FS="/dev/loop2"
 
+		echo ""
+
 		# VFAT
 		echo "/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img"
 		/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img
@@ -81,6 +81,10 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		# EXT3
 		echo "/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${EXT3_SECTOR_OFFSET}) ${LOOP_DEV_FS} sd.img"
 		/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${EXT3_SECTOR_OFFSET}) ${LOOP_DEV_FS} sd.img
+		echo "/sbin/mkfs.ext3 -L Narcissus-rootfs ${LOOP_DEV_FS}"
+		/sbin/mkfs.ext3 -L Narcissus-rootfs ${LOOP_DEV_FS}
+
+		echo ""
 	
 		echo "mount ${LOOP_DEV}"
 		mount ${LOOP_DEV}
@@ -112,20 +116,26 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 			echo "Using uImage from narcissus, no uImage found in rootfs"
 		fi
 
-		echo "${FAKEROOT} ${WORKDIR}/scripts/populate-sdimg.sh $MACHINE $IMAGENAME"
-		${FAKEROOT} ${WORKDIR}/scripts/populate-sdimg.sh $MACHINE $IMAGENAME
-
 		echo "Remounting ${LOOP_DEV}"
 		umount ${LOOP_DEV}
 		mount ${LOOP_DEV}
 
-		echo "files in sd image:" $(du -hs /mnt/narcissus/sd_image1/*)
+		echo "files in VFAT partition:" $(du -hs /mnt/narcissus/sd_image1/* | sed s:/mnt/narcissus/sd_image1/::g)
 		export MD5SUM_SD="$(md5sum /mnt/narcissus/sd_image1/uImage | awk '{print $1}')"
 		echo "MD5 of file in vfat partition: ${MD5SUM_SD}"
 
-		echo "copying file system"
+		echo "Copying file system:"
+		echo "tar xzf ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.tar.gz -C /mnt/narcissus/sd_image2"
 		tar xzf ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.tar.gz -C /mnt/narcissus/sd_image2
-	
+		touch  /mnt/narcissus/sd_image2/narcissus-was-here
+
+		echo "Remounting ${LOOP_DEV_FS}"
+		umount ${LOOP_DEV_FS}
+		mount ${LOOP_DEV_FS}
+
+		touch  /mnt/narcissus/sd_image2/narcissus-was-here-again
+		echo "files in ext3 partition:" $(du -hs /mnt/narcissus/sd_image2/* | sed s:/mnt/narcissus/sd_image2/::g)
+
 		echo "umount ${LOOP_DEV}"	
 		umount ${LOOP_DEV}
 		echo "umount ${LOOP_DEV_FS}"
@@ -149,8 +159,7 @@ function do_tar()
 	( cd ${TARGET_DIR}
 	  echo "${FAKEROOT} tar cfz ../${IMAGENAME}-${MACHINE}.tar.gz ."
 	  ${FAKEROOT} tar cfz ../${IMAGENAME}-${MACHINE}.tar.gz .
-	  RETVAL=$?
-	  make_sdimg )
+	  RETVAL=$? )
 }
 
 function do_ubifs()
@@ -393,6 +402,9 @@ case ${IMAGETYPE} in
 		do_tar;;
 	ext2)
 		do_ext2;;
+	sdimg)
+		do_tar
+		do_sdimg;;
 	*)
 		do_tar;;
 esac
