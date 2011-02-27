@@ -68,6 +68,9 @@ switch($imagetype) {
 	case "tgz":
 		$imagesuffix = "tar.gz";
 		break;
+	case "sdimg":
+		$imagesuffix = "tar.gz";
+		break;
 	case "ubifs":
 		$imagesuffix = "ubi";
 		break;
