@@ -1,6 +1,6 @@
 #!/bin/bash
 # Narcissus - Online image builder for the angstrom distribution
-# Copyright (C) 2008 - 2010 Koen Kooi
+# Copyright (C) 2008 - 2011 Koen Kooi
 # Copyright (C) 2010        Denys Dmytriyenko
 #
 # This program is free software; you can redistribute it and/or modify
@@ -51,18 +51,45 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		echo "No cached SD image found, generating new one"
 		zcat ${WORKDIR}/conf/${MACHINE}/sd/sd-master-$sdsize.img.gz > sd.img
 		/sbin/fdisk -l -u sd.img
-		
+
+		# Output looks like:
+		# Disk sd-master-1GiB.img: 0 MB, 0 bytes
+		# 255 heads, 63 sectors/track, 0 cylinders, total 0 sectors
+		# Units = sectors of 1 * 512 = 512 bytes
+		# Sector size (logical/physical): 512 bytes / 512 bytes
+		# I/O size (minimum/optimal): 512 bytes / 512 bytes
+		# Disk identifier: 0x00000000
+		# 
+		#             Device Boot      Start         End      Blocks   Id  System
+		# sd-master-1GiB.img1   *          63      144584       72261    c  W95 FAT32 (LBA)
+		# sd-master-1GiB.img2          144585     1959929      907672+  83  Linux
+	
+	
 		BYTES_PER_SECTOR="$(/sbin/fdisk -l -u sd.img | grep Units | awk '{print $9}')"
 		VFAT_SECTOR_OFFSET="$(/sbin/fdisk -l -u sd.img | grep img1 | awk '{print $3}')"
+		EXT3_SECTOR_OFFSET="$(/sbin/fdisk -l -u sd.img | grep img2 | awk '{print $2}')"
 
 		LOOP_DEV="/dev/loop1"
+		LOOP_DEV_FS="/dev/loop2"
+
+		# VFAT
 		echo "/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img"
 		/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${VFAT_SECTOR_OFFSET}) ${LOOP_DEV} sd.img
+
+		# EXT3
+		echo "/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${EXT3_SECTOR_OFFSET}) ${LOOP_DEV_FS} sd.img"
+		/sbin/losetup -v -o $(expr ${BYTES_PER_SECTOR} "*" ${EXT3_SECTOR_OFFSET}) ${LOOP_DEV_FS} sd.img
 	
 		echo "mount ${LOOP_DEV}"
 		mount ${LOOP_DEV}
+
+		echo "mount ${LOOP_DEV_FS}"
+		mount ${LOOP_DEV_FS}
+
+		# report mount status to log
 		mount | grep loop
-		"echo copying files to vfat"
+
+		echo "copying files to vfat"
 		if [ -e ${WORKDIR}/conf/${MACHINE}/sd/MLO ] ; then
 			cp -v ${WORKDIR}/conf/${MACHINE}/sd/MLO /mnt/narcissus/sd_image1/MLO
 		else
@@ -82,6 +109,8 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 			cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage
 			echo "Using uImage from narcissus, no uImage found in rootfs"
 		fi
+
+		fakeroot ${WORKDIR}/scripts/populate-sdimg.sh $MACHINE $IMAGENAME
 
 		echo "Remounting ${LOOP_DEV}"
 		umount ${LOOP_DEV}
