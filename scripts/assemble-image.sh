@@ -31,6 +31,8 @@ if [ -e ${PWD}/conf/${MACHINE}/machine-config ] ; then
 	. ${PWD}/conf/${MACHINE}/machine-config
 fi
 
+echo "Fakeroot config: ${FAKEROOT}"
+
 function make_sdimg() 
 {
 
@@ -110,7 +112,8 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 			echo "Using uImage from narcissus, no uImage found in rootfs"
 		fi
 
-		fakeroot ${WORKDIR}/scripts/populate-sdimg.sh $MACHINE $IMAGENAME
+		echo "${FAKEROOT} ${WORKDIR}/scripts/populate-sdimg.sh $MACHINE $IMAGENAME"
+		${FAKEROOT} ${WORKDIR}/scripts/populate-sdimg.sh $MACHINE $IMAGENAME
 
 		echo "Remounting ${LOOP_DEV}"
 		umount ${LOOP_DEV}
@@ -119,10 +122,18 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		echo "files in sd image:" $(du -hs /mnt/narcissus/sd_image1/*)
 		export MD5SUM_SD="$(md5sum /mnt/narcissus/sd_image1/uImage | awk '{print $1}')"
 		echo "MD5 of file in vfat partition: ${MD5SUM_SD}"
-		
+
+		echo "copying file system"
+		tar xzf ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.tar.gz -C /mnt/narcissus/sd_image2
+	
+		echo "umount ${LOOP_DEV}"	
 		umount ${LOOP_DEV}
+		echo "umount ${LOOP_DEV_FS}"
+		umount ${LOOP_DEV_FS}
 	
 		/sbin/losetup -d ${LOOP_DEV}
+		/sbin/losetup -d ${LOOP_DEV_FS}
+
 		echo "gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz"
 		gzip -c sd.img > ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz
 		echo "cp ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}-sd-$sdsize.img.gz ${WORKDIR}/conf/${MACHINE}/sd/sd-${MD5SUM_SD}-$sdsize.img.gz"
@@ -136,7 +147,8 @@ function do_tar()
 {
 	echo "tarring up filesystem"
 	( cd ${TARGET_DIR}
-	  tar cfz ../${IMAGENAME}-${MACHINE}.tar.gz .
+	  echo "${FAKEROOT} tar cfz ../${IMAGENAME}-${MACHINE}.tar.gz ."
+	  ${FAKEROOT} tar cfz ../${IMAGENAME}-${MACHINE}.tar.gz .
 	  RETVAL=$?
 	  make_sdimg )
 }
@@ -368,7 +380,9 @@ echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> $
 
 echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
 
-do_oeimage
+export PSEUDO_DISABLED=0
+
+${FAKEROOT} do_oeimage
 
 case ${IMAGETYPE} in
 	jffs2)
@@ -394,10 +408,8 @@ case ${SDK} in
 		echo "Not generating toolchain or SDK";;
 esac
 
-
-
 echo "removing target dir"
-rm -rf ${OPKG_TMP_DIR} ${TARGET_DIR}
+rm -rf ${PSEUDO_LOCALSTATEDIR} ${OPKG_TMP_DIR} ${TARGET_DIR}
 
 exit ${RETVAL}
 

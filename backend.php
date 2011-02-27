@@ -181,7 +181,7 @@ function install_package($machine, $name, $pkg) {
 
 function assemble_image($machine, $name, $imagetype, $manifest, $sdk, $sdkarch) {
 	print "Machine: $machine, name: $name, type: $imagetype\n";
-	passthru ("fakeroot scripts/assemble-image.sh $machine $name-image $imagetype $manifest $sdk $sdkarch && exit", $installretval);
+	passthru ("scripts/assemble-image.sh $machine $name-image $imagetype $manifest $sdk $sdkarch && exit", $installretval);
 	print "<div id=\"retval-image\">$installretval</div>";
 }
 
