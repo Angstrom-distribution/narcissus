@@ -9,6 +9,7 @@ To install this:
 * put pseudo and libpseudo in bin/
 * mkdir deploy/
 * Optional: allow 'www-data' user to write to conf/beagleboard/sd/ to cache sd images
+* Optional: add 'www-data' to the 'disk' group
 
 To add a new machine:
 

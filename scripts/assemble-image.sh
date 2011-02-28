@@ -133,7 +133,6 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		umount ${LOOP_DEV_FS}
 		mount ${LOOP_DEV_FS}
 
-		touch  /mnt/narcissus/sd_image2/narcissus-was-here-again
 		echo "files in ext3 partition:" $(du -hs /mnt/narcissus/sd_image2/* | sed s:/mnt/narcissus/sd_image2/::g)
 
 		echo "umount ${LOOP_DEV}"	
