@@ -169,7 +169,7 @@ function show_image_link($machine, $name, $imagesuffix, $manifest, $sdk, $sdkarc
 	}
 	
 	if($foundsdimage == 1) {
-		print(" <br/><br/> The raw SD card image(s) below have a vfat partition populated with the bootloader and kernel, but an <b>empty</b> ext3 partition. You can extract the tarball to that partition to make it ready to boot.<br>The intended size for the SD card is encoded in the file name, e.g. 1GiB for a one gigabyte card.<br/><br/> $printstring");
+		print(" <br/><br/> The raw SD card image(s) below have the intended size for the SD card is encoded in the file name, e.g. 1GiB for a one gigabyte card.<br/><br/> $printstring");
 	}
 	
 }
