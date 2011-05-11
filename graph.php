@@ -23,7 +23,6 @@ $total = 0;
 
 $firstdate = time() + 500;
 $lastdate = 0;
-$maxbuilds = 0;
 
 $handle = fopen ("./deploy/stats.txt", "a+");
 while ($stats = fscanf($handle, "%s %s\n")) {
@@ -74,7 +73,7 @@ for ($i = 0 ; $i <= $timeframe ; $i++) {
 		if (isset($builds[$machine][$statsdate])) {
 			$buildcount = $builds[$machine][$statsdate];
 			$yvars[$machine] .= "[ $i, $buildcount ], \n";
-			if($maxbuilds < $builds[$machine][$statsdate]) $maxbuilds = $builds[$machine][$statsdate];
+			if($maxbuilds[$machine] < $builds[$machine][$statsdate]) $maxbuilds[$machine] = $builds[$machine][$statsdate];
 			$didbuild[$machine] = 1;
 		} else {
 			$yvars[$machine] .= "[ $i, 0 ], \n";
@@ -88,8 +87,7 @@ var options = {
 	"colorScheme": PlotKit.Base.palette(PlotKit.Base.baseColors()[0]),
 	"padding": {left: 0, right: 0, top: 10, bottom: 30},
 	"xTicks": [<? print $xticks; ?> ],
-	"drawYAxis": false,
-	"yAxis": [0, <?print $maxbuilds; ?>],
+	"drawYAxis": true,
 	"yTickPrecision": 0
 };
 
