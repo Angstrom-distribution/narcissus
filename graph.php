@@ -75,6 +75,7 @@ for ($i = 0 ; $i <= $timeframe ; $i++) {
 			$buildcount = $builds[$machine][$statsdate];
 			$yvars[$machine] .= "[ $i, $buildcount ], \n";
 			if($maxbuilds < $builds[$machine][$statsdate]) $maxbuilds = $builds[$machine][$statsdate];
+			$didbuild[$machine] = 1;
 		} else {
 			$yvars[$machine] .= "[ $i, 0 ], \n";
 		}
@@ -109,7 +110,8 @@ function drawGraph() {
 	if(!isset($selectedmachine)) {
 	foreach($builds as $machine => $foo) {
 		$machineyvars = $yvars[$machine];
-		print("
+		if($didbuild[$machine] == 1) {
+			print("
 			  var layout = new PlotKit.Layout(\"bar\", options);
 			  layout.addDataset(\"$machine usage count\", [$machineyvars]);
 			  layout.evaluate();
@@ -120,6 +122,7 @@ function drawGraph() {
 			  var plotter = new PlotKit.SweetCanvasRenderer(canvas, layout, {});
 			  plotter.render();
 			  ");
+		}
 	}
 	} else {
         $machine = $selectedmachine;
@@ -151,7 +154,7 @@ Statistics for the online image builder, number of builds per day<br>
 
     if(!isset($selectedmachine)) {
 		foreach ($builds as $machine => $foo) {
-			print("<div class='item'><table align=left><td><br>$machine<br><div id='div-$machine'><canvas id='graph-$machine'></canvas></div></td></table></div>\n");
+			if($didbuild[$machine] == 1) print("<div class='item'><table align=left><td><br>$machine<br><div id='div-$machine'><canvas id='graph-$machine'></canvas></div></td></table></div>\n");
 		}
 	} else {
 		print("<div class='item'><table align=left><td><br>$selectedmachine<br><div id='div-$machine'><canvas id='graph-$selectedmachine'></canvas></div></td></table></div>\n");
