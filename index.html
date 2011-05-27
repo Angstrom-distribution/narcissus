@@ -67,6 +67,14 @@
 				<input name="devmanager" type="radio" value=" ">kernel
 				<br/>
 			</div>
+            
+            <div id='initman' class="nblock">
+				Select the init manager.<br/><font size="-2">sysvinit is generally the best choice, systemd is the future, but experimental and none is for people who are absolutely sure of what they are doing</font><br/><br/>
+				<input name="initmanager" type="radio" checked="checked" value="initscripts sysvinit sysvinit-pidof">sysvinit
+				<input name="initmanager" type="radio" value="systemd">systemd
+				<input name="initmanager" type="radio" value=" ">none
+				<br/>
+			</div>
 
 			<div id='imagetypebox' class="nblock">
                 Select the type of image you want.<br/><font size="-2">The 'tar.gz' option is the most versatile choice since it can be easily converted to other formats later on. The practicality of the other formats depends too much on the device in question to give meaningfull advice here, so we leave that up to you :)</font><br/><br/>
@@ -317,7 +325,7 @@
 		<input type="checkbox" name="platform_packages" value="task-beagleboard-validation-base u-boot x-load">Beagleboard validation base task<br/>
 		<input type="checkbox" name="platform_packages" value="task-beagleboard-validation-gui">Beagleboard validation E17 GUI task<br/>
 		<input type="checkbox" name="platform_packages" value="task-beagleboard-validation-gui-extras">Beagleboard validation GUI extras<br/>
-		<input type="checkbox" name="platform_packages" value="task-base-extended task-beagleboard-validation-base task-omap-drivers angstrom-task-gnome angstrom-gdm-autologin-hack bash-sh midori gedit u-boot x-load vim vim-vimrc vim-syntax kernel-modules libgles-omap3-x11demos bc-cube-x11">Beagleboard validation GNOME image<br/> 
+		<input type="checkbox" name="platform_packages" value="task-base-extended task-beagleboard-validation-base task-omap-drivers angstrom-task-gnome angstrom-gdm-autologin-hack bash-sh midori gedit u-boot x-load vim vim-vimrc vim-syntax kernel-modules libgles-omap3-x11demos bc-cube-x11 opencv-samples-dev">Beagleboard validation GNOME image<br/> 
 
 	<br/>Marvell XScale Family:<br/>
 		<input type="checkbox" name="platform_packages" value="pxaregs">PXA register utility<br/>

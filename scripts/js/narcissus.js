@@ -163,8 +163,15 @@ function configureImage(){
 			devmanager = document.entry_form.devmanager[i].value
 		}
 	}  
+    
+    var initmanager = "";
+	for (i = 0; i < document.entry_form.initmanager.length; i++) {
+		if (document.entry_form.initmanager[i].checked) {
+			initmanager = document.entry_form.initmanager[i].value
+		}
+	}
 	
-	packagestring += " " + devmanager + " angstrom-version tinylogin initscripts sysvinit sysvinit-pidof ";
+	packagestring += " " + devmanager + " " + initmanager + " angstrom-version tinylogin ";
 	packagestring += " " + concatArray(document.entry_form.devel);
 	packagestring += " " + concatArray(document.entry_form.console_packages);
 	packagestring += " " + concatArray(document.entry_form.platform_packages);
