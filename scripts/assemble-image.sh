@@ -176,7 +176,7 @@ function do_ubifs()
 	  echo image=${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs >> ubinize.cfg
 	  echo vol_id=0 >> ubinize.cfg
 	  echo vol_type=dynamic >> ubinize.cfg
-	  echo vol_name=${UBI_VOLNAME} >> ubinize.cfg
+	  echo vol_name=${MACHINE}-rootfs >> ubinize.cfg
 	  echo vol_flags=autoresize >> ubinize.cfg
 	  echo "running: mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg"
 	  mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg )
