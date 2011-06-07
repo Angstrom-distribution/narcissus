@@ -21,7 +21,6 @@ echo "cleaning up stale files"
 find /tmp -name 'opkg*' -mtime +2 -exec rm -rv {} \;
 find deploy -depth -mindepth 2 -maxdepth 2 -mtime +2 -exec rm -rv {} \;
 find work -depth -mindepth 1 -maxdepth 2 -mtime +1 -exec rm -rfv {} \;
-find cache/ipk/ -atime +7 -delete
 
 MACHINE=$1
 IMAGENAME=$2

@@ -31,6 +31,9 @@ if [ -e ${PWD}/conf/${MACHINE}/machine-config ] ; then
 	. ${PWD}/conf/${MACHINE}/machine-config
 fi
 
+echo "cleaning up stale files"
+find cache/ipk/ -atime +7 -delete
+
 echo "Fakeroot config: ${FAKEROOT}"
 
 function do_sdimg() 
@@ -94,6 +97,9 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 
 		# report mount status to log
 		mount | grep loop
+
+
+		ls  ${TARGET_DIR}/boot
 
 		echo "copying files to vfat"
 		if [ -e ${WORKDIR}/conf/${MACHINE}/sd/MLO ] ; then
