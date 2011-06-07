@@ -1,4 +1,4 @@
-#!/bin/bash
+
 # Narcissus - Online image builder for the angstrom distribution
 # Copyright (C) 2008 - 2011 Koen Kooi
 # Copyright (C) 2010        Denys Dmytriyenko
@@ -35,6 +35,10 @@ echo "cleaning up stale files"
 find cache/ipk/ -atime +7 -delete
 
 echo "Fakeroot config: ${FAKEROOT}"
+export PSEUDO_DISABLED=0
+export PSEUDO_DEBUG=2
+#export PSEUDO_DEBUG_FILE=/tmp/pseudo.log
+export PSEUDO_NOSYMLINKEXP=0
 
 function do_sdimg() 
 {
@@ -178,8 +182,8 @@ function do_ubifs()
 	  echo vol_type=dynamic >> ubinize.cfg
 	  echo vol_name=${MACHINE}-rootfs >> ubinize.cfg
 	  echo vol_flags=autoresize >> ubinize.cfg
-	  echo "running: mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg"
-	  mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg )
+	  echo "running: ${FAKEROOT} mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg"
+	  ${FAKEROOT} mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg )
 }
 
 function do_jffs2()
@@ -340,63 +344,68 @@ function do_oeimage()
 	echo "inherit image" >> ${TARGET_DIR}.bb
 }
 
-if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
-	echo "Initial filesystem not found, something went wrong in the configure step!"
-	exit 0
-fi
+function do_prepare_image() {
+	export PSEUDO_DISABLED=0
 
-echo "installing initial /dev directory"
-mkdir -p ${TARGET_DIR}/dev
-bin/makedevs -r ${TARGET_DIR} -D conf/devtable.txt
-
-if [ -e ${TARGET_DIR}/log.txt ] ; then
-	rm ${TARGET_DIR}/log.txt
-fi
-
-echo "Running preinsts"
-
-for i in ${TARGET_DIR}/usr/lib/opkg/info/*.preinst; do
-	#sh ${PWD}/scripts/sleep.sh
-	if [ -f $i ] && ! sh $i; then
-		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`"
-		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`
+	if ! [ -e ${TARGET_DIR}/etc/opkg.conf ] ; then
+		echo "Initial filesystem not found, something went wrong in the configure step!"
+		exit 0
 	fi
-done 
 
-echo "Running postinsts"
+	echo "installing initial /dev directory"
+	mkdir -p ${TARGET_DIR}/dev
+	${FAKEROOT} bin/makedevs -r ${TARGET_DIR} -D conf/devtable.txt
 
-for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
-	#sh ${PWD}/scripts/sleep.sh
-	if [ -f $i ] && ! sh $i configure; then
-		echo "Running: opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`"
-		opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`
+	if [ -e ${TARGET_DIR}/log.txt ] ; then
+		rm ${TARGET_DIR}/log.txt
 	fi
-done 
 
-if [ "$MANIFEST" = "yes" ] ; then
-	do_manifest
-fi
+	echo "Running preinsts"
 
-echo "removing opkg index files"
-rm ${TARGET_DIR}/var/lib/opkg/* || true
-rm ${TARGET_DIR}/usr/lib/opkg/lists/* || true
-rm ${TARGET_DIR}/linuxrc || true
+	for i in ${TARGET_DIR}/usr/lib/opkg/info/*.preinst; do
+		if [ -f $i ] && ! ${FAKEROOT} sh $i; then
+			echo "Running: ${FAKEROOT} opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`"
+			opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`
+		fi
+	done 
 
-# Add timestamp
-date "+%m%d%H%M%Y" > ${TARGET_DIR}/etc/timestamp
+	echo "Running postinsts"
 
-# Add opendns to resolv.conf
-rm -f ${TARGET_DIR}/etc/resolv.conf
-echo "nameserver 208.67.222.222" > ${TARGET_DIR}/etc/resolv.conf
-echo "nameserver 208.67.220.220" >> ${TARGET_DIR}/etc/resolv.conf
+	for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
+		if [ -f $i ] && ! ${FAKEROOT} sh $i configure; then
+			echo "Running: ${FAKEROOT} opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`"
+			opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`
+		fi
+	done 
 
-echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> ${WORKDIR}/deploy/stats.txt || true
+	if [ "$MANIFEST" = "yes" ] ; then
+		do_manifest
+	fi
 
-echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
+	echo "removing opkg index files"
+	rm ${TARGET_DIR}/var/lib/opkg/* || true
+	rm ${TARGET_DIR}/usr/lib/opkg/lists/* || true
+	rm ${TARGET_DIR}/linuxrc || true
+	rm ${TARGET_DIR}/tmp/*
 
-export PSEUDO_DISABLED=0
+	# Add timestamp
+	${FAKEROOT} date "+%m%d%H%M%Y" > ${TARGET_DIR}/etc/timestamp
 
-${FAKEROOT} do_oeimage
+	# Add opendns to resolv.conf
+	rm -f ${TARGET_DIR}/etc/resolv.conf
+	${FAKEROOT} echo "nameserver 208.67.222.222" > ${TARGET_DIR}/etc/resolv.conf
+	${FAKEROOT} echo "nameserver 208.67.220.220" >> ${TARGET_DIR}/etc/resolv.conf
+
+	echo "$(date -u +%s) ${MACHINE} $(du ${TARGET_DIR} -hs | awk '{print $1}')" >> ${WORKDIR}/deploy/stats.txt || true
+
+	echo "<div id=\"imgsize\">" $(du ${TARGET_DIR} -hs) "</div>\n"
+}
+
+
+echo "do_prepare_image"
+do_prepare_image
+echo "do_oeimage"
+do_oeimage
 
 case ${IMAGETYPE} in
 	jffs2)

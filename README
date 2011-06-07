@@ -10,6 +10,15 @@ To install this:
 * mkdir deploy/
 * Optional: allow 'www-data' user to write to conf/beagleboard/sd/ to cache sd images
 * Optional: add 'www-data' to the 'disk' group
+* Optional: install mkfs.ubifs and mkfs.jffs2, but don't statically link in libc, otherwise pseudo won't work:
+
+	20:56 <+fray> check mk.ubifs, is it statically linked, etc?
+	20:57 <+koen> bin/mkfs.ubifs: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, for GNU/Linux 2.6.8, not stripped
+	20:57 <+koen> aha!
+	20:57 <+fray> bingo
+	20:57 <+fray> statically linked won't run inside of the pseudo environment..
+	20:57 <+fray> rebuild it and dynamically link it to libc
+	20:58 <+fray> in WR Linux we statically link a bunch of things, but we -always- dynamically link the LIBC  (so pseudo will work)
 
 To add a new machine:
 
