@@ -9,7 +9,6 @@ export COMPANY="Angstrom"
 export WORKDIR="${PWD}"
 
 export PATH=${WORKDIR}/bin:${PATH}
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WORKDIR}/bin
 
 export CACHEDIR="$(readlink -f ${PWD}/cache)"
 export CACHEDIRIPK="${CACHEDIR}/ipk"
@@ -19,10 +18,11 @@ export TARGET_DIR="${WORKDIR}/work/${MACHINE}/${IMAGENAME}"
 # Choose between pseudo and fakeroot
 export PSEUDO_LOCALSTATEDIR="${TARGET_DIR}-pseudo"
 export PSEUDO_BINDIR=${WORKDIR}/bin
-export PSEUDO_LIBDIR=${WORKDIR}/bin
+export PSEUDO_LIBDIR=${WORKDIR}/lib/pseudo/lib
 export PSEUDO_PREFIX=/bin
 export PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR}
 export PSEUDO_NOSYMLINKEXP=1
+export LD_LIBRARY_PATH=${WORKDIR}/lib/pseudo/lib:${WORKDIR}/lib/pseudo/lib64:$LD_LIBRARY_PATH
 export PSEUDO_DISABLED=1
 export FAKEROOT="pseudo"
 #export FAKEROOT="fakeroot"
