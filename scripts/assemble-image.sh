@@ -36,7 +36,7 @@ find cache/ipk/ -atime +7 -delete
 
 echo "Fakeroot config: ${FAKEROOT}"
 export PSEUDO_DISABLED=0
-export PSEUDO_DEBUG=2
+#export PSEUDO_DEBUG=2
 #export PSEUDO_DEBUG_FILE=/tmp/pseudo.log
 export PSEUDO_NOSYMLINKEXP=0
 
