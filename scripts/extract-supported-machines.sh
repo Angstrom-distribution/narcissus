@@ -18,7 +18,7 @@ for machine in $(find conf/ -name "arch.conf" | awk -F/ '{print $2}' | sort | un
 
 	echo "<div id='configlist'>" > conf/$machine/config-list.html
 	echo "				<select name=\"configs\" onChange='showValues();'>" >> conf/$machine/config-list.html
-	for config in $(ls conf/$machine/configs/ | sort -r ) ; do
+	for config in $('ls' conf/$machine/configs/ | sort -d ) ; do
 		echo "					<option value=\"$(basename $config)\">$(basename $config)</option>" >> conf/$machine/config-list.html
 	done				
 	echo "				</select>" >> conf/$machine/config-list.html
