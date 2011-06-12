@@ -189,7 +189,7 @@ function do_ubifs()
 function do_jffs2()
 {
 	echo "creating jffs2 image"
-	mkfs.jffs2 -x lzo --root=${IMAGE_ROOTFS} --faketime --output=${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.jffs2 ${EXTRA_IMAGECMD_jffs2}
+	${FAKEROOT} mkfs.jffs2 -x lzo --root=${IMAGE_ROOTFS} --faketime --output=${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.jffs2 ${EXTRA_IMAGECMD_jffs2}
 }
 
 function do_ext2()
@@ -197,7 +197,7 @@ function do_ext2()
 	echo "creating ext2 image"
 	export ROOTFS_SIZE="$(du -ks ${IMAGE_ROOTFS} | awk '{print 65536 + $1}')"
 	echo "running: genext2fs -b ${ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ext2 ${EXTRA_IMAGECMD_ext2}"
-	genext2fs -b ${ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ext2 ${EXTRA_IMAGECMD_ext2}
+	${FAKEROOT} genext2fs -b ${ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ext2 ${EXTRA_IMAGECMD_ext2}
 }
 
 function print_header()
