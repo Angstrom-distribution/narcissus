@@ -145,8 +145,13 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		echo "Copying file system:"
 		echo "tar xzf ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.tar.gz -C /mnt/narcissus/sd_image2"
 		tar xzf ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.tar.gz -C /mnt/narcissus/sd_image2
-		touch  /mnt/narcissus/sd_image2/narcissus-was-here
 
+		if [ -e ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ] ; then
+			echo "Copying UBIFS image to file system:"
+			mv ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi /mnt/narcissus/sd_image2/boot/fs.ubi
+		fi
+
+		touch  /mnt/narcissus/sd_image2/narcissus-was-here
 		echo "Remounting ${LOOP_DEV_FS}"
 		umount ${LOOP_DEV_FS}
 		mount ${LOOP_DEV_FS}
@@ -426,6 +431,10 @@ case ${IMAGETYPE} in
 		do_ext2;;
 	sdimg)
 		do_tar
+		do_sdimg;;
+	sdimg-ubi)
+		do_tar
+		do_ubifs
 		do_sdimg;;
 	*)
 		do_tar;;
