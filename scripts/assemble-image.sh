@@ -126,6 +126,14 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 			echo "Using uImage from narcissus, no uImage found in rootfs"
 		fi
 
+		if [ -e ${TARGET_DIR}/boot/user.txt ] ; then
+			cp -v ${TARGET_DIR}/boot/user.txt /mnt/narcissus/sd_image1/
+		fi
+
+		if [ -e ${TARGET_DIR}/boot/uEnv.txt ] ; then
+			cp -v ${TARGET_DIR}/boot/uEnv.txt /mnt/narcissus/sd_image1/
+		fi
+
 		echo "Remounting ${LOOP_DEV}"
 		umount ${LOOP_DEV}
 		mount ${LOOP_DEV}
