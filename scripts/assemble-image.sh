@@ -146,9 +146,9 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		echo "tar xzf ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.tar.gz -C /mnt/narcissus/sd_image2"
 		tar xzf ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.tar.gz -C /mnt/narcissus/sd_image2
 
-		if [ -e ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ] ; then
+		if [ -e ${UBIFS_TMP_DIR}/${IMAGENAME}-${MACHINE}.ubi ] ; then
 			echo "Copying UBIFS image to file system:"
-			mv ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi /mnt/narcissus/sd_image2/boot/fs.ubi
+			cp ${UBIFS_TMP_DIR}/${IMAGENAME}-${MACHINE}.ubi /mnt/narcissus/sd_image2/boot/fs.ubi
 		fi
 
 		touch  /mnt/narcissus/sd_image2/narcissus-was-here
@@ -187,16 +187,19 @@ function do_tar()
 function do_ubifs()
 {
 	echo "creating ubi volume"
+	mkdir -p ${UBIFS_TMP_DIR}
 	( cd ${TARGET_DIR}/../
 	  echo \[ubifs\] > ubinize.cfg
 	  echo mode=ubi >> ubinize.cfg 
-	  echo image=${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs >> ubinize.cfg
+	  echo image=${UBIFS_TMP_DIR}/${IMAGENAME}-${MACHINE}.ubifs >> ubinize.cfg
 	  echo vol_id=0 >> ubinize.cfg
 	  echo vol_type=dynamic >> ubinize.cfg
 	  echo vol_name=${MACHINE}-rootfs >> ubinize.cfg
 	  echo vol_flags=autoresize >> ubinize.cfg
-	  echo "running: ${FAKEROOT} mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg"
-	  ${FAKEROOT} mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg )
+	  echo "running: ${FAKEROOT} mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${UBIFS_TMP_DIR}/${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${UBIFS_TMP_DIR}/${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg"
+	  ${FAKEROOT} mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${UBIFS_TMP_DIR}/${IMAGENAME}-${MACHINE}.ubifs ${MKUBIFS_ARGS} && ubinize -o ${UBIFS_TMP_DIR}/${IMAGENAME}-${MACHINE}.ubi ${UBINIZE_ARGS} ubinize.cfg )
+	echo "running: cp ${UBIFS_TMP_DIR}/${IMAGENAME}-${MACHINE}.ubi ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi"
+	cp ${UBIFS_TMP_DIR}/${IMAGENAME}-${MACHINE}.ubi ${TARGET_DIR}/../${IMAGENAME}-${MACHINE}.ubi
 }
 
 function do_jffs2()
@@ -452,7 +455,7 @@ case ${SDK} in
 esac
 
 echo "removing target dir"
-rm -rf ${PSEUDO_LOCALSTATEDIR} ${OPKG_TMP_DIR} ${TARGET_DIR}
+rm -rf ${PSEUDO_LOCALSTATEDIR} ${OPKG_TMP_DIR} ${UBIFS_TMP_DIR} ${TARGET_DIR}
 
 exit ${RETVAL}
 
