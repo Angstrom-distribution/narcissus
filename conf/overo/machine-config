@@ -1,8 +1,0 @@
-# UBI: smallest flash I/O unit:    2048
-# UBI: logical eraseblock size:    129024 bytes
-# UBI device number 0, total 1996 LEBs
-MKUBIFS_ARGS="-m 2048 -e 129024 -c 1996"
-# UBI: smallest flash I/O unit:    2048
-# UBI: physical eraseblock size:   131072 bytes (128 KiB)
-# UBI: sub-page size:              512
-UBINIZE_ARGS="-m 2048 -p 128KiB -s 512"
