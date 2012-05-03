@@ -1,6 +1,6 @@
 /* Narcissus Online Image generator
 
-(c) Koen Kooi 2008 - 2010
+(c) Koen Kooi 2008 - 2012
 
 This is licensed under the terms of the GPLv2
 
@@ -9,7 +9,8 @@ This is licensed under the terms of the GPLv2
 var packagelist = new Array;
 var packagestring = "";
 var opackage = "";
-var progress_text = ""
+var progress_text = "";
+var spinner_image = "<img src='img/spinner.gif'>";
 var FAIL_image = "<img src='img/X_mark.png'>";
 var succes_image = "<img src='img/Green_tick.png'>";
 var repourl = "http://www.angstrom-distribution.org/repo/?pkgname=";
@@ -201,6 +202,8 @@ function configureImage(){
 		
 	document.getElementById('pkg_progress').innerHTML = progress_text;
 	var params = 'action=configure_image&machine=' + document.entry_form.machine.value + '&release=' + document.entry_form.configs.value + '&name=' + document.entry_form.name.value;
+
+	document.getElementById('td-configure').innerHTML = spinner_image;
 	
 	$.ajax({
 	   type: "POST",
@@ -225,6 +228,9 @@ function assembleImage(){
 	}
 		
 	var params = 'action=assemble_image&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&imagetype=' + imagetype + '&manifest=' + document.entry_form.manifest.value + '&sdk=' + document.entry_form.SDK.value + '&sdkarch=' + document.entry_form.sdkarch.value;
+
+	document.getElementById('td-assemble').innerHTML = spinner_image;
+
 	$.ajax({
 		   type: "POST",
 		   url: workerurl,
@@ -247,6 +253,12 @@ function assembleImage(){
 function installPackage(){
 	if (packagelist != "" && packagelist != " ") {
 		var params = 'action=install_package&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + packagelist;
+
+		for(var i=0; i < packagelist.length; i++){
+			var progress_id = 'td-' + packagelist[i];
+			document.getElementById(progress_id).innerHTML = spinner_image;
+		}
+
 		$.ajax({
 		   type: "POST",
 		   url: workerurl,
