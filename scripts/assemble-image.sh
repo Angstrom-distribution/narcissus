@@ -1,6 +1,6 @@
 
 # Narcissus - Online image builder for the angstrom distribution
-# Copyright (C) 2008 - 2011 Koen Kooi
+# Copyright (C) 2008 - 2012 Koen Kooi
 # Copyright (C) 2010        Denys Dmytriyenko
 #
 # This program is free software; you can redistribute it and/or modify
@@ -48,7 +48,7 @@ function do_sdimg()
 export PSEUDO_DISABLED=1
 
 if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
-	MD5SUM_SD="$(md5sum ${TARGET_DIR}/boot/uImage | awk '{print $1}')"	
+	MD5SUM_SD="$(md5sum ${TARGET_DIR}/boot/MLO | awk '{print $1}')"	
 
 	for sdsize in $(ls ${WORKDIR}/conf/${MACHINE}/sd/sd-master* | sed -e s:${WORKDIR}/conf/${MACHINE}/sd/sd-master-::g -e 's:.img.gz::g' | xargs echo) ; do
 
@@ -112,18 +112,11 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 			rm -f /mnt/narcissus/sd_image1/MLO		
 		fi
 		if [ -e ${TARGET_DIR}/boot/u-boot-*.bin ] ;then
-			cp -v ${TARGET_DIR}/boot/u-boot-*.bin /mnt/narcissus/sd_image1/u-boot.bin
+			cp -v ${TARGET_DIR}/boot/u-boot-*.img /mnt/narcissus/sd_image1/u-boot.img
 			echo "Copied u-boot from /boot"
 		else
-			cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.bin /mnt/narcissus/sd_image1/u-boot.bin
-			echo "Using u-boot from narcissus, no u-boot.bin found in rootfs"
-		fi
-		if [ -e ${TARGET_DIR}/boot/uImage-2.6* ] ;then 
-			cp -v ${TARGET_DIR}/boot/uImage-2.6* /mnt/narcissus/sd_image1/uImage
-			echo "Copied uImage from /boot"
-		else
-			cp -v ${WORKDIR}/conf/${MACHINE}/sd/uImage.bin /mnt/narcissus/sd_image1/uImage
-			echo "Using uImage from narcissus, no uImage found in rootfs"
+			cp -v ${WORKDIR}/conf/${MACHINE}/sd/u-boot.img /mnt/narcissus/sd_image1/u-boot.img
+			echo "Using u-boot from narcissus, no u-boot.img found in rootfs"
 		fi
 
 		if [ -e ${TARGET_DIR}/boot/user.txt ] ; then
@@ -139,7 +132,7 @@ if [ -e ${WORKDIR}/conf/${MACHINE}/sd ] ; then
 		mount ${LOOP_DEV}
 
 		echo "files in VFAT partition:" $(du -hs /mnt/narcissus/sd_image1/* | sed s:/mnt/narcissus/sd_image1/::g)
-		export MD5SUM_SD="$(md5sum /mnt/narcissus/sd_image1/uImage | awk '{print $1}')"
+		export MD5SUM_SD="$(md5sum /mnt/narcissus/sd_image1/MLO | awk '{print $1}')"
 		echo "MD5 of file in vfat partition: ${MD5SUM_SD}"
 
 		echo "Copying file system:"

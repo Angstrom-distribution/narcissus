@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Narcissus - Online image builder for the angstrom distribution
-# Koen Kooi (c) 2010- all rights reserved 
+# Koen Kooi (c) 2010-2011 all rights reserved 
 
 # This script extracts metadata from the cache dir to use in e.g. manifests
 
