@@ -252,12 +252,10 @@ function assembleImage(){
 
 function installPackage(){
 	if (packagelist != "" && packagelist != " ") {
-		var params = 'action=install_package&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + packagelist;
 
-		for(var i=0; i < packagelist.length; i++){
-			var progress_id = 'td-' + packagelist[i];
-			document.getElementById(progress_id).innerHTML = spinner_image;
-		}
+		document.getElementById('td-' + packagelist[0]).innerHTML = spinner_image;
+
+		var params = 'action=install_package&machine=' + document.entry_form.machine.value + '&name=' + document.entry_form.name.value + '&pkgs=' + packagelist;
 
 		$.ajax({
 		   type: "POST",
