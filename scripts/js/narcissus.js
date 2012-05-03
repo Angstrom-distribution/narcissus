@@ -171,7 +171,7 @@ function configureImage(){
 		}
 	}
 	
-	packagestring += " " + devmanager + " " + initmanager + " angstrom-version tinylogin ";
+	packagestring += " " + devmanager + " " + initmanager + " angstrom-version";
 	packagestring += " " + concatArray(document.entry_form.devel);
 	packagestring += " " + concatArray(document.entry_form.console_packages);
 	packagestring += " " + concatArray(document.entry_form.platform_packages);
