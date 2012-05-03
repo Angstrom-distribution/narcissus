@@ -52,26 +52,23 @@
 				</div>
 			</div>
 			<div id="basesystemdialog" class="nblock">
-				Base system<br/> <font size="-2">Each entry down is a superset of the one above it. Busybox will give you only busybox, usefull for e.g. small ramdisks. Task-boot will give you the minimal set of drivers and packages you need to boot. Task-base will give you drivers for non-essential features of your system, e.g. bluetooth. Options below that will include even more drivers for a smoother experience with USB based devices.</font><br/><br/>
+				Base system<br/> <font size="-2">Each entry down is a superset of the one above it. Busybox will give you only busybox, usefull for e.g. small ramdisks. Task-boot will give you the minimal set of drivers and packages you need to boot. task-basic will give you drivers for non-essential features of your system, e.g. bluetooth.</font><br/><br/>
                 <input type="radio" name="pkg" value="busybox base-files base-passwd">bare bones (<a href='http://www.angstrom-distribution.org/repo/?pkgname=busybox' target='foo'>busybox</a>)<br/>
-                <input type="radio" name="pkg" value="task-boot">small (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-boot' target='foo'>task-boot</a>)<br/>
-                <input type="radio" name="pkg" value="task-base" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base' target='foo'>task-base</a>)<br/>
-                <input type="radio" name="pkg" value="task-base-extended">extended (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-base-extended' target='foo'>task-base-extended</a>)<br/>
+                <input type="radio" name="pkg" value="angstrom-task-boot">small (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-boot' target='foo'>task-boot</a>)<br/>
+                <input type="radio" name="pkg" value="task-basic" checked="checked">regular (<a href='http://www.angstrom-distribution.org/repo/?pkgname=task-basic' target='foo'>task-basic</a>)<br/>
                 <br/>
 			</div>
 
 			<div id='devman' class="nblock">
-				Select the /dev manager.<br/><font size="-2">Udev is generally the best choice, only select mdev for fixed-function devices and if you know what you're doing. Kernel will use the in-kernel <a href='http://lwn.net/Articles/330985/'>devtmpfs</a> feature present in 2.6.32 and newer</font><br/><br/>
+				Select the /dev manager.<br/><font size="-2">Udev is generally the best choice. Kernel will use the in-kernel <a href='http://lwn.net/Articles/330985/'>devtmpfs</a> feature present in 2.6.32 and newer</font><br/><br/>
 				<input name="devmanager" type="radio" checked="checked" value="udev">udev
-				<input name="devmanager" type="radio" value="busybox-mdev">mdev
 				<input name="devmanager" type="radio" value=" ">kernel
 				<br/>
 			</div>
             
             <div id='initman' class="nblock">
-				Select the init manager.<br/><font size="-2">sysvinit is generally the best choice, systemd is the future, but experimental and none is for people who are absolutely sure of what they are doing</font><br/><br/>
-				<input name="initmanager" type="radio" checked="checked" value="initscripts sysvinit sysvinit-pidof">sysvinit
-				<input name="initmanager" type="radio" value="systemd systemd-compat-units">systemd
+				Select the init manager.<br/><font size="-2">systemd is generally the best choice, none is for people who are absolutely sure of what they are doing</font><br/><br/>
+				<input name="initmanager" type="radio" checked="checked" value="systemd systemd-compat-units">systemd
 				<input name="initmanager" type="radio" value=" ">none
 				<br/>
 			</div>
@@ -83,7 +80,6 @@
 				<input name="imagetype" type="radio" value="sdimg-ubi">OMAP SD+UBI image
 				<input name="imagetype" type="radio" value="ext2">ext2
 				<input name="imagetype" type="radio" value="ubifs">ubifs
-				<input name="imagetype" type="radio" value="jffs2">jffs2
 				<br/>
 			</div>
 
@@ -123,21 +119,18 @@
 <div id="packageblock">
 		<div id='environment'>
 			<br/><b>User environment selection:</b><br/><br/>
-			<div class="nblock">Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a Desktop Environment option below. Opie is a qt/e 2.0 based environment for PDA style devices.<br/><br/>
+			<div class="nblock">Console gives you a bare commandline interface where you can install a GUI into later on. X11 will install an X-window environment and present you with a Desktop Environment option below. <br/><br/>
 			<select name="environment" onChange="environmentChange(this)">
 				<option value="">Console only</option>
 				<option value="">X11</option>
-				<option value="task-opie-base task-opie-base-applets task-opie-base-inputmethods task-opie-base-apps task-opie-base-settings task-opie-base-decorations task-opie-base-styles task-opie-base-pim task-opie-extra-settings task-opie-bluetooth task-opie-irda">Opie</option>
 			</select>
 			</div>
 			<div id='x11_wm_block'>
 				<br/><b>X11 Desktop Environments:</b><br/><br/>
 				<div  class="nblock">
-					<input type="checkbox" name="wm" value="angstrom-x11-base-depends angstrom-gpe-task-base e-wm e-wm-config-standard e-wm-config-default">Enlightenment<br/>
-					<input type="checkbox" name="wm" value="angstrom-task-gnome shadow bash-sh">GNOME<br/>
-					<input type="checkbox" name="wm" value="task-xfce46-base task-xfce46-extras shadow">Xfce 4.6<br/>
-					<input type="checkbox" name="wm" value="angstrom-x11-base-depends angstrom-gpe-task-base">Matchbox<br/>
-					<input type="checkbox" name="wm" value="angstrom-x11-base-depends angstrom-gpe-task-base e-wm e-wm-config-illume">Illume<br/>
+					<input type="checkbox" name="wm" value="xserver-nodm-init-systemd xserver-common ttf-dejavu-sans ttf-dejavu-sans-mono ttf-dejavu-common task-x11-server e-wm e-wm-config-standard e-wm-config-default">Enlightenment<br/>
+					<input type="checkbox" name="wm" value="task-gnome task-gnome-apps task-gnome-fonts task-gnome-themes task-gnome-xserver-base task-x11-server shadow">GNOME<br/>
+					<input type="checkbox" name="wm" value="task-x11-server task-xfce46-base task-xfce46-extras shadow">Xfce 4.6<br/>
 				</div>
 			</div>
 		</div>
@@ -150,16 +143,11 @@
 	<img src='img/expand.gif' onClick="toggleVisibility('x11_packages');"> Additional X11 packages:<br/>
 		<div id='x11_packages' class="nblock">
 			<input type="checkbox" name="x11_packages" value="abiword">Abiword<br/>
-			<input type="checkbox" name="x11_packages" value="duke3d">Duke Nukem 3D<br/>
-			<input type="checkbox" name="x11_packages" value="prboom">Doom (prboom)<br/>
-			<input type="checkbox" name="x11_packages" value="e-uae">E-uae<br/>
-			<input type="checkbox" name="x11_packages" value="ekiga">Ekiga<br/>
+
 			<input type="checkbox" name="x11_packages" value="enna">Enna media center application<br/>
 			<input type="checkbox" name="x11_packages" value="epiphany">Epiphany web browser<br/>
 			<input type="checkbox" name="x11_packages" value="evince">Evince<br/>
-			<input type="checkbox" name="x11_packages" value="fennec">Fennec<br/>
 			<input type="checkbox" name="x11_packages" value="firefox">Firefox<br/>
-			<input type="checkbox" name="x11_packages" value="gecko-mediaplayer-firefox-hack">Firefox mediaplayer plugin<br/>
 			<input type="checkbox" name="x11_packages" value="fldigi">FLDigi<br/>
 			<input type="checkbox" name="x11_packages" value="gimp">Gimp<br/>
 			<input type="checkbox" name="x11_packages" value="task-gnome-apps">GNOME Applications<br/>
@@ -172,25 +160,13 @@
 			<input type="checkbox" name="x11_packages" value="gpe-scap">GPE Screen Capture<br/>
 			<input type="checkbox" name="x11_packages" value="midori">Midori web browser<br/>
 			<input type="checkbox" name="x11_packages" value="connman-gnome">Moblin connection manager GTK+ applet<br/>
-			<input type="checkbox" name="x11_packages" value="mythtv mythtv-frontend">MythTV<br/>
-			<input type="checkbox" name="x11_packages" value="numptyphysics">Numptyphysics<br/>
 			<input type="checkbox" name="x11_packages" value="pidgin">Pidgin IM<br/>
 			<input type="checkbox" name="x11_packages" value="contacts dates tasks">Pimlico<br/>
             <input type="checkbox" name="x11_packages" value="qcanobserver libsocketcan1">QCanObserver<br/>
 			<input type="checkbox" name="x11_packages" value="qt4-demos qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-svg qt-x11-qvfb">QT/X11 4<br/>
-			<input type="checkbox" name="x11_packages" value="arora">QT4/X11 4 Arora Browser<br/>
-			<input type="checkbox" name="x11_packages" value="sdlquake">Quake 1<br/>
-			<input type="checkbox" name="x11_packages" value="quake2">Quake 2<br/>
-			<input type="checkbox" name="x11_packages" value="quetoo">Quake 2 (quetoo)<br/>
-			<input type="checkbox" name="x11_packages" value="ioquake3">Quake 3 (ioq3)<br/>
-			<input type="checkbox" name="x11_packages" value="scummvm">ScummVM<br/>
-			<input type="checkbox" name="x11_packages" value="sdrshell">SDR-shell<br/>
-			<input type="checkbox" name="x11_packages" value="stalonetray">Stalonetray<br/>
-			<input type="checkbox" name="x11_packages" value="totem">Totem media player<br/>
 			<input type="checkbox" name="x11_packages" value="wireshark">Wireshark<br/>
 			<input type="checkbox" name="x11_packages" value="xbmc libgles-omap3-x11wsegl">XBMC<br/>
 			<input type="checkbox" name="x11_packages" value="xdotool">X11 Control Tool (xdotool)<br/>
-			<input type="checkbox" name="x11_packages" value="zhone frameworkd">Zhone<br/>
 		</div>
 	</div>
 
@@ -215,42 +191,34 @@
 
 	<img src='img/expand.gif' onClick="toggleVisibility('console_packages');"> Additional console packages:<br/>
 	<div id='console_packages' class="nblock">
-		<input type="checkbox" name="console_packages" value="aircrack-ng">Aircrack-ng<br/>
 		<input type="checkbox" name="console_packages" value="kernel-modules">All kernel modules<br/>
 		<input type="checkbox" name="console_packages" value="psplash-angstrom">Angstrom PSplash Screen<br/>
 		<input type="checkbox" name="console_packages" value="alsa-utils alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl">Alsa utils<br/>
 		<input type="checkbox" name="console_packages" value="bluez-utils">Bluez<br/>
 		<input type="checkbox" name="console_packages" value="cpufrequtils">cpufrequtils<br/>
-		<input type="checkbox" name="console_packages" value="cwiid">cwiid<br/>
 		<input type="checkbox" name="console_packages" value="dosfstools">DOS FAT Filesystem Utils<br/>
 		<input type="checkbox" name="console_packages" value="dvb-azap dvb-tzap dvb-czap dvb-szap dvb-scan wscan dvbstream dvbtune">DVB-utils<br/>
 		<input type="checkbox" name="console_packages" value="e2fsprogs e2fsprogs-mke2fs">EXT2 Filesystem Utils<br/>
-		<input type="checkbox" name="console_packages" value="ffmpeg">FFmpeg<br/>
+		<input type="checkbox" name="console_packages" value="libav">libav<br/>
 		<input type="checkbox" name="console_packages" value="flite libflite-cmu-us-kal1">Flite<br/>
 		<input type="checkbox" name="console_packages" value="gdbserver">Gdbserver<br/>
 		<input type="checkbox" name="console_packages" value="gnuradio">Gnuradio<br/>
 		<input type="checkbox" name="console_packages" value="git">Git<br/>
-		<input type="checkbox" name="console_packages" value="gsm0710muxd">GSM0710muxd<br/>
 		<input type="checkbox" name="console_packages" value="gst-plugins-bad-meta gst-plugins-base-meta gst-plugins-good-meta gst-plugins-ugly-meta ">Gstreamer<br/>
 		<input type="checkbox" name="console_packages" value="gst-plugin-gles">Gstreamer GLES Plugin<br/>
 		<input type="checkbox" name="console_packages" value="htop">htop<br/>
 		<input type="checkbox" name="console_packages" value="i2c-tools">I2C-tools<br/>
 		<input type="checkbox" name="console_packages" value="jamvm">JamVM<br/>
-		<input type="checkbox" name="console_packages" value="julius">Julius speech recognizer<br/>
-		<input type="checkbox" name="console_packages" value="kismet">Kismet<br/>
-		<input type="checkbox" name="console_packages" value="lcd4linux">LCD4Linux<br/>
 		<input type="checkbox" name="console_packages" value="lirc">LIRC<br/>
 		<input type="checkbox" name="console_packages" value="lsof">lsof<br/>
 		<input type="checkbox" name="console_packages" value="mediatomb">Mediatomb<br/>
 		<input type="checkbox" name="console_packages" value="memtester">memtester<br/>
 		<input type="checkbox" name="console_packages" value="mplayer">MPlayer<br/>
-		<input type="checkbox" name="console_packages" value="mythtv-backend">Mythtv backend<br/>
 		<input type="checkbox" name="console_packages" value="nano">Nano Editor<br/>
 		<input type="checkbox" name="console_packages" value="octave">Octave<br/>
 		<input type="checkbox" name="console_packages" value="opencv-samples">OpenCV<br/>
 		<input type="checkbox" name="console_packages" value="powertop">Powertop<br/>
 		<input type="checkbox" name="console_packages" value="qt4-embedded-demos qt4-embedded-plugin-gfxdriver-gfxvnc qt4-embedded-plugin-gfxdriver-gfxtransformed qt4-embedded qt4-embedded-fonts qt4-embedded-plugin-imageformat-svg qt4-embedded-plugin-imageformat-jpeg">QT/e 4<br/>
-		<input type="checkbox" name="console_packages" value="arora-e">QT/e 4 Arora Browser<br/>
 		<input type="checkbox" name="console_packages" value="screen">Screen<br/>
 		<input type="checkbox" name="console_packages" value="uhd">Ettus Universal Hardware Driver<br/>
 		<input type="checkbox" name="console_packages" value="vdr">Video Disc Recoder<br/>
@@ -259,8 +227,6 @@
 
 	<img src='img/expand.gif' onClick="toggleVisibility('network_packages');"> Network related packages:<br/>
 	<div id='network_packages' class="nblock">
-		<input type="checkbox" name="network_packages" value="apache2">Apache<br/>
-		<input type="checkbox" name="network_packages" value="boa">Boa<br/>
 		<input type="checkbox" name="network_packages" value="cherokee">Cherokee<br/>
 		<input type="checkbox" name="network_packages" value="dropbear">Dropbear SSH server<br/>
 		<input type="checkbox" name="network_packages" value="connman">Moblin connection manager<br/>
@@ -293,15 +259,12 @@
 	<img src='img/expand.gif' onClick="toggleVisibility('platform_packages');"> Platform specific packages:<br/>
 	<div id='platform_packages' class="nblock">
 
-	<br/>Texas Instruments OMAP3x/AM3x family:<br/>
-		<input type="checkbox" name="platform_packages" value="x-load u-boot angstrom-uboot-scripts">Bootloader Files (x-load/u-boot/scripts)<br/>
+	<br/>Texas Instruments SoC family:<br/>
+		<input type="checkbox" name="platform_packages" value="u-boot angstrom-uboot-scripts">Bootloader Files (MLO/u-boot/scripts)<br/>
 		<input type="checkbox" name="platform_packages" value="am-benchmarks am-sysinfo">AM/OMAP benchmarks / system info<br/>
-		<input type="checkbox" name="platform_packages" value="matrix-gui-e">Matrix GUI for QT/embedded<br/>
 		<input type="checkbox" name="platform_packages" value="matrix-gui">Matrix GUI for QT/X11<br/>
-		<input type="checkbox" name="platform_packages" value="matrix-tui">Matrix TUI<br/>
 		<input type="checkbox" name="platform_packages" value="omap-dss-doc">OMAP Display Sub System (DSS) Documentation<br/>
 		<input type="checkbox" name="platform_packages" value="omapfbplay">FFmpeg based Media Player (omapfbplay) with Display Sub-System Support<br/>
-		<input type="checkbox" name="platform_packages" value="omapfbplay-dce">FFmpeg based Media Player (omapfbplay) with Distributed CodecEngine cupport<br/>
 		<input type="checkbox" name="platform_packages" value="ti-msp430-chronos-apps">MSP430 eZChronos Watch Development Kit Support Applications<br/>
 		<input type="checkbox" name="platform_packages" value="picodlp-control">PICO DLP Projector Control<br/>
 		<input type="checkbox" name="platform_packages" value="libgles-omap3">PowerVR SGX drivers for OMAP3<br/>
@@ -310,25 +273,15 @@
 		<input type="checkbox" name="platform_packages" value="qt4-embedded-plugin-gfxdriver-gfxpvregl">PowerVR SGX gfxdriver plugin for QT/embedded<br/>
 		<input type="checkbox" name="platform_packages" value="qt4-plugin-graphicssystems-glgraphicssystem">PowerVR SGX gfxdriver plugin for QT/X11<br/>
 		<input type="checkbox" name="platform_packages" value="bc-cube-x11">TI texture streaming demo for X11<br/>
-		<input type="checkbox" name="platform_packages" value="bc-cube-fb">TI texture streaming demo for framebuffer<br/>
-		<input type="checkbox" name="platform_packages" value="quake3-pandora-gles libgles-omap3">Quake 3 (GLES)<br/>
-
-	<br/>Texas Instruments OMAP3x/DaVinci/OMAPL family (using DSP):<br/>
-		<input type="checkbox" name="platform_packages" value="ti-dsplink-examples">TI DSPLINK Example Applications<br/>
-		<input type="checkbox" name="platform_packages" value="ti-codec-engine-examples">TI Codec Engine Example Applications<br/>
-		<input type="checkbox" name="platform_packages" value="ti-dmai-apps ti-dmai-tests">TI DMAI (Davinci/OMAP Multimedia Interface) Examples/Tests<br/>
-		<input type="checkbox" name="platform_packages" value="gstreamer-ti">Texas Instruments Gstreamer plugins<br/>
-		<input type="checkbox" name="platform_packages" value="ti-julius-demo">Julius demo for Texas Instruments<br/>
-		<input type="checkbox" name="platform_packages" value="ti-syslink-examples">TI SYSLINK Example Applications<br/>
 
 	<br/>Various demonstration configs:<br/>
 		<input type="checkbox" name="platform_packages" value="task-beagleboard-demo psplash-angstrom">Original beagleboard demo<br/>
-		<input type="checkbox" name="platform_packages" value="shadow bash-sh psplash-angstrom task-base-extended angstrom-task-gnome ti-dsplink-examples ti-codec-engine-examples ti-dmai-apps gstreamer-ti libgles-omap3-x11wsegl bc-cube-fb bc-cube-x11 mplayer omapfbplay cpufrequtils htop powertop ntpdate libgles-omap3-rawdemos libgles-omap3-x11demos abiword gnumeric epiphany memtester kernel-modules epiphany midori firefox gnome-mplayer gecko-mediaplayer-firefox-hack gpe-scap gst-plugin-gles alsa-utils alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl ti-msp430-chronos-apps git vim screen dosfstools omap-dss-doc gedit lsof matrix-gui matrix-tui am-benchmarks am-sysinfo e2fsprogs e2fsprogs-mke2fs nano nodejs qt4-demos qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-svg qt-x11-qvfb qt4-embedded-demos qt4-embedded-plugin-gfxdriver-gfxvnc qt4-embedded-plugin-gfxdriver-gfxtransformed qt4-embedded qt4-embedded-fonts qt4-embedded-plugin-imageformat-svg qt4-embedded-plugin-imageformat-jpeg arora arora-e task-native-sdk task-qte-toolchain-target qt4-x11-free-gles-dev u-boot-mkimage picodlp-control x-load u-boot angstrom-uboot-scripts">Linuxtag 2010 beagleboard demo<br/>
+		<input type="checkbox" name="platform_packages" value="shadow bash-sh psplash-angstrom task-basic-extended angstrom-task-gnome ti-dsplink-examples ti-codec-engine-examples ti-dmai-apps gstreamer-ti libgles-omap3-x11wsegl bc-cube-fb bc-cube-x11 mplayer omapfbplay cpufrequtils htop powertop ntpdate libgles-omap3-rawdemos libgles-omap3-x11demos abiword gnumeric epiphany memtester kernel-modules epiphany midori firefox gnome-mplayer gecko-mediaplayer-firefox-hack gpe-scap gst-plugin-gles alsa-utils alsa-utils-alsamixer alsa-utils-aplay alsa-utils-amixer alsa-utils-aconnect alsa-utils-iecset alsa-utils-speakertest alsa-utils-aseqnet alsa-utils-aseqdump alsa-utils-alsaconf alsa-utils-alsactl ti-msp430-chronos-apps git vim screen dosfstools omap-dss-doc gedit lsof matrix-gui matrix-tui am-benchmarks am-sysinfo e2fsprogs e2fsprogs-mke2fs nano nodejs qt4-demos qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-svg qt-x11-qvfb qt4-embedded-demos qt4-embedded-plugin-gfxdriver-gfxvnc qt4-embedded-plugin-gfxdriver-gfxtransformed qt4-embedded qt4-embedded-fonts qt4-embedded-plugin-imageformat-svg qt4-embedded-plugin-imageformat-jpeg arora arora-e task-native-sdk task-qte-toolchain-target qt4-x11-free-gles-dev u-boot-mkimage picodlp-control  u-boot angstrom-uboot-scripts">Linuxtag 2010 beagleboard demo<br/>
 		<input type="checkbox" name="platform_packages" value="dosfstools e2fsprogs e2fsprogs-mke2fs mtd-utils alsa-utils alsa-utils-aplay mplayer memtester evtest i2c-tools cpufrequtils angstrom-uboot-scripts beagleboard-test-scripts nano dropbear">Beagleboard validation ramdisk<br/>
-		<input type="checkbox" name="platform_packages" value="task-beagleboard-validation-base u-boot x-load">Beagleboard validation base task<br/>
+		<input type="checkbox" name="platform_packages" value="task-beagleboard-validation-base u-boot ">Beagleboard validation base task<br/>
 		<input type="checkbox" name="platform_packages" value="task-beagleboard-validation-gui">Beagleboard validation E17 GUI task<br/>
 		<input type="checkbox" name="platform_packages" value="task-beagleboard-validation-gui-extras">Beagleboard validation GUI extras<br/>
-		<input type="checkbox" name="platform_packages" value="task-base-extended task-beagleboard-validation-base task-omap-drivers angstrom-task-gnome angstrom-gdm-autologin-hack bash-sh midori gedit u-boot x-load vim vim-vimrc vim-syntax kernel-modules libgles-omap3-x11demos bc-cube-x11 opencv-samples-dev">Beagleboard validation GNOME image<br/> 
+		<input type="checkbox" name="platform_packages" value="task-basic-extended task-beagleboard-validation-base task-omap-drivers angstrom-task-gnome angstrom-gdm-autologin-hack bash-sh midori gedit u-boot  vim vim-vimrc vim-syntax kernel-modules libgles-omap3-x11demos bc-cube-x11 opencv-samples-dev">Beagleboard validation GNOME image<br/> 
 
 	<br/>Marvell XScale Family:<br/>
 		<input type="checkbox" name="platform_packages" value="pxaregs">PXA register utility<br/>
