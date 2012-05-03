@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Narcissus - Online image builder for the angstrom distribution
-# Koen Kooi (c) 2010-2011 all rights reserved 
+# Koen Kooi (c) 2010-2012 all rights reserved 
 
 # This script extracts metadata from the cache dir to use in e.g. manifests
 
@@ -12,6 +12,7 @@ fi
 echo "<div id='machinelist'>" > machine-list.html
 echo "			Select the machine you want to build your rootfs image for:<br/><br/>" >> machine-list.html
 echo "			<select name='machine' onChange='showValues();'>" >> machine-list.html
+echo "				<option value=\"invalid\">--------</option>" >> machine-list.html
 
 for machine in $(find conf/ -name "arch.conf" | awk -F/ '{print $2}' | sort | uniq) ; do
 	echo "				<option value=\"$machine\">$machine</option>" >> machine-list.html
