@@ -67,8 +67,7 @@ else
 	echo "Distro configs for ${RELEASE} NOT found, defaulting to stable"
 fi
 
-echo "dest root /" > ${TARGET_DIR}/etc/opkg.conf 
-echo "lists_dir ext /var/lib/opkg" >> ${TARGET_DIR}/etc/opkg.conf 
+echo "" > ${TARGET_DIR}/etc/opkg.conf 
 
 echo "running: opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} install conf/${MACHINE}/configs/${RELEASE}/angstrom-feed-config*"
 yes | bin/opkg-cl ${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} install conf/${MACHINE}/configs/${RELEASE}/angstrom-feed-config* 
