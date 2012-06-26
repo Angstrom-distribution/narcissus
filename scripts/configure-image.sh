@@ -52,6 +52,8 @@ mkdir -p ${PSEUDO_LOCALSTATEDIR}
 if [ -e conf/${MACHINE}/arch.conf ] ; then
 	mkdir -p ${OPKG_CONFDIR_TARGET}
 	mkdir -p ${TARGET_DIR}/usr/lib/opkg
+	mkdir -p ${TARGET_DIR}/var/lib/opkg
+
 	cp conf/${MACHINE}/arch.conf ${OPKG_CONFDIR_TARGET}
 	echo "Configuring for ${MACHINE}"
 else
