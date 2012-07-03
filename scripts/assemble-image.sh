@@ -371,7 +371,7 @@ function do_prepare_image() {
 
 	echo "Running preinsts"
 
-	for i in ${TARGET_DIR}/usr/lib/opkg/info/*.preinst; do
+	for i in ${TARGET_DIR}/var/lib/opkg/info/*.preinst; do
 		if [ -f $i ] && ! ${FAKEROOT} sh $i; then
 			echo "Running: ${FAKEROOT} opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`"
 			opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .preinst`
@@ -380,7 +380,7 @@ function do_prepare_image() {
 
 	echo "Running postinsts"
 
-	for i in ${TARGET_DIR}/usr/lib/opkg/info/*.postinst; do
+	for i in ${TARGET_DIR}/var/lib/opkg/info/*.postinst; do
 		if [ -f $i ] && ! ${FAKEROOT} sh $i configure; then
 			echo "Running: ${FAKEROOT} opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`"
 			opkg-cl -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf -t ${OPKG_TMP_DIR} flag unpacked `basename $i .postinst`
@@ -392,7 +392,7 @@ function do_prepare_image() {
 	fi
 
 	echo "removing opkg index files"
-	rm ${TARGET_DIR}/var/lib/opkg/* || true
+	rm ${TARGET_DIR}/var/lib/opkg/lists/* || true
 	rm ${TARGET_DIR}/usr/lib/opkg/lists/* || true
 	rm ${TARGET_DIR}/linuxrc || true
 	rm ${TARGET_DIR}/tmp/*
