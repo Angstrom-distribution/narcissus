@@ -42,7 +42,7 @@
 		<br/><b>Advanced settings:</b><br/><br/>
 
 			<div id="releasedialog" class="nblock">
-				Select the release you want to base your rootfs image on.<br/><font size="-2">The 'stable' option will give you a working system, but will not have the latest versions of packages. The 'unstable' option will give you access to all the latest packages the developers have uploaded, but is known to break every now and then. The 'next' option will give you the bleeding edge, but it's incomplete and only intended for angstrom developers</font><br/><br/>
+				Select the release you want to base your rootfs image on.<br/><font size="-2">The 'v2012.05' option will give you a working system, but will not have the latest versions of packages. The 'unstable' or 'core-eglinc' options will give you access to all the latest packages the developers have uploaded, but is known to break every now and then. The 'next' option will give you the bleeding edge, but it's incomplete and only intended for angstrom developers</font><br/><br/>
 				<div id="releaseconfig">
 					<div id='configlist'>
 						<select name="configs" onChange='showValues();'>
@@ -262,7 +262,7 @@
 	<div id='platform_packages' class="nblock">
 
 	<br/>Texas Instruments SoC family:<br/>
-		<input type="checkbox" name="platform_packages" value="u-boot angstrom-uboot-scripts">Bootloader Files (MLO/u-boot/scripts)<br/>
+		<input type="checkbox" name="platform_packages" value="u-boot">Bootloader Files (MLO/u-boot)<br/>
 		<input type="checkbox" name="platform_packages" value="am-benchmarks am-sysinfo">AM/OMAP benchmarks / system info<br/>
 		<input type="checkbox" name="platform_packages" value="matrix-gui">Matrix GUI for QT/X11<br/>
 		<input type="checkbox" name="platform_packages" value="omap-dss-doc">OMAP Display Sub System (DSS) Documentation<br/>
