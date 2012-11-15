@@ -64,6 +64,16 @@ if (isset($_POST["sdkarch"]) && $_POST["sdkarch"] != "") {
 	$sdkarch = "none";
 }
 
+switch($release) {
+	case "stable":
+	case "v2012.05":
+	case "v2012.12":
+	case "core-eglibc":
+		break;
+	default:
+		$release = "v2012.05";
+}
+
 switch($imagetype) {
 	case "tgz":
 		$imagesuffix = "tar.gz";
