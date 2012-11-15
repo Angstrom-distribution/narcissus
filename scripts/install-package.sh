@@ -26,7 +26,7 @@ fi
 
 export PSEUDO_DISABLED=0
 
-OPKGARGS="${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf"
+OPKGARGS="${CACHE} -o ${TARGET_DIR} -f ${TARGET_DIR}/etc/opkg.conf --force_postinstall"
 
 packagelist="$(echo ${PACKAGE} | tr -d '[~;:]' | sed s:,:\ :g | sort | uniq)"
 
