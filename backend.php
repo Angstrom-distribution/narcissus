@@ -65,13 +65,10 @@ if (isset($_POST["sdkarch"]) && $_POST["sdkarch"] != "") {
 }
 
 switch($release) {
-	case "stable":
-	case "v2012.05":
 	case "v2012.12":
-	case "core-eglibc":
 		break;
 	default:
-		$release = "v2012.05";
+		$release = "v2012.12";
 }
 
 switch($imagetype) {
