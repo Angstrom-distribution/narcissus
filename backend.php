@@ -65,7 +65,11 @@ if (isset($_POST["sdkarch"]) && $_POST["sdkarch"] != "") {
 }
 
 switch($release) {
+	case "v2012.05":
+		break;
 	case "v2012.12":
+		break;
+	case "v2013.06":
 		break;
 	default:
 		$release = "v2012.12";
