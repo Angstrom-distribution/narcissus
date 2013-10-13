@@ -71,6 +71,8 @@ switch($release) {
 		break;
 	case "v2013.06":
 		break;
+	case "v2013.12":
+		break;
 	default:
 		$release = "v2012.12";
 }
